@@ -1,0 +1,19 @@
+{
+  "name": "bitbag/sylius-agreement-plugin",
+  "description": "Agreement plugin for Sylius",
+  "type": "sylius-plugin",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "BitBag\\SyliusAgreementPlugin\\": "src/"
+    }
+  },
+  "require": {
+    "sylius/sylius": "^1.9 || ^1.10",
+    "php": "^7.4 || ^8.0"
+  },
+  "require-dev": {
+    "vimeo/psalm": "4.4.1",
+    "phpunit/phpunit": "^9.5"
+  }
+}
