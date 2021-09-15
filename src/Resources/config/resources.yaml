@@ -1,0 +1,18 @@
+sylius_resource:
+  resources:
+    bitbag_sylius_agreement_plugin.agreement:
+      driver: doctrine/orm
+      classes:
+        model: BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement
+        form: BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementType
+        controller: BitBag\SyliusAgreementPlugin\Controller\AgreementController
+        repository: BitBag\SyliusAgreementPlugin\Repository\AgreementRepository
+      translation:
+        classes:
+          model: BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementTranslation
+          form: BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementTranslationType
+    bitbag_sylius_agreement_plugin.agreement_history:
+      driver: doctrine/orm
+      classes:
+        model: BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistory
+        repository: BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepository

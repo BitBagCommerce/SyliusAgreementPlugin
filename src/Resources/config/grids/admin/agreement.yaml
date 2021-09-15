@@ -1,0 +1,63 @@
+sylius_grid:
+    grids:
+        bitbag_sylius_agreement_plugin_admin_agreement:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement
+                    repository:
+                        method: createListQueryBuilder
+            sorting:
+                id: desc
+            limits: [10, 20, 50]
+            fields:
+                id:
+                    type: string
+                    label: sylius.ui.id
+                    sortable: ~
+                translation.name:
+                    type: string
+                    label: sylius.ui.name
+                    sortable: translations.name
+                code:
+                    type: string
+                    label: sylius.ui.code
+                    sortable: ~
+                orderOnView:
+                    type: string
+                    label: app.ui.order_on_view
+                    sortable: ~
+                contexts:
+                    type: twig
+                    path: contexts
+                    label: app.ui.contexts_label
+                    options:
+                        template: "@SyliusAgreementPlugin/Admin/Agreement/Grid/Field/contexts.html.twig"
+                enabled:
+                    type: twig
+                    label: sylius.ui.enabled
+                    options:
+                        template: "@SyliusUi/Grid/Field/enabled.html.twig"
+                published_at:
+                    type: datetime
+                    label: app.ui.published_at
+                    options:
+                        format: 'Y:m:d'
+                archived_at:
+                    type: datetime
+                    label: app.ui.archived_at
+                    options:
+                        format: 'Y:m:d'
+            actions:
+                main:
+                    create:
+                        type: create
+                item:
+                    update:
+                        type: update
+                        options:
+                            hidden: resource.archived_at
+                    archive:
+                        type: archive
+                        options:
+                            hidden: resource.archived_at

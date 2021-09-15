@@ -1,0 +1,11 @@
+imports:
+    - { resource: "@SyliusAgreementPlugin/Resources/config/resources.yaml" }
+    - { resource: "@SyliusAgreementPlugin/Resources/config/grids/admin/agreement.yaml" }
+
+bitbag_sylius_agreement_plugin:
+    extended_form_types:
+        - Sylius\Bundle\CoreBundle\Form\Type\Customer\CustomerRegistrationType
+
+twig:
+    form_themes:
+        - '@SyliusAgreementPlugin/Form/agreement_approval_widget.html.twig'

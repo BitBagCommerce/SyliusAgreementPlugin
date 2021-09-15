@@ -6,15 +6,12 @@ namespace BitBag\SyliusAgreementPlugin\Form\Extension;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementContexts;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
-use BitBag\SyliusAgreementPlugin\Entity\User\ShopUserInterface;
 use BitBag\SyliusAgreementPlugin\Form\Type\Account\CompanyUserAgreementsType;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCollectionType;
-use BitBag\SyliusAgreementPlugin\Form\Type\Company\Registration\CompanyUserType;
-use BitBag\SyliusAgreementPlugin\Form\Type\ContactType;
-use BitBag\SyliusAgreementPlugin\Form\Type\Newsletter\NewsletterType;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementApprovalResolverInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
 use Sylius\Bundle\CoreBundle\Form\Type\Checkout\CompleteType;
+use Sylius\Bundle\CoreBundle\Form\Type\Customer\CustomerRegistrationType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Security\Core\Security;
@@ -55,15 +52,14 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
     {
         return [
             CompleteType::class,
-            CompanyUserType::class,
             CompanyUserAgreementsType::class,
-            ContactType::class,
-            NewsletterType::class,
+            CustomerRegistrationType::class,
         ];
     }
 
     private function getAgreements(string $formName, array $options): array
     {
+//        dump($formName);die;
         switch ($formName) {
             case 'app_company_user':
                 $agreements = $this->agreementResolver->resolve(AgreementContexts::CONTEXT_REGISTRATION_FORM);

@@ -19,7 +19,7 @@ final class AgreementCheckboxType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'app_agreement_approval_checkbox';
+        return 'bitbag_sylius_agreement_plugin_agreement_approval_checkbox';
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options): void

@@ -1,0 +1,5 @@
+<div class="ui bulleted list">
+    {% for context in data %}
+        <div class="item">{{ ('app.form.agreement.contexts.' ~ context) | trans }}</div>
+    {% endfor %}
+</div>

@@ -19,7 +19,7 @@ final class AgreementHiddenType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'app_agreement_approval_hidden';
+        return 'bitbag_sylius_agreement_plugin_agreement_approval_hidden';
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options): void

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin;
 
-use BitBag\SyliusCmsPlugin\Form\Type\WysiwygType;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,15 +20,13 @@ final class AgreementTranslationType extends AbstractResourceType
                 'empty_data' => '',
                 'required' => true,
             ])
-            ->add('body', WysiwygType::class, [
+            ->add('body', TextareaType::class, [
                 'label' => 'app.form.agreement.body',
-                'config_name' => 'bitbag_sylius_only_links',
                 'empty_data' => '',
                 'required' => true,
             ])
-            ->add('extendedBody', WysiwygType::class, [
+            ->add('extendedBody', TextareaType::class, [
                 'label' => 'app.form.agreement.extended_body',
-                'config_name' => 'bitbag_sylius_only_links',
                 'required' => false,
             ])
         ;

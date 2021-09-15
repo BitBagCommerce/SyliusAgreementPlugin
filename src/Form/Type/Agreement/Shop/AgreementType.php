@@ -83,6 +83,6 @@ final class AgreementType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'app_agreement_approval';
+        return 'bitbag_sylius_agreement_plugin_agreement_approval';
     }
 }

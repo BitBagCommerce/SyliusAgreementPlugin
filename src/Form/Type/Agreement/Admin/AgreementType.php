@@ -56,10 +56,6 @@ final class AgreementType extends AbstractResourceType
             ->add('enabled', CheckboxType::class, [
                 'label' => 'app.form.agreement.enabled',
             ])
-            ->add('inherited', CheckboxType::class, [
-                'label' => 'app.form.agreement.inherited',
-                'required' => false,
-            ])
             ->add('orderOnView', IntegerType::class, [
                 'label' => 'app.form.agreement.order_on_view',
             ])
@@ -67,11 +63,6 @@ final class AgreementType extends AbstractResourceType
                 'label' => 'app.form.agreement.contexts_label',
                 'multiple' => true,
                 'choices' => $contexts,
-            ])
-            ->add('ediumAgreementType', ChoiceType::class, [
-                'label' => 'app.form.agreement.edium_agreement_type',
-                'choices' => $ediumAgreementType,
-                'required' => false,
             ])
             ->add('publishedAt', DateType::class, [
                 'label' => 'app.form.agreement.published_at',

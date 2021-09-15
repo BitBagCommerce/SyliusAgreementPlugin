@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Acme\SyliusExamplePlugin\DependencyInjection;
+namespace BitBag\SyliusAgreementPlugin\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -14,9 +14,12 @@ final class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('acme_sylius_example_plugin');
+        $treeBuilder = new TreeBuilder('bitbag_sylius_agreement_plugin');
         $rootNode = $treeBuilder->getRootNode();
-
+        $rootNode
+            ->children()
+            ->arrayNode('extended_form_types');
+//
         return $treeBuilder;
     }
 }

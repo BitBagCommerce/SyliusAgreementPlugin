@@ -53,17 +53,9 @@ interface AgreementInterface extends ResourceInterface, TranslatableInterface, T
 
     public function setOrderOnView(int $orderOnView): void;
 
-    public function isInherited(): bool;
-
-    public function setInherited(bool $inherited): void;
-
     public function isApproved(): bool;
 
     public function setApproved(bool $approved): void;
 
     public function isReadOnly(): bool;
-
-    public function getEdiumAgreementType(): ?string;
-
-    public function setEdiumAgreementType(?string $ediumAgreementType): void;
 }

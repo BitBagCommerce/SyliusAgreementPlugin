@@ -1,0 +1,28 @@
+bitbag_sylius_agreement_plugin_admin_agreement:
+  resource: |
+    alias: bitbag_sylius_agreement_plugin.agreement
+    section: admin
+    templates: '@SyliusAdmin/Crud'
+    redirect: update
+    grid: bitbag_sylius_agreement_plugin_admin_agreement
+    permission: true
+    vars:
+        all:
+            subheader: bitbag.sylius_agreement_plugin.ui.manage_agreements
+        index:
+            icon: 'file alternate outline'
+  type: sylius.resource
+
+bitbag_sylius_agreement_plugin_admin_agreement_archive:
+  path: /agreements/{id}/archive
+  methods: [PATCH]
+  defaults:
+    _controller: bitbag.sylius_agreement_plugin.controller.agreement:updateAction
+    _sylius:
+      section: admin
+      permission: true
+      form:
+        type: Sylius\Bundle\ResourceBundle\Form\Type\ArchivableType
+      redirect:
+        route: referer
+        parameters: {}

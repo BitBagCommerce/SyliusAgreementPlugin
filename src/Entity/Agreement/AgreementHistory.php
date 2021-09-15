@@ -34,14 +34,14 @@ class AgreementHistory implements AgreementHistoryInterface
 
     /**
      * @var ShopUserInterface|null
-     * @ORM\ManyToOne(targetEntity="BitBag\SyliusAgreementPlugin\Entity\User\ShopUser", inversedBy="agreementsHistory")
+     * @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\ShopUser", inversedBy="agreementsHistory")
      * @ORM\JoinColumn(name="shop_user_id", referencedColumnName="id")
      */
     protected $shopUser;
 
     /**
      * @var OrderInterface|null
-     * @ORM\ManyToOne(targetEntity="BitBag\SyliusAgreementPlugin\Entity\Order\Order", inversedBy="agreementsHistory")
+     * @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\Order", inversedBy="agreementsHistory")
      * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
      */
     protected $order;
