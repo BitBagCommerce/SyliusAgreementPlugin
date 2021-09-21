@@ -16,17 +16,17 @@ final class AgreementTranslationType extends AbstractResourceType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'app.form.agreement.name',
+                'label' => 'sylius_agreement_plugin.form.agreement.name',
                 'empty_data' => '',
                 'required' => true,
             ])
             ->add('body', TextareaType::class, [
-                'label' => 'app.form.agreement.body',
+                'label' => 'sylius_agreement_plugin.form.agreement.body',
                 'empty_data' => '',
                 'required' => true,
             ])
             ->add('extendedBody', TextareaType::class, [
-                'label' => 'app.form.agreement.extended_body',
+                'label' => 'sylius_agreement_plugin.form.agreement.extended_body',
                 'required' => false,
             ])
         ;
@@ -42,6 +42,6 @@ final class AgreementTranslationType extends AbstractResourceType
 
     public function getBlockPrefix(): string
     {
-        return 'app_agreement_translation';
+        return 'bitbag_sylius_agreement_plugin_agreement_translation';
     }
 }

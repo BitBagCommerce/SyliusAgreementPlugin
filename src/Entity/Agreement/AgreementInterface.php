@@ -19,14 +19,6 @@ interface AgreementInterface extends ResourceInterface, TranslatableInterface, T
 
     public const MODE_NOT_REQUIRED = 'not_required';
 
-    public const COMPANY_SOLE_TRADER = 'IsCompanySoleTrader';
-
-    public const INFORMATION_OBLIGATION = 'InformationObligation';
-
-    public const EMAIL_MARKETING = 'EmailMarketing';
-
-    public const COOPERATION_CONDITIONS = 'CooperationConditions';
-
     public function __clone();
 
     public function getCode(): ?string;

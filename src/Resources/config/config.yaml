@@ -2,10 +2,16 @@ imports:
     - { resource: "@SyliusAgreementPlugin/Resources/config/resources.yaml" }
     - { resource: "@SyliusAgreementPlugin/Resources/config/grids/admin/agreement.yaml" }
 
-bitbag_sylius_agreement_plugin:
+sylius_agreement:
     extended_form_types:
         - Sylius\Bundle\CoreBundle\Form\Type\Customer\CustomerRegistrationType
-
+    modes:
+        - required_and_non_cancellable
+        - required
+        - only_show
+        - not_required
+    contexts:
+        - registration_form
 twig:
     form_themes:
         - '@SyliusAgreementPlugin/Form/agreement_approval_widget.html.twig'

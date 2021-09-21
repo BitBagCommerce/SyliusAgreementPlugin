@@ -1,3 +1,5 @@
 sylius:
   ui:
     agreements: Agreements
+    more: More
+    less: Less
