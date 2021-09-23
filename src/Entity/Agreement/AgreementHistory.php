@@ -11,7 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Sylius\Component\Resource\Model\TimestampableTrait;
 
 /**
- * @ORM\Entity
+ * @ORM\MappedSuperclass
  * @ORM\Table(name="bitbag_sylius_agreement_plugin_agreementhistory")
  */
 class AgreementHistory implements AgreementHistoryInterface

@@ -14,21 +14,20 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 
 final class AgreementType extends AbstractType
 {
+    private array $validationGroups;
+
+    public function __construct(array $validationGroups)
+    {
+        $this->validationGroups = $validationGroups;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $constraints = [];
         if (true === $options['required']) {
             $constraints = [
                 new IsTrue([
-                    'groups' => [
-                        'app',
-                        'app_company_agreements',
-                        'app_company_registration',
-                        'app_company_registration_full_address',
-                        'sylius_checkout_complete',
-                        'app_contact',
-                        'app_newsletter',
-                    ],
+                    'groups' => $this->validationGroups,
                 ]),
             ];
         }
@@ -40,8 +39,7 @@ final class AgreementType extends AbstractType
                     'data' => true,
                     'translation_domain' => false,
                     'constraints' => $constraints,
-                ])
-            ;
+                ]);
         } else {
             $builder
                 ->add('approved', AgreementCheckboxType::class, [
@@ -51,8 +49,7 @@ final class AgreementType extends AbstractType
                     'approved' => $options['approved'],
                     'translation_domain' => false,
                     'constraints' => $constraints,
-                ])
-            ;
+                ]);
         }
     }
 
@@ -77,8 +74,7 @@ final class AgreementType extends AbstractType
             ->setDefault('required', false)
             ->setDefault('body', null)
             ->setDefault('extended_body', null)
-            ->setDefault('read_only', false)
-        ;
+            ->setDefault('read_only', false);
     }
 
     public function getBlockPrefix(): string

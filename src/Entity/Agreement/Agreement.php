@@ -13,7 +13,7 @@ use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
 /**
- * @ORM\Entity
+ * @ORM\MappedSuperclass
  * @ORM\Table(name="bitbag_sylius_agreement_plugin_agreement")
  */
 class Agreement implements AgreementInterface

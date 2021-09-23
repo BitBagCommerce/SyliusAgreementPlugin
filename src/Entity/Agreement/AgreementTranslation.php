@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\AbstractTranslation;
 
 /**
- * @ORM\Entity
+ * @ORM\MappedSuperclass
  * @ORM\Table(name="bitbag_sylius_agreement_plugin_agreement_translation")
  */
 class AgreementTranslation extends AbstractTranslation implements AgreementTranslationInterface

@@ -17,8 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AgreementCollectionType extends AbstractType
 {
-    /** @var AgreementRepositoryInterface */
-    private $agreementRepository;
+    private AgreementRepositoryInterface $agreementRepository;
 
     public function __construct(AgreementRepositoryInterface $agreementRepository)
     {
