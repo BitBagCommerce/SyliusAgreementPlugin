@@ -11,7 +11,9 @@
   },
   "require": {
     "sylius/sylius": "^1.9 || ^1.10",
-    "php": "^7.4 || ^8.0"
+    "php": "^7.4 || ^8.0",
+    "symfony/dotenv": "^5.3",
+    "symfony/debug": "^4.4"
   },
   "require-dev": {
     "vimeo/psalm": "4.4.1",
