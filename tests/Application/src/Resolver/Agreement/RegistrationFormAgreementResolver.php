@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\Resolver\Agreement;
+namespace BitBag\SyliusAgreementPlugin\App\Resolver\Agreement;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementContexts;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;

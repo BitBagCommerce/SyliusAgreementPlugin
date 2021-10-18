@@ -11,7 +11,7 @@ services:
 
 
   bitbag_sylius_agreement_plugin.event_subscriber.agreement_subscriber:
-    class: BitBag\SyliusAgreementPlugin\EventSubscriber\AgreementSubscriber
+    class: BitBag\SyliusAgreementPlugin\App\EventSubscriber\AgreementSubscriber
     arguments:
       - '@bitbag_sylius_agreement_plugin.repository.agreement_history'
       - '@security.helper'

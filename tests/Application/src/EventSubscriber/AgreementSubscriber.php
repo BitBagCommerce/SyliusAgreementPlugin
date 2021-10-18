@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\EventSubscriber;
+namespace BitBag\SyliusAgreementPlugin\App\EventSubscriber;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementContexts;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
