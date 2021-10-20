@@ -9,7 +9,7 @@ use Sylius\Component\Resource\Model\TimestampableInterface;
 use Sylius\Component\Resource\Model\ToggleableInterface;
 use Sylius\Component\Resource\Model\TranslatableInterface;
 
-interface AgreementInterface extends ResourceInterface, TranslatableInterface, ToggleableInterface, TimestampableInterface
+interface AgreementInterface extends ResourceInterface, TranslatableInterface, TimestampableInterface
 {
     public const MODE_REQUIRED_AND_NON_CANCELLABLE = 'required_and_non_cancellable';
 

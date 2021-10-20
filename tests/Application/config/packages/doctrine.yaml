@@ -14,12 +14,12 @@ doctrine:
         url: '%env(resolve:DATABASE_URL)%'
     orm:
         auto_generate_proxy_classes: true
-        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
         mappings:
             App:
                 is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/../../src/Entity/Agreement'
-                prefix: 'App\Entity'
+                type: xml
+                dir: '%kernel.project_dir%/../../src/Resources/config/doctrine'
+                prefix: 'BitBag\SyliusAgreementPlugin\Entity'
                 alias: App

@@ -8,17 +8,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Sylius\Component\Resource\Model\TimestampableTrait;
-use Sylius\Component\Resource\Model\ToggleableTrait;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
-/**
- * @ORM\MappedSuperclass
- * @ORM\Table(name="bitbag_sylius_agreement_plugin_agreement")
- */
+
 class Agreement implements AgreementInterface
 {
-    use ToggleableTrait;
 
     use TimestampableTrait;
 
@@ -26,71 +21,28 @@ class Agreement implements AgreementInterface
         __construct as protected initializeTranslationsCollection;
     }
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer", name="id")
-     */
     protected ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", name="agreement_code", unique=true, length=120, nullable=true)
-     */
     protected ?string $code = null;
 
-    /**
-     * @ORM\Column(type="string", name="agreement_mode")
-     */
     protected string $mode = self::MODE_REQUIRED;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true, name="published_at")
-     */
     protected ?\DateTime $publishedAt = null;
 
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean", name="enabled")
-     */
     protected $enabled = true;
 
-    /**
-     * @var \DateTimeInterface|null
-     * @ORM\Column(type="datetime", nullable=true, name="updated_at")
-     * @Gedmo\Timestampable(on="update")
-     */
     protected $updatedAt = null;
 
-    /**
-     *
-     * @var \DateTimeInterface|null
-     * @ORM\Column(type="datetime", name="created_at")
-     * @Gedmo\Timestampable(on="create")
-     */
     protected $createdAt = null;
 
-    /**
-     * @ORM\Column(type="array")
-     */
     protected array $contexts = [];
 
-    /**
-     * @ORM\OneToOne(targetEntity="BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement")
-     * @ORM\JoinColumn(name="parent_id", nullable=true, referencedColumnName="id")
-     */
     protected ?AgreementInterface $parent = null;
 
-    /**
-     * @ORM\Column(type="integer", name="order_on_view", options={"default": 1})
-     */
     protected int $orderOnView = 1;
 
-    /** @var bool */
     protected bool $approved = false;
 
-    /**
-     * @ORM\Column(type="datetime", name="archived_at", nullable=true)
-     */
     protected ?\DateTime $archivedAt = null;
 
     public function __construct()
@@ -149,6 +101,16 @@ class Agreement implements AgreementInterface
             $publishedAt->setTime(0, 0, 0);
         }
         $this->publishedAt = $publishedAt;
+    }
+
+    public function enable():void
+    {
+        $this->enabled = true;
+    }
+
+    public function disable():void
+    {
+        $this->enabled = false;
     }
 
     public function getContexts(): array

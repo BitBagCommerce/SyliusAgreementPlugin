@@ -12,29 +12,25 @@
                  class="BitBag\SyliusAgreementPlugin\Menu\AdminMenuListener">
             <tag name="kernel.event_listener" event="sylius.menu.admin.main" priority="-5" method="addAgreementItems"/>
         </service>
-
         <service id="bitbag_sylius_agreement_plugin.form.type.agreement.admin.agreement_type"
                  class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementType">
-            <argument>%bitbag_sylius_agreement_plugin.model.agreement.class%</argument>
+            <argument id="BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement"/>
             <argument>%bitbag_sylius_agreement_plugin.form.type.agreement.validation_groups%</argument>
             <argument>%sylius_agreement_plugin.modes%</argument>
             <argument>%sylius_agreement_plugin.contexts%</argument>
             <tag name="form.type"/>
         </service>
-
         <service id="bitbag_sylius_agreement_plugin.form.type.agreement.shop.agreement_type"
                  class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementType">
             <argument>%bitbag_sylius_agreement_plugin.form.type.agreement.validation_groups%</argument>
             <tag name="form.type"/>
         </service>
-
         <service id="bitbag_sylius_agreement_plugin.form.type.agreement.admin.agreement_translation_type"
                  class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementTranslationType">
-            <argument>%bitbag_sylius_agreement_plugin.model.agreement_translation.class%</argument>
+            <argument id="BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementTranslation"/>
             <argument>%bitbag_sylius_agreement_plugin.form.type.agreement.validation_groups%</argument>
             <tag name="form.type"/>
         </service>
-
         <service id="bitbag_sylius_agreement_plugin.form.type.agreement.shop.agreement_checkbox_type"
                  class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCheckboxType">
             <tag name="form.type"/>
@@ -45,7 +41,6 @@
             <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
             <tag name="form.type"/>
         </service>
-
         <service id="bitbag_sylius_agreement_plugin.form.extension.agreements_type_extension"
                  class="BitBag\SyliusAgreementPlugin\Form\Extension\AgreementsTypeExtension">
             <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.agreement"/>
@@ -55,21 +50,28 @@
             <tag name="form.type_extension"
                  extended-type="Sylius\Bundle\CoreBundle\Form\Type\Customer\CustomerRegistrationType"/>
         </service>
-
         <service id="bitbag_sylius_agreement_plugin.resolver.agreement_approval"
                  class="BitBag\SyliusAgreementPlugin\Resolver\CompositeAgreementApprovalResolver">
             <argument type="tagged_iterator" tag="bitbag_sylius_agreement_plugin.agreement_approval_resolver"/>
         </service>
-
         <service id="BitBag\SyliusAgreementPlugin\Resolver\AgreementApproval\AgreementApprovalResolver">
             <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.agreement_history"/>
             <tag name="bitbag_sylius_agreement_plugin.agreement_approval_resolver" priority="0"/>
         </service>
 
+        <service id="sylius.factory" class="Sylius\Component\Resource\Factory\FactoryInterface">
+        </service>
+
+        <service id="bitbag_sylius_agreement_plugin.repository.agreement_history"
+                 class="Bitbag\SyliusAgreementPlugin\Repository\AgreementHistoryRepository">
+            <argument id="doctrine.orm.entity_manager.abstract"/>
+            <argument id="serializer.mapping.cache_class_metadata_factory"/>
+        </service>
+
         <service id="bitbag_sylius_agreement_plugin.resolver.agreement_history"
                  class="BitBag\SyliusAgreementPlugin\Resolver\CompositeAgreementHistoryResolver">
             <argument type="tagged_iterator" tag="bitbag_sylius_agreement_plugin.agreement_history_resolver"/>
-            <argument type="service" id="bitbag_sylius_agreement_plugin.factory.agreement_history"/>
+            <argument type="service" id="sylius.factory"/>
         </service>
 
         <service id="BitBag\SyliusAgreementPlugin\Resolver\AgreementHistory\OrderAgreementHistoryResolver">
@@ -77,11 +79,21 @@
             <tag name="bitbag_sylius_agreement_plugin.agreement_history_resolver" priority="0"/>
             <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement_history"/>
         </service>
+        <service id="BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepository">
+            <argument id="doctrine.orm.entity_manager.abstract"/>
+            <argument id="serializer.mapping.class_metadata_factory"/>
+        </service>
 
         <service id="BitBag\SyliusAgreementPlugin\Resolver\AgreementHistory\ShopUserAgreementHistoryResolver">
             <argument type="service" id="security.helper"/>
             <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement_history"/>
             <tag name="bitbag_sylius_agreement_plugin.agreement_history_resolver" priority="10"/>
+        </service>
+
+        <service id="bitbag_sylius_agreement_plugin.repository.agreement"
+                 class="BitBag\SyliusAgreementPlugin\Repository\AgreementRepository">
+            <argument id="doctrine.orm.entity_manager.abstract"/>
+            <argument id="serializer.mapping.class_metadata_factory"/>
         </service>
 
         <service id="form.extension"
@@ -101,5 +113,6 @@
             <argument type="iterator"/>
             <argument>%sylius_agreement_plugin.extended_form_types%</argument>
         </service>
+
     </services>
 </container>
