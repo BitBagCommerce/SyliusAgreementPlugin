@@ -35,10 +35,9 @@
                  class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCheckboxType">
             <tag name="form.type"/>
         </service>
-
         <service id="bitbag_sylius_agreement_plugin.form.type.agreement.shop.agreement_collection_type"
                  class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCollectionType">
-            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
+                <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
             <tag name="form.type"/>
         </service>
         <service id="bitbag_sylius_agreement_plugin.form.extension.agreements_type_extension"
@@ -55,45 +54,23 @@
             <argument type="tagged_iterator" tag="bitbag_sylius_agreement_plugin.agreement_approval_resolver"/>
         </service>
         <service id="BitBag\SyliusAgreementPlugin\Resolver\AgreementApproval\AgreementApprovalResolver">
-            <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.agreement_history"/>
+            <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.composite_agreement_history"/>
             <tag name="bitbag_sylius_agreement_plugin.agreement_approval_resolver" priority="0"/>
         </service>
-
-        <service id="sylius.factory" class="Sylius\Component\Resource\Factory\FactoryInterface">
-        </service>
-
-        <service id="bitbag_sylius_agreement_plugin.repository.agreement_history"
-                 class="Bitbag\SyliusAgreementPlugin\Repository\AgreementHistoryRepository">
-            <argument id="doctrine.orm.entity_manager.abstract"/>
-            <argument id="serializer.mapping.cache_class_metadata_factory"/>
-        </service>
-
-        <service id="bitbag_sylius_agreement_plugin.resolver.agreement_history"
+        <service id="bitbag_sylius_agreement_plugin.resolver.composite_agreement_history"
                  class="BitBag\SyliusAgreementPlugin\Resolver\CompositeAgreementHistoryResolver">
             <argument type="tagged_iterator" tag="bitbag_sylius_agreement_plugin.agreement_history_resolver"/>
-            <argument type="service" id="sylius.factory"/>
+            <argument type="service" id="bitbag_sylius_agreement_plugin.factory.agreement_history"/>
         </service>
-
         <service id="BitBag\SyliusAgreementPlugin\Resolver\AgreementHistory\OrderAgreementHistoryResolver">
             <argument type="service" id="sylius.context.cart"/>
             <tag name="bitbag_sylius_agreement_plugin.agreement_history_resolver" priority="0"/>
-            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement_history"/>
         </service>
-        <service id="BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepository">
-            <argument id="doctrine.orm.entity_manager.abstract"/>
-            <argument id="serializer.mapping.class_metadata_factory"/>
-        </service>
+
 
         <service id="BitBag\SyliusAgreementPlugin\Resolver\AgreementHistory\ShopUserAgreementHistoryResolver">
             <argument type="service" id="security.helper"/>
-            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement_history"/>
             <tag name="bitbag_sylius_agreement_plugin.agreement_history_resolver" priority="10"/>
-        </service>
-
-        <service id="bitbag_sylius_agreement_plugin.repository.agreement"
-                 class="BitBag\SyliusAgreementPlugin\Repository\AgreementRepository">
-            <argument id="doctrine.orm.entity_manager.abstract"/>
-            <argument id="serializer.mapping.class_metadata_factory"/>
         </service>
 
         <service id="form.extension"
@@ -108,8 +85,7 @@
         <service id="bitbag_sylius_agreement_plugin.resolver.agreement"
                  class="\BitBag\SyliusAgreementPlugin\Resolver\CompositeAgreementResolver">
             <argument type="tagged_iterator" tag="bitbag_sylius_agreement_plugin.agreement_resolver"/>
-            <argument
-                    type="collection"/>
+            <argument type="collection"/>
             <argument type="iterator"/>
             <argument>%sylius_agreement_plugin.extended_form_types%</argument>
         </service>

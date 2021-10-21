@@ -20,14 +20,15 @@
         </field>
         <many-to-one field="agreement"
                      target-entity="BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement">
-            <join-column name="agreement_id" referenced-column-name="id" />
+            <join-column name="agreement" referenced-column-name="id" />
         </many-to-one>
-        <many-to-one field="shopUser" target-entity="Sylius\Component\Core\Model\ShopUser">
-            <join-column name="shop_user_id" referenced-column-name="id" />
+        <many-to-one field="shopUser" target-entity="Sylius\Component\Core\Model\ShopUser"
+                     inversed-by="agreementsHistory">
+            <join-column name="shop_user_id" referenced-column-name="id"/>
         </many-to-one>
         <many-to-one field="order" target-entity="Sylius\Component\Core\Model\Order"
                      inversed-by="agreementsHistory">
-            <join-column name="order_id" referenced-column-name="id" />
+            <join-column name="order_id" referenced-column-name="id"/>
         </many-to-one>
     </mapped-superclass>
 </doctrine-mapping>

@@ -11,12 +11,10 @@ services:
 
 
   bitbag_sylius_agreement_plugin.event_subscriber.agreement_subscriber:
-    class: BitBag\SyliusAgreementPlugin\App\EventSubscriber\AgreementSubscriber
+    class: BitBag\SyliusAgreementPlugin\EventSubscriber\AgreementSubscriber
     arguments:
       - '@bitbag_sylius_agreement_plugin.repository.agreement_history'
-      - '@security.helper'
       - '@bitbag_sylius_agreement_plugin.resolver.agreement'
-      - '@bitbag_sylius_agreement_plugin.resolver.agreement_history'
-      - '@session'
+      - '@bitbag_sylius_agreement_plugin.resolver.composite_agreement_history'
     tags:
       - { name: 'kernel.event_subscriber' }

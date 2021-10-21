@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace BitBag\SyliusAgreementPlugin\Entity\Agreement;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Sylius\Component\Resource\Model\TimestampableTrait;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
@@ -37,6 +35,7 @@ class Agreement implements AgreementInterface
 
     protected array $contexts = [];
 
+    /** @var AgreementInterface|null  */
     protected ?AgreementInterface $parent = null;
 
     protected int $orderOnView = 1;

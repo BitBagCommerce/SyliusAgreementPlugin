@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\App\EventSubscriber;
+namespace BitBag\SyliusAgreementPlugin\EventSubscriber;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementContexts;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
@@ -13,49 +13,39 @@ use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
-use Sylius\Component\Core\Model\CustomerInterface;
+use BitBag\SyliusAgreementPlugin\App\Entity\Customer\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Security;
 use Webmozart\Assert\Assert;
 
 final class AgreementSubscriber implements EventSubscriberInterface
 {
     private AgreementHistoryRepositoryInterface $agreementHistoryRepository;
 
-    private Security $security;
-
     private AgreementResolverInterface $agreementResolver;
 
     private AgreementHistoryResolverInterface $agreementHistoryResolver;
 
-    private SessionInterface $session;
-
     public function __construct(
         AgreementHistoryRepositoryInterface $agreementHistoryRepository,
-        Security $security,
         AgreementResolverInterface $agreementResolver,
-        AgreementHistoryResolverInterface $agreementHistoryResolver,
-        SessionInterface $session
+        AgreementHistoryResolverInterface $agreementHistoryResolver
     )
     {
         $this->agreementHistoryRepository = $agreementHistoryRepository;
-        $this->security = $security;
         $this->agreementHistoryResolver = $agreementHistoryResolver;
         $this->agreementResolver = $agreementResolver;
-        $this->session = $session;
     }
 
     public function processAgreementsFromUserRegister(ResourceControllerEvent $resourceControllerEvent): void
     {
         /** @var CustomerInterface $subject */
         $customer = $resourceControllerEvent->getSubject();
-        Assert::isInstanceOf($customer, CustomerInterface::class);
+        //Assert::isInstanceOf($customer, CustomerInterface::class);
         /** @var ShopUserInterface $shopUser */
         $shopUser = $customer->getUser();
-        Assert::isInstanceOf($shopUser, ShopUserInterface::class);
+       // Assert::isInstanceOf($shopUser, ShopUserInterface::class);
 
         $this->handleAgreements(
             $customer->getAgreements(),
@@ -69,7 +59,7 @@ final class AgreementSubscriber implements EventSubscriberInterface
     {
         return [
             'sylius.customer.post_register' => [
-                ['processAgreementsFromUserRegister', 10],
+                ['processAgreementsFromUserRegister', -5],
             ]
         ];
     }
@@ -87,7 +77,8 @@ final class AgreementSubscriber implements EventSubscriberInterface
         foreach ($resolvedAgreements as $resolvedAgreement) {
             $agreementHistory = $this->agreementHistoryResolver->resolveHistory($resolvedAgreement);
 
-            $submittedAgreement = $submittedAgreements->filter(static function (AgreementInterface $agreement) use ($resolvedAgreement) {
+            $submittedAgreement = $submittedAgreements->filter(
+                static function (AgreementInterface $agreement) use ($resolvedAgreement) {
                 return $agreement->getId() === $resolvedAgreement->getId();
             })->first();
 
