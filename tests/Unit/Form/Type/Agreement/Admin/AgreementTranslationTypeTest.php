@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Form\Type\Agreement\Admin;
 
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementTranslationType;
+use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCollectionType;
+use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -59,5 +62,13 @@ final class AgreementTranslationTypeTest extends TestCase
         $subject = new AgreementTranslationType('test', []);
 
         $subject->configureOptions($resolver);
+    }
+
+    public function testGetBlockPrefix()
+    {
+        $agreementRepository = $this->createMock(AgreementRepositoryInterface::class);
+        $agreementCollection = new AgreementCollectionType($agreementRepository);
+        Assert::assertSame($agreementCollection->getBlockPrefix(),
+            'bitbag_sylius_agreement_plugin_agreement_approval_collection');
     }
 }

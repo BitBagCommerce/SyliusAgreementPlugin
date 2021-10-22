@@ -17,13 +17,9 @@ use Closure;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
-use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
-use Sylius\Component\Customer\Model\Customer;
-use Sylius\Component\User\Model\User;
-use Sylius\Component\User\Model\UserInterface;
 use PHPUnit\Framework\Assert;
-use function Amp\Iterator\filter;
+
 
 class AgreementSubscriberTest extends TestCase
 {
@@ -94,8 +90,12 @@ class AgreementSubscriberTest extends TestCase
              $this->agreementHistoryResolver
         );
     }
-
-    public function testProcessAgreementFromUserRegister()
+/** @dataProvider dataProviderprocessAgreementsFromUserRegister */
+    public function testProcessAgreementFromUserRegister
+    (
+        string $agreementState,
+        ArrayCollection $submittedAgreements
+    )
     {
         $this->customer
             ->expects(self::exactly(1))
@@ -130,10 +130,10 @@ class AgreementSubscriberTest extends TestCase
         $this->arrayCollection
             ->method('filter')
             ->with(self::isInstanceOf(Closure::class))
-            ->willReturn($this->submittedAgreement);
+            ->willReturn($submittedAgreements);
 
         $this->agreementHistory
-            ->expects(self::exactly(3))
+            ->expects(self::atLeast(1))
             ->method('getId')
             ->willReturn(null);
 
@@ -160,12 +160,12 @@ class AgreementSubscriberTest extends TestCase
         $this->agreementHistory
             ->expects(self::once())
             ->method('getState')
-            ->willReturn('state');
+            ->willReturn($agreementState);
 
         $this->agreementHistory
             ->expects(self::once())
             ->method('setState')
-            ->with(AgreementHistoryStates::STATE_SHOWN);
+            ->with($agreementState);
 
         $this->agreementHistoryRepository
             ->expects(self::once())
@@ -182,4 +182,23 @@ class AgreementSubscriberTest extends TestCase
                 ['processAgreementsFromUserRegister', -5],
             ]]);
     }
+
+    public function dataProviderprocessAgreementsFromUserRegister()
+    {
+       return[
+           [
+               AgreementHistoryStates::STATE_SHOWN,
+               new ArrayCollection([new Agreement()])
+           ],
+           [
+               AgreementHistoryStates::STATE_SHOWN,
+               new ArrayCollection([])
+           ]
+
+            ];
+    }
+
+
+
+
 }

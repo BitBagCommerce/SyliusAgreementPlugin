@@ -11,6 +11,12 @@ use Sylius\Component\Core\Model\ShopUser;
 
 class AgreementHistoryTest extends TestCase
 {
+    public function testGetId()
+    {
+        $agreementHistory = new AgreementHistory();
+        Assert::assertSame($agreementHistory->getId(),null);
+    }
+
     function testGetAgreement()
     {
         $agreement = new Agreement();
@@ -49,6 +55,15 @@ class AgreementHistoryTest extends TestCase
 
         Assert::assertSame($agreementHistory->getContext(),'test');
     }
+
+    public function testClone()
+    {
+        $agreementHistory = new AgreementHistory();
+        $agreementHistory2 = clone $agreementHistory;
+        Assert::assertEquals($agreementHistory2->getUpdatedAt(),null);
+        Assert::assertEquals($agreementHistory2->getCreatedAt(),null);
+    }
+
 
 
 

@@ -10,6 +10,8 @@ use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementHiddenType;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementType;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 
@@ -111,6 +113,4 @@ final class AgreementTypeTest extends TestCase
             ];
 
     }
-
-
 }

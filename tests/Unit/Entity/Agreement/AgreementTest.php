@@ -3,20 +3,24 @@
 namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Entity\Agreement;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement;
+use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
+use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementTranslation;
+use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementTranslationInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
 class AgreementTest extends TestCase
 {
 
-    function testGetId()
+    public function testGetId()
     {
         $agreement = new Agreement();
         $agreement->setCode('test1');
         Assert::assertSame($agreement->getCode(),'test1');
     }
 
-    function testGetMode()
+    public function testGetMode()
     {
         $agreement = new Agreement();
         $agreement->setMode('test2');
@@ -25,7 +29,7 @@ class AgreementTest extends TestCase
         Assert::assertSame($agreement->isReadOnly(),true);
     }
 
-    function testGetPublishedAt()
+    public function testGetPublishedAt()
     {
         $time = new \DateTime();
         $agreement = new Agreement();
@@ -33,14 +37,14 @@ class AgreementTest extends TestCase
         Assert::assertSame($agreement->getPublishedAt(),$time->setTime(12,24,48));
     }
 
-    function testGetContexts()
+    public function testGetContexts()
     {
         $agreement = new Agreement();
         $agreement->setContexts(['test4','5']);
         Assert::assertSame($agreement->getContexts(),['test4','5']);
     }
 
-    function testSetParent()
+    public function testSetParent()
     {
         $agreement = new Agreement();
         $agreementParent = new Agreement();
@@ -49,7 +53,7 @@ class AgreementTest extends TestCase
         Assert::assertSame($agreementParent, $agreement->getParent());
     }
 
-    function testGetOrderOnView()
+    public function testGetOrderOnView()
     {
         $agreement = new Agreement();
         $agreement->setOrderOnView(5);
@@ -57,13 +61,13 @@ class AgreementTest extends TestCase
         Assert::assertSame($agreement->getOrderOnView(),5);
     }
 
-    function testIsApproved()
+    public function testIsApproved()
     {
         $agreement = new Agreement();
         $agreement->setApproved(true);
         Assert::assertSame($agreement->isApproved(),true);
     }
-    function testGetArchived()
+    public function testGetArchived()
     {
         $time = new \DateTime();
         $agreement = new Agreement();
@@ -71,11 +75,12 @@ class AgreementTest extends TestCase
         Assert::assertSame($agreement->getArchivedAt(),$time->setTime(12,24,48));
     }
 
-    function testSetEdiumAgreementType()
+    public function testSetEdiumAgreementType()
     {
         $agreement = new Agreement();
         $ediumAgreementType = "test1";
         $agreement->setEdiumAgreementType($ediumAgreementType);
         Assert::assertSame($agreement->getEdiumAgreementType(),$ediumAgreementType);
     }
+    
 }

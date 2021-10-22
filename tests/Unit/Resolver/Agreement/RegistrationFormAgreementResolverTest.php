@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Resolver\Agreement;
 
 
+use BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementContexts;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
@@ -28,8 +29,7 @@ class RegistrationFormAgreementResolverTest extends TestCase
     {
         $this->agreementRepository = $this
             ->createMock(AgreementRepositoryInterface::class);
-        $this->agreement = $this
-            ->createMock(AgreementInterface::class);
+        $this->agreement = new Agreement();
         $this->registrationFormAgreement =
             new RegistrationFormAgreementResolver($this->agreementRepository);
     }
@@ -42,27 +42,10 @@ class RegistrationFormAgreementResolverTest extends TestCase
             ->method('findAgreementsByContext')
             ->with(AgreementContexts::CONTEXT_REGISTRATION_FORM)
             ->willReturn([$this->agreement]);
-        Assert::same( $this->registrationFormAgreement->resolve("",[]),
-         [$this->agreement]);
+        $result = $this->registrationFormAgreement
+            ->resolve('',[]);
+        Assert::same($result,[$this->agreement]);
+
     }
-
-    public function testSupports()
-    {
-        $context = 'sylius_customer_registration';
-        $registrationForm = $this
-            ->createMock(AgreementResolverInterface::class);
-        $registrationForm
-            ->expects(self::once())
-            ->method('supports')
-            ->with($context,[])
-            ->willReturn(true);
-
-
-        Assert::true($registrationForm->
-        supports($context,[]));
-    }
-
-
-
 
 }
