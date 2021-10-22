@@ -23,6 +23,7 @@ final class AgreementType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $constraints = [];
         if (true === $options['required']) {
             $constraints = [
