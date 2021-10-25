@@ -1,4 +1,4 @@
-#   I did not see any resource to this , it wasn't important , was it?
+#  I did not see any resource to this , it wasn't important , was it?
 #acme_sylius_example_shop:
 #    resource: "@AcmeSyliusExamplePlugin/Resources/config/shop_routing.yml"
 #    prefix: /{_locale}

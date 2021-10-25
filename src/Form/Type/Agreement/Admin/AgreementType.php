@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin;
 
+
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -13,23 +14,33 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+
 final class AgreementType extends AbstractResourceType
 {
     private array $modes;
 
     private array $contexts;
 
-    public function __construct(string $dataClass, array $validationGroups = [], array $modes, array $contexts)
+    public function __construct(string $dataClass , array $validationGroups = [], array $modes, array $contexts)
     {
-        $this->dataClass = $dataClass;
-        $this->validationGroups = $validationGroups;
+        parent::__construct($dataClass,$validationGroups);
+        $this->dataClass="BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement";
 
         $this->modes = $modes;
         $this->contexts = $contexts;
     }
 
+//    public function configureOptions(OptionsResolver $resolver): void
+//    {
+//        parent::configureOptions($resolver);
+//        $resolver->setDefaults([
+//            'data_class'=> Agreement::class
+//        ]);
+//    }
+
     private function prepareModesData(): array
     {
+
         $modes = [];
 
         foreach ($this->modes as $mode) {
@@ -50,8 +61,11 @@ final class AgreementType extends AbstractResourceType
         return $contexts;
     }
 
+
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+
         $modes = $this->prepareModesData();
         $contexts = $this->prepareContextsData();
 
@@ -88,6 +102,7 @@ final class AgreementType extends AbstractResourceType
                 ],
                 'label' => 'app.form.agreement.translations',
             ]);
+
     }
 
     public function getBlockPrefix(): string

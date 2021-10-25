@@ -24,5 +24,4 @@ final class AgreementController extends ResourceController
 
         return parent::updateAction($request);
     }
-
 }

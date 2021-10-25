@@ -3,3 +3,11 @@ sylius:
     agreements: Agreements
     more: More
     less: Less
+bitbag_sylius_agreement_plugin:
+  ui:
+    agreements: Agreements
+
+bitbag:
+  sylius_agreement_plugin:
+    ui:
+      manage_agreements: Manage agreements

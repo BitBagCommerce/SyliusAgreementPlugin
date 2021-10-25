@@ -6,12 +6,14 @@ namespace BitBag\SyliusAgreementPlugin\Entity\Agreement;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Component\Resource\Model\TimestampableTrait;
+use Sylius\Component\Resource\Model\ToggleableTrait;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
 
 
 class Agreement implements AgreementInterface
 {
+    use ToggleableTrait;
 
     use TimestampableTrait;
 
@@ -26,8 +28,6 @@ class Agreement implements AgreementInterface
     protected string $mode = self::MODE_REQUIRED;
 
     protected ?\DateTime $publishedAt = null;
-
-    protected $enabled = true;
 
     protected $updatedAt = null;
 
@@ -102,16 +102,6 @@ class Agreement implements AgreementInterface
         $this->publishedAt = $publishedAt;
     }
 
-    public function enable():void
-    {
-        $this->enabled = true;
-    }
-
-    public function disable():void
-    {
-        $this->enabled = false;
-    }
-
     public function getContexts(): array
     {
         return $this->contexts;
@@ -176,6 +166,7 @@ class Agreement implements AgreementInterface
     {
         return AgreementInterface::MODE_ONLY_SHOW === $this->mode;
     }
+
 
     protected function createTranslation(): TranslationInterface
     {

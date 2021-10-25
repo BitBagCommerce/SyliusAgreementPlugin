@@ -2,7 +2,7 @@ bitbag_sylius_agreement_plugin_admin_agreement:
   resource: |
     alias: bitbag_sylius_agreement_plugin.agreement
     section: admin
-    templates: '@SyliusAdmin/Crud'
+    templates: '@SyliusAdmin\\Crud'
     redirect: update
     grid: bitbag_sylius_agreement_plugin_admin_agreement
     permission: true
@@ -17,7 +17,7 @@ bitbag_sylius_agreement_plugin_admin_agreement_archive:
   path: /agreements/{id}/archive
   methods: [PATCH]
   defaults:
-    _controller: bitbag.sylius_agreement_plugin.controller.agreement:updateAction
+    _controller: bitbag_sylius_agreement_plugin.controller.agreement::updateAction
     _sylius:
       section: admin
       permission: true

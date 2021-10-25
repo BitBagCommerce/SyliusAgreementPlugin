@@ -26,7 +26,6 @@ final class AgreementApprovalResolver implements AgreementApprovalResolverInterf
         if ($agreementHistory instanceof AgreementHistoryInterface) {
             return AgreementHistoryStates::STATE_ACCEPTED === $agreementHistory->getState();
         }
-
         return false;
     }
 
