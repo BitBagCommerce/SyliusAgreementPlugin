@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Entity\Agreement;
 
+use BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Component\Resource\Model\TimestampableTrait;
 use Sylius\Component\Resource\Model\ToggleableTrait;
@@ -43,6 +44,8 @@ class Agreement implements AgreementInterface
     protected bool $approved = false;
 
     protected ?\DateTime $archivedAt = null;
+    /** @var CustomerInterface|null */
+    protected $customers = null;
 
     public function __construct()
     {

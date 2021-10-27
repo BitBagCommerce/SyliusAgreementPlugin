@@ -22,12 +22,10 @@
                      target-entity="BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement">
             <join-column name="agreement" referenced-column-name="id" />
         </many-to-one>
-        <many-to-one field="shopUser" target-entity="Sylius\Component\Core\Model\ShopUser"
-                     inversed-by="agreementsHistory">
+        <many-to-one field="shopUser" target-entity="Sylius\Component\Core\Model\ShopUserInterface">
             <join-column name="shop_user_id" referenced-column-name="id"/>
         </many-to-one>
-        <many-to-one field="order" target-entity="Sylius\Component\Core\Model\Order"
-                     inversed-by="agreementsHistory">
+        <many-to-one field="order" target-entity="Sylius\Component\Order\Model\OrderInterface">
             <join-column name="order_id" referenced-column-name="id"/>
         </many-to-one>
     </mapped-superclass>

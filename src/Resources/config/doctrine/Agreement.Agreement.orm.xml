@@ -36,5 +36,6 @@
                     target-entity="Agreement">
             <join-column name="parent_id" referenced-column-name="id"/>
         </one-to-one>
+        <many-to-many field="customers" mapped-by="agreements" target-entity="Sylius\Component\Customer\Model\CustomerInterface"/>
     </mapped-superclass>
 </doctrine-mapping>

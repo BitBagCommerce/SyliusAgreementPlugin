@@ -13,7 +13,7 @@ use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
-use BitBag\SyliusAgreementPlugin\App\Entity\Customer\CustomerInterface;
+use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -40,13 +40,13 @@ final class AgreementSubscriber implements EventSubscriberInterface
 
     public function processAgreementsFromUserRegister(ResourceControllerEvent $resourceControllerEvent): void
     {
-        /** @var CustomerInterface $subject */
+        /** @var CustomerInterface $customer*/
         $customer = $resourceControllerEvent->getSubject();
-        //Assert::isInstanceOf($customer, CustomerInterface::class);
+        Assert::isInstanceOf($customer, CustomerInterface::class);
         /** @var ShopUserInterface $shopUser */
         $shopUser = $customer->getUser();
-       // Assert::isInstanceOf($shopUser, ShopUserInterface::class);
 
+        Assert::isInstanceOf($shopUser, ShopUserInterface::class);
         $this->handleAgreements(
             $customer->getAgreements(),
             AgreementContexts::CONTEXT_REGISTRATION_FORM,
