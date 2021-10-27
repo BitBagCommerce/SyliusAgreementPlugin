@@ -1,0 +1,16 @@
+sylius_customer:
+  resources:
+    customer:
+      classes:
+        model: Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\Customer
+sylius_order:
+  resources:
+    order:
+      classes:
+        model: Tests\BitBag\SyliusAgreementPlugin\Entity\Order\Order
+sylius_user:
+  resources:
+    shop:
+      user:
+        classes:
+          model: Tests\BitBag\SyliusAgreementPlugin\Entity\ShopUser\ShopUser

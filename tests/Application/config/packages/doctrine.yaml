@@ -20,6 +20,6 @@ doctrine:
             App:
                 is_bundle: false
                 type: xml
-                dir: '%kernel.project_dir%/../../src/Resources/config/doctrine'
-                prefix: 'BitBag\SyliusAgreementPlugin\Entity'
+                dir: '%kernel.project_dir%/src/Resources/config/doctrine'
+                prefix: 'Tests\BitBag\SyliusAgreementPlugin\Entity'
                 alias: App
