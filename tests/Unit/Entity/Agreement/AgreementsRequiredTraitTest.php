@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Entity\Agreement;
 
-use BitBag\SyliusAgreementPlugin\App\Entity\Customer\Customer;
+use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\Customer;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement;
 use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\Assert;

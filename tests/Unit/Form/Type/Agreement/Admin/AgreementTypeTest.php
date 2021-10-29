@@ -29,7 +29,7 @@ final class AgreementTypeTest extends TestCase
                     'code',
                     TextType::class,
                     [
-                        'label' => 'sylius_agreement_plugin.form.agreement.code',
+                        'label' => 'bitbag_sylius_agreement_plugin.ui.code',
                         'empty_data' => '',
                     ]
                 ],
@@ -37,7 +37,7 @@ final class AgreementTypeTest extends TestCase
                     'mode',
                     ChoiceType::class,
                     [
-                        'label' => 'sylius_agreement_plugin.form.agreement.mode',
+                        'label' => 'bitbag_sylius_agreement_plugin.ui.mode',
                         'choices' => $preparedModes,
                     ]
                 ],
@@ -45,21 +45,21 @@ final class AgreementTypeTest extends TestCase
                     'enabled',
                     CheckboxType::class,
                     [
-                        'label' => 'sylius_agreement_plugin.form.agreement.enabled',
+                        'label' => 'bitbag_sylius_agreement_plugin.ui.enabled',
                     ]
                 ],
                 [
                     'orderOnView',
                     IntegerType::class,
                     [
-                        'label' => 'sylius_agreement_plugin.form.agreement.order_on_view',
+                        'label' => 'bitbag_sylius_agreement_plugin.ui.order_on_view',
                     ]
                 ],
                 [
                     'contexts',
                     ChoiceType::class,
                     [
-                        'label' => 'sylius_agreement_plugin.form.agreement.contexts_label',
+                        'label' => 'bitbag_sylius_agreement_plugin.ui.contexts_label',
                         'multiple' => true,
                         'choices' => $preparedContexts,
                     ]
@@ -68,7 +68,7 @@ final class AgreementTypeTest extends TestCase
                     'publishedAt',
                     DateType::class,
                     [
-                        'label' => 'sylius_agreement_plugin.form.agreement.published_at',
+                        'label' => 'bitbag_sylius_agreement_plugin.ui.published_at',
                         'required' => false,
                         'format' => DateType::HTML5_FORMAT,
                         'widget' => 'single_text',
@@ -82,7 +82,7 @@ final class AgreementTypeTest extends TestCase
                         'entry_options' => [
                             'required' => true,
                         ],
-                        'label' => 'app.form.agreement.translations',
+                        'label' => 'bitbag_sylius_agreement_plugin.ui.translations',
                     ]
                 ]
             )->willReturnSelf();
@@ -100,16 +100,17 @@ final class AgreementTypeTest extends TestCase
                     'test2'
                 ],
                 [
-                    'sylius_agreement_plugin.form.agreement.modes.test1' => 'test1',
-                    'sylius_agreement_plugin.form.agreement.modes.test2' => 'test2'
-                ],
+                    'bitbag_sylius_agreement_plugin.ui.agreement.modes.test1' => 'test1',
+                    'bitbag_sylius_agreement_plugin.ui.agreement.modes.test2' => 'test2'
+
+            ],
                 [
                     'test5',
                     'test55'
                 ],
                 [
-                    'sylius_agreement_plugin.form.agreement.contexts.test5' => 'test5',
-                    'sylius_agreement_plugin.form.agreement.contexts.test55' => 'test55'
+                    'bitbag_sylius_agreement_plugin.ui.agreement.contexts.test5' => 'test5',
+                    'bitbag_sylius_agreement_plugin.ui.agreement.contexts.test55' => 'test55'
                 ]
             ]
         ];

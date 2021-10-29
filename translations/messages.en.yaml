@@ -1,37 +1,37 @@
-sylius:
-  ui:
-    agreements: Agreements
-    more: More
-    less: Less
-sylius_agreement_plugin:
-  form:
-    agreement:
-      name: Name
-      body: Body
-      extended_body: Extended body
-      enabled: Enabled
-      order_on_view: Order on view
-      contexts_label: Contexts
-      published_at: Published at
-      code: Code
-      mode: Mode
-      contexts:
-        registration_form: Registration form
-      modes:
-        required_and_non_cancellable: Required and non-cancellable
-        required: Required
-        only_show: Only show
-        not_required: Not required
+#
+#    agreements: Agreements
+#    more: More
+#    less: Less
+#
+#    agreement:
+#      name: Name
+#      body: Body
+#      extended_body: Extended body
+#      enabled: Enabled
+
+
 bitbag_sylius_agreement_plugin:
   ui:
     agreements: Agreements
+    manage_agreements: Manage agreements
     new_agreement: New Agreement
-bitbag:
-  sylius_agreement_plugin:
-    ui:
-      manage_agreements: Manage agreements
-
-app:
-  form:
+    id: ID
+    name: Name
+    code: Code
+    order_on_view: Order on view
+    contexts_label: Contexts
+    published_at: Published at
+    archived_at: Archived at
+    enabled: Enabled
+    body: Body
+    extended_body: Extended body
+    mode: Mode
+    translations: Translations
     agreement:
-      translations: Translations
+      modes:
+        required: Required
+        only_show: Only show
+        required_and_non_cancellable: Required and non-cancellable
+        not_required: Not required
+      contexts:
+        registration_form: Registration form

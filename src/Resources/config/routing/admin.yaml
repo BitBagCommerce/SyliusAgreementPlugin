@@ -8,7 +8,7 @@ bitbag_sylius_agreement_plugin_admin_agreement:
     permission: true
     vars:
         all:
-            subheader: bitbag.sylius_agreement_plugin.ui.manage_agreements
+            subheader: bitbag_sylius_agreement_plugin.ui.manage_agreements
         index:
             icon: 'file alternate outline'
   type: sylius.resource

@@ -3,7 +3,7 @@
 namespace BitBag\SyliusAgreementPlugin\Tests\Unit\EventSubscriber;
 
 
-use BitBag\SyliusAgreementPlugin\App\Entity\Customer\CustomerInterface;
+use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementContexts;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;

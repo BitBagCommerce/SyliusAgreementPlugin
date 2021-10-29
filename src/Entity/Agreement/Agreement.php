@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Entity\Agreement;
 
-use BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
+use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Component\Resource\Model\TimestampableTrait;
 use Sylius\Component\Resource\Model\ToggleableTrait;

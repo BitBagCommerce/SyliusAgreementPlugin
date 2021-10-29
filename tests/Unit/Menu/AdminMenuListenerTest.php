@@ -29,7 +29,7 @@ final class AdminMenuListenerTest extends TestCase
         $configurationMenu
             ->expects(self::once())
             ->method('setLabel')
-            ->with('sylius.ui.agreements')
+            ->with('bitbag_sylius_agreement_plugin.ui.agreements')
             ->willReturnSelf();
         $configurationMenu
             ->expects(self::once())
