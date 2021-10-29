@@ -8,7 +8,6 @@
         </parameter>
     </parameters>
     <services>
-
         <service id="bitbag.sylius_agreement_plugin.menu.admin_menu_listener"
                  class="BitBag\SyliusAgreementPlugin\Menu\AdminMenuListener">
             <tag name="kernel.event_listener" event="sylius.menu.admin.main" priority="-5" method="addAgreementItems"/>

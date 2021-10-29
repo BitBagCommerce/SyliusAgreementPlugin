@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin;
 
-
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -14,14 +13,13 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-
 final class AgreementType extends AbstractResourceType
 {
     private array $modes;
 
     private array $contexts;
 
-    public function __construct(string $dataClass , array $validationGroups = [], array $modes, array $contexts)
+    public function __construct(string $dataClass, array $validationGroups = [], array $modes, array $contexts)
     {
         parent::__construct($dataClass,$validationGroups);
 

@@ -16,7 +16,8 @@ class AgreementRepository extends EntityRepository implements AgreementRepositor
 
         $qb
             ->select('o')
-            ->where($qb->expr()->eq('o.enabled', 'true'));
+            ->where($qb->expr()->eq('o.enabled', 'true'))
+        ;
 
         return $qb;
     }
