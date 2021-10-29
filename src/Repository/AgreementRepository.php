@@ -14,11 +14,7 @@ class AgreementRepository extends EntityRepository implements AgreementRepositor
     {
         $qb = $this->createQueryBuilder('o');
 
-        $qb
-            ->select('o')
-            ->where($qb->expr()->eq('o.enabled', 'true'))
-        ;
-
+        $qb->select('o');
         return $qb;
     }
 
