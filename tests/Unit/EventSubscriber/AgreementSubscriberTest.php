@@ -1,6 +1,6 @@
 <?php
 
-namespace BitBag\SyliusAgreementPlugin\Tests\Unit\EventSubscriber;
+namespace Tests\BitBag\SyliusAgreementPlugin\Unit\EventSubscriber;
 
 
 use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;

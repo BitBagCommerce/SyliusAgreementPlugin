@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use BitBag\SyliusAgreementPlugin\Tests\Application\Kernel;
+use Tests\BitBag\SyliusAgreementPlugin\Application\Kernel;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 

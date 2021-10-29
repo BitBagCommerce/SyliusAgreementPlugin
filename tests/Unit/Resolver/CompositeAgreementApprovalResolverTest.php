@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Resolver;
+namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Resolver;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Exception\AgreementNotSupportedException;

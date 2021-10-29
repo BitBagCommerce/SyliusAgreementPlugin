@@ -1,6 +1,6 @@
 <?php
 
-namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Form\Extension;
+namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Form\Extension;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementContexts;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;

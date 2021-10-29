@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Form\Type\Agreement\Shop;
+namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Form\Type\Agreement\Shop;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;

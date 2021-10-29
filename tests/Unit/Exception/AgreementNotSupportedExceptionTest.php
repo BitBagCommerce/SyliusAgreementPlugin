@@ -1,6 +1,6 @@
 <?php
 
-namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Exception;
+namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Exception;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;

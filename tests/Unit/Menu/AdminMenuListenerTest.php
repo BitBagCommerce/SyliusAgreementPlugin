@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Menu;
+namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Menu;
 
 use BitBag\SyliusAgreementPlugin\Menu\AdminMenuListener;
 use Knp\Menu\ItemInterface;

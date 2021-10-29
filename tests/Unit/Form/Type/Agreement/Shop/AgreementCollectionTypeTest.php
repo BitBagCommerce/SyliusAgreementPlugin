@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Form\Type\Agreement\Shop;
+namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Form\Type\Agreement\Shop;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementTranslationInterface;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementType;
