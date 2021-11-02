@@ -4,24 +4,19 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Entity\Agreement;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 trait AgreementsRequiredTrait
 {
-    /** @var ArrayCollection|AgreementInterface[] */
+    /** @var Collection|AgreementInterface[] */
     protected $agreements;
 
-    public function __construct()
+    public function getAgreements(): ?Collection
     {
-        $this->agreements = new ArrayCollection();
+        return $this->agreements;
     }
 
-    public function getAgreements(): ArrayCollection
-    {
-        return $this->agreements ?? new ArrayCollection();
-    }
-
-    public function setAgreements(ArrayCollection $agreements): void
+    public function setAgreements(?Collection $agreements): void
     {
         $this->agreements = $agreements;
     }

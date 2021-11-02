@@ -11,7 +11,7 @@ use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepositoryInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
@@ -59,13 +59,13 @@ final class AgreementSubscriber implements EventSubscriberInterface
     {
         return [
             'sylius.customer.post_register' => [
-                ['processAgreementsFromUserRegister', -5],
+                ['processAgreementsFromUserRegister', 5],
             ]
         ];
     }
 
     private function handleAgreements(
-        ArrayCollection $submittedAgreements,
+        Collection $submittedAgreements,
         string $context,
         ?OrderInterface $order,
         ?ShopUserInterface $shopUser
