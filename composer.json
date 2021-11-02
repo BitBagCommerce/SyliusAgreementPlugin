@@ -11,15 +11,11 @@
   },
   "require": {
     "sylius/sylius": "^1.9 || ^1.10",
-    "php": "^7.4 || ^8.0",
-    "symfony/debug": "^4.4",
-    "symfony/debug-bundle": "^5.3",
-    "sensiolabs/security-checker": "^6.0"
+    "php": "^7.4 || ^8.0"
   },
   "require-dev": {
     "vimeo/psalm": "4.4.1",
     "phpunit/phpunit": "^9.5",
-    "friends-of-behat/symfony-extension": "^2.0",
-    "friends-of-behat/page-object-extension": "^0.3.2"
+    "friends-of-behat/symfony-extension": "^2.0"
   }
 }
