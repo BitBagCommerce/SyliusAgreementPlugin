@@ -9,13 +9,24 @@ use Symfony\Component\Form\Exception\InvalidArgumentException;
 use Symfony\Component\Form\FormExtensionInterface;
 use Symfony\Component\Form\FormTypeExtensionInterface;
 use Symfony\Component\Form\FormTypeGuesserChain;
+use Symfony\Component\Form\FormTypeGuesserInterface;
+use Symfony\Component\Form\FormTypeInterface;
 
 class DependencyInjectionExtension implements FormExtensionInterface
 {
+    /** @var FormTypeGuesserInterface|null */
     private $guesser;
+
+    /** @var bool  */
     private $guesserLoaded = false;
+
+    /** @var ContainerInterface  */
     private $typeContainer;
+
+    /** @var iterable[]  */
     private $typeExtensionServices;
+
+    /** @var iterable  */
     private $guesserServices;
 
     private array $agreementExtensionTypes;
@@ -39,8 +50,9 @@ class DependencyInjectionExtension implements FormExtensionInterface
         if (!$this->typeContainer->has($name)) {
             throw new InvalidArgumentException(sprintf('The field type "%s" is not registered in the service container.', $name));
         }
-
-        return $this->typeContainer->get($name);
+        /** @var FormTypeInterface $typeName */
+        $typeName = $this->typeContainer->get($name);
+        return $typeName;
     }
 
     /**
@@ -53,9 +65,11 @@ class DependencyInjectionExtension implements FormExtensionInterface
 
     /**
      * {@inheritdoc}
+     * @return array
      */
     public function getTypeExtensions(string $name)
     {
+        /** @var FormExtensionInterface[] $extensions */
         $extensions = [];
 
         if (isset($this->typeExtensionServices[$name])) {

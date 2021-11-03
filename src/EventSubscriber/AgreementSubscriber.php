@@ -59,7 +59,7 @@ final class AgreementSubscriber implements EventSubscriberInterface
     {
         return [
             'sylius.customer.post_register' => [
-                ['processAgreementsFromUserRegister', 5],
+                ['processAgreementsFromUserRegister', -5],
             ]
         ];
     }
@@ -114,9 +114,11 @@ final class AgreementSubscriber implements EventSubscriberInterface
     ): string
     {
         $agreementHistoryState = AgreementHistoryStates::STATE_SHOWN;
-        if ($submittedAgreement instanceof AgreementInterface && true === $submittedAgreement->isApproved()) {
+        if (true === $submittedAgreement->isApproved()) {
             $agreementHistoryState = AgreementHistoryStates::STATE_ACCEPTED;
-        } elseif ($resolvedAgreementHistoryState !== AgreementHistoryStates::STATE_SHOWN && null !== $agreementHistory->getId()) {
+        } elseif (
+            $resolvedAgreementHistoryState !== AgreementHistoryStates::STATE_SHOWN
+            && null !== $agreementHistory->getId()) {
             $agreementHistoryState = AgreementHistoryStates::STATE_WITHDRAWN;
         }
 

@@ -1,0 +1,16 @@
+
+includes:
+    - vendor/phpstan/phpstan-webmozart-assert/extension.neon
+
+parameters:
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+
+    excludePaths:
+        # Makes PHPStan crash
+        - 'src/DependencyInjection/Configuration.php'
+
+        # Test dependencies
+        - 'tests/Application/app/**.php'
+        - 'tests/Application/src/**.php'
+

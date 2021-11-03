@@ -19,7 +19,9 @@
     "sensiolabs/security-checker": "^6.0",
     "friends-of-behat/symfony-extension": "^2.2",
     "friends-of-behat/mink": "^1.9",
-    "symfony/browser-kit": "^5.3"
+    "symfony/browser-kit": "^5.3",
+    "phpstan/phpstan": "^1.0",
+    "phpstan/phpstan-webmozart-assert": "^1.0"
   },
   "require-dev": {
     "vimeo/psalm": "4.4.1",

@@ -49,7 +49,6 @@
         <service id="bitbag_sylius_agreement_plugin.form.extension.agreements_type_extension"
                  class="BitBag\SyliusAgreementPlugin\Form\Extension\AgreementsTypeExtension">
             <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.agreement"/>
-            <argument type="service" id="security.helper"/>
             <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.agreement_approval"/>
             <argument>%sylius_agreement_plugin.extended_form_types%</argument>
             <tag name="form.type_extension"

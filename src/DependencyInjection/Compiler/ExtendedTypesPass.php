@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ExtendedTypesPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container):void
     {
         $parameter = $container->getParameter('sylius_agreement_plugin.extended_form_types');
 //        dd($parameter);

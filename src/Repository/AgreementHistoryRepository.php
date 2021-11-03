@@ -25,7 +25,10 @@ class AgreementHistoryRepository extends EntityRepository implements AgreementHi
             ->orderBy('o.createdAt', 'DESC')
             ->setMaxResults(1);
 
-        return $qb->getQuery()->getOneOrNullResult();
+        /** @var AgreementHistoryInterface | null $result */
+        $result = $qb->getQuery()->getOneOrNullResult();
+
+        return $result;
     }
 
     public function findOneForOrder(AgreementInterface $agreement, OrderInterface $order): ?AgreementHistoryInterface
@@ -40,6 +43,9 @@ class AgreementHistoryRepository extends EntityRepository implements AgreementHi
             ->orderBy('o.createdAt', 'DESC')
             ->setMaxResults(1);
 
-        return $qb->getQuery()->getOneOrNullResult();
+        /** @var AgreementHistoryInterface | null $result */
+        $result = $qb->getQuery()->getOneOrNullResult();
+
+        return $result;
     }
 }

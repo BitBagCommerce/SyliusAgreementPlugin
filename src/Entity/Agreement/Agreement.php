@@ -30,8 +30,9 @@ class Agreement implements AgreementInterface
 
     protected ?\DateTime $publishedAt = null;
 
+    /** @var \DateTime | null  */
     protected $updatedAt = null;
-
+    /** @var \DateTime | null  */
     protected $createdAt = null;
 
     protected array $contexts = [];
@@ -153,16 +154,6 @@ class Agreement implements AgreementInterface
     public function setArchivedAt(?\DateTime $archivedAt): void
     {
         $this->archivedAt = $archivedAt;
-    }
-
-    public function getEdiumAgreementType(): ?string
-    {
-        return $this->ediumAgreementType;
-    }
-
-    public function setEdiumAgreementType(?string $ediumAgreementType): void
-    {
-        $this->ediumAgreementType = $ediumAgreementType;
     }
 
     public function isReadOnly(): bool

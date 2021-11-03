@@ -14,19 +14,25 @@ class AgreementHistory implements AgreementHistoryInterface
     use TimestampableTrait;
 
     protected ?int $id = null;
-
+    /** @var AgreementInterface | null */
     protected $agreement;
 
+    /** @var ShopUserInterface | null */
     protected $shopUser;
 
+    /** @var OrderInterface | null  */
     protected $order;
 
+    /** @var string  */
     protected $state = AgreementHistoryStates::STATE_ASSIGNED;
 
+    /** @var string  */
     protected $context = AgreementContexts::CONTEXT_UNKNOWN;
 
+    /** @var \DateTime | null */
     protected $updatedAt;
 
+    /** @var \DateTime | null */
     protected $createdAt;
 
     public function __construct()

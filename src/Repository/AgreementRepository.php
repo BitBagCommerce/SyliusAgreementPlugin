@@ -27,10 +27,12 @@ class AgreementRepository extends EntityRepository implements AgreementRepositor
             ->where($qb->expr()->eq('o.parent', ':parent'))
             ->setParameter('parent', $id);
 
-        return $qb
+        /** @var AgreementInterface|null $result */
+        $result = $qb
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
+
+        return $result;
     }
 
     public function findAgreementsByContext(string $context, array $matchOnlyThisIdentifiers = []): array
@@ -62,7 +64,10 @@ class AgreementRepository extends EntityRepository implements AgreementRepositor
                 ->setParameter('identifiers', $matchOnlyThisIdentifiers);
         }
 
-        return $qb->getQuery()->getResult();
+        /** @var array $result */
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
     }
 
     public function findAgreementsByContexts(array $contexts): array
@@ -104,6 +109,9 @@ class AgreementRepository extends EntityRepository implements AgreementRepositor
         $qb
             ->andWhere($qb->expr()->orX(...$contextExpressions));
 
-        return $qb->getQuery()->getResult();
+        /** @var array $result */
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
     }
 }
