@@ -45,7 +45,7 @@ class DependencyInjectionExtension implements FormExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function getType(string $name):FormTypeInterface
+    public function getType($name): FormTypeInterface
     {
         if (!$this->typeContainer->has($name)) {
             throw new InvalidArgumentException(sprintf('The field type "%s" is not registered in the service container.', $name));

@@ -19,7 +19,7 @@ final class AgreementType extends AbstractResourceType
 
     private array $contexts;
 
-    public function __construct(string $dataClass, array $validationGroups = [], array $modes, array $contexts)
+    public function __construct(string $dataClass, array $validationGroups = [], array $modes =[], array $contexts=[])
     {
         parent::__construct($dataClass,$validationGroups);
 
