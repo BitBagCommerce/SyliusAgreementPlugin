@@ -18,9 +18,8 @@
   "require-dev": {
     "vimeo/psalm": "4.4.1",
     "phpunit/phpunit": "^9.5",
-    "symfony/dotenv": "^5.3",
     "symfony/debug": "^4.4",
-    "symfony/debug-bundle": "^5.3",
+    "symfony/debug-bundle": "^5.3 || ^4.4",
     "symfony/web-profiler-bundle": "^5.3 || ^4.4",
     "sensiolabs/security-checker": "^6.0",
     "behat/mink": "^1.9",
