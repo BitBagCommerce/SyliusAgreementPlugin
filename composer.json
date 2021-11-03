@@ -17,7 +17,8 @@
     "friends-of-behat/mink": "^1.9",
     "phpstan/phpstan": "^1.0",
     "phpstan/phpstan-webmozart-assert": "^1.0",
-    "symfony/dotenv": "^5.3"
+    "symfony/dotenv": "^5.3",
+    "symfony/debug-bundle": "^5.3"
   },
   "require-dev": {
     "vimeo/psalm": "4.4.1",
