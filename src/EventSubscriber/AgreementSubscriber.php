@@ -71,12 +71,15 @@ final class AgreementSubscriber implements EventSubscriberInterface
         ?ShopUserInterface $shopUser
     ): void
     {
+        Assert::isInstanceOf($submittedAgreements, Collection::class);
         $resolvedAgreements = $this->agreementResolver->resolve($context, []);
 
         /** @var AgreementInterface $resolvedAgreement */
         foreach ($resolvedAgreements as $resolvedAgreement) {
+            Assert::isInstanceOf($resolvedAgreement, AgreementInterface::class);
             $agreementHistory = $this->agreementHistoryResolver->resolveHistory($resolvedAgreement);
 
+            Assert::isInstanceOf($agreementHistory, AgreementHistoryInterface::class);
             $submittedAgreement = $submittedAgreements->filter(
                 static function (AgreementInterface $agreement) use ($resolvedAgreement) {
                 return $agreement->getId() === $resolvedAgreement->getId();

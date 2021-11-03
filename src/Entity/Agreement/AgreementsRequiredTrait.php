@@ -11,12 +11,12 @@ trait AgreementsRequiredTrait
     /** @var Collection|AgreementInterface[] */
     protected $agreements;
 
-    public function getAgreements(): ?Collection
+    public function getAgreements(): Collection
     {
         return $this->agreements;
     }
 
-    public function setAgreements(?Collection $agreements): void
+    public function setAgreements(?Collection $agreements):void
     {
         $this->agreements = $agreements;
     }
