@@ -58,7 +58,7 @@ class DependencyInjectionExtension implements FormExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function hasType(string $name)
+    public function hasType($name)
     {
         return $this->typeContainer->has($name);
     }
