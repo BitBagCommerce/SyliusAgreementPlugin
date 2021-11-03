@@ -12,7 +12,8 @@
   "require": {
     "sylius/sylius": "^1.9 || ^1.10",
     "php": "^7.4 || ^8.0",
-    "sensiolabs/security-checker": "^6.0"
+    "sensiolabs/security-checker": "^6.0",
+    "behat/mink": "^1.9"
 
   },
   "require-dev": {
