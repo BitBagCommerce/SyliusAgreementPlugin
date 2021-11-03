@@ -3,7 +3,6 @@
     "description": "Sylius application for plugin testing purposes (composer.json needed for project dir resolving)",
     "license": "MIT",
     "require": {
-        "friends-of-behat/mink": "^1.9",
-        "friends-of-behat/symfony-extension": "^2.2"
+        "friends-of-behat/mink": "^1.9"
     }
 }
