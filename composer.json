@@ -12,7 +12,7 @@
   },
   "require": {
     "sylius/sylius": "^1.9@stable || ^1.10@stable",
-    "friendsofsymfony/oauth-server-bundle": "2.0.x-dev",
+    "friendsofsymfony/oauth-server-bundle": "*",
     "php": "^7.4 || ^8.0"
   },
   "require-dev": {
