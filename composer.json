@@ -3,8 +3,7 @@
   "description": "Agreement plugin for Sylius",
   "type": "sylius-plugin",
   "license": "MIT",
-  "minimum-stability": "dev",
-  "prefer-stable": true,
+  "minimum-stability": "stable",
   "autoload": {
     "psr-4": {
       "BitBag\\SyliusAgreementPlugin\\": "src/",
@@ -12,17 +11,16 @@
     }
   },
   "require": {
-    "sylius/sylius": "^1.9 || ^1.10",
+    "sylius/sylius": "^1.9@stable || ^1.10@stable",
+    "friendsofsymfony/oauth-server-bundle": "2.0.x-dev",
     "php": "^7.4 || ^8.0"
   },
   "require-dev": {
-    "symfony/symfony": "5.2",
     "vimeo/psalm": "4.4.1",
     "phpstan/phpstan": "^1.0",
     "phpstan/phpstan-webmozart-assert": "^1.0",
     "phpunit/phpunit": "^9.5",
     "behat/mink": "^1.9",
-    "friends-of-behat/symfony-extension": "^2.2",
-    "friendsofsymfony/oauth-server-bundle": "2.0.x-dev"
+    "friends-of-behat/symfony-extension": "^2.2"
   }
 }
