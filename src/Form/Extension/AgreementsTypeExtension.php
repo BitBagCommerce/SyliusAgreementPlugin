@@ -10,7 +10,6 @@ use BitBag\SyliusAgreementPlugin\Resolver\AgreementApprovalResolverInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Security\Core\Security;
 
 final class AgreementsTypeExtension extends AbstractTypeExtension
 {

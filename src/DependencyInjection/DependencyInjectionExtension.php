@@ -67,7 +67,7 @@ class DependencyInjectionExtension implements FormExtensionInterface
      * {@inheritdoc}
      * @return array
      */
-    public function getTypeExtensions(string $name)
+    public function getTypeExtensions($name)
     {
         /** @var FormExtensionInterface[] $extensions */
         $extensions = [];
@@ -91,7 +91,7 @@ class DependencyInjectionExtension implements FormExtensionInterface
      * @param FormTypeExtensionInterface $extension
      * @return array
      */
-    private function loadExtendedTypes(object $extension): array
+    private function loadExtendedTypes($extension): array
     {
         $extendedTypes = [];
         foreach ($extension::getExtendedTypes() as $extendedType) {
@@ -104,7 +104,7 @@ class DependencyInjectionExtension implements FormExtensionInterface
     /**
      * {@inheritdoc}
      */
-    public function hasTypeExtensions(string $name)
+    public function hasTypeExtensions($name)
     {
         return isset($this->typeExtensionServices[$name]);
     }
