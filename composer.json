@@ -4,6 +4,7 @@
   "type": "sylius-plugin",
   "license": "MIT",
   "minimum-stability": "dev",
+  "prefer-stable": true,
   "autoload": {
     "psr-4": {
       "BitBag\\SyliusAgreementPlugin\\": "src/",
