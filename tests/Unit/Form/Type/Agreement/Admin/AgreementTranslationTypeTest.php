@@ -64,11 +64,4 @@ final class AgreementTranslationTypeTest extends TestCase
         $subject->configureOptions($resolver);
     }
 
-    public function testGetBlockPrefix()
-    {
-        $agreementRepository = $this->createMock(AgreementRepositoryInterface::class);
-        $agreementCollection = new AgreementCollectionType($agreementRepository);
-        Assert::assertSame($agreementCollection->getBlockPrefix(),
-            'bitbag_sylius_agreement_plugin_agreement_approval_collection');
-    }
 }

@@ -115,11 +115,4 @@ final class AgreementTypeTest extends TestCase
             ]
         ];
     }
-
-    public function testGetBlockPrefix()
-    {
-        $subject = new AgreementType('test', [], [], []);
-
-        self::assertEquals('bitbag_sylius_agreement_plugin_agreement', $subject->getBlockPrefix());
-    }
 }
