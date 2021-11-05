@@ -34,6 +34,7 @@
     "friends-of-behat/variadic-extension": "*",
     "friends-of-behat/suite-settings-extension": "*",
     "friends-of-behat/mink-browserkit-driver": "*",
-    "friends-of-behat/page-object-extension": "*"
+    "friends-of-behat/page-object-extension": "*",
+    "behat/mink-extension": "*"
   }
 }
