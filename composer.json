@@ -21,7 +21,7 @@
     "phpstan/phpstan": "^1.0",
     "phpstan/phpstan-webmozart-assert": "^1.0",
     "phpunit/phpunit": "^9.5",
-    "behat/mink": "^1.9",
+    "behat/mink": "*",
     "friends-of-behat/symfony-extension": "^2.2",
     "symfony/debug-bundle": "*",
     "symfony/web-profiler-bundle": "*",
@@ -35,6 +35,5 @@
     "friends-of-behat/suite-settings-extension": "*",
     "friends-of-behat/mink-browserkit-driver": "*",
     "friends-of-behat/page-object-extension": "*",
-    "behat/mink-extension": "*"
   }
 }
