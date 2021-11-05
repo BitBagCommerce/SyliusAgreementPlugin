@@ -92,8 +92,7 @@ final class AgreementTypeExtensionTest extends TestCase
 
         $subject =
             new AgreementsTypeExtension($this->agreementResolver,
-                $this->security,
-                $this->agreementApprovalResolver, []);
+                $this->agreementApprovalResolver);
 
         $subject->buildForm($this->builder,[]);
     }
@@ -102,8 +101,7 @@ final class AgreementTypeExtensionTest extends TestCase
     {
         $subject =
             new AgreementsTypeExtension($this->agreementResolver,
-                $this->security,
-                $this->agreementApprovalResolver, []);
+                $this->agreementApprovalResolver);
 
         Assert::assertSame([],$subject->getExtendedTypes());
     }

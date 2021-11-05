@@ -74,13 +74,5 @@ class AgreementTest extends TestCase
         $agreement->setArchivedAt($time->setTime(12,24,48));
         Assert::assertSame($agreement->getArchivedAt(),$time->setTime(12,24,48));
     }
-
-    public function testSetEdiumAgreementType()
-    {
-        $agreement = new Agreement();
-        $ediumAgreementType = "test1";
-        $agreement->setEdiumAgreementType($ediumAgreementType);
-        Assert::assertSame($agreement->getEdiumAgreementType(),$ediumAgreementType);
-    }
     
 }
