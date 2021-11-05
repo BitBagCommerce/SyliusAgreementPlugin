@@ -25,6 +25,15 @@
     "friends-of-behat/symfony-extension": "^2.2",
     "symfony/debug-bundle": "*",
     "symfony/web-profiler-bundle": "*",
-    "symfony/browser-kit": "*"
+    "symfony/browser-kit": "*",
+    "behat/behat": "^3.10",
+    "behat/mink-selenium2-driver": "^1.5",
+    "dmore/behat-chrome-extension": "*",
+    "dmore/chrome-mink-driver": "*",
+    "friends-of-behat/mink-debug-extension": "*",
+    "friends-of-behat/variadic-extension": "*",
+    "friends-of-behat/suite-settings-extension": "*",
+    "friends-of-behat/mink-browserkit-driver": "*",
+    "friends-of-behat/page-object-extension": "*"
   }
 }
