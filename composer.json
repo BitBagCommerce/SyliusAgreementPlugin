@@ -26,7 +26,7 @@
     "symfony/debug-bundle": "*",
     "symfony/web-profiler-bundle": "*",
     "symfony/browser-kit": "*",
-    "behat/behat": "^3.10",
+    "behat/behat": "*",
     "behat/mink-selenium2-driver": "^1.5",
     "dmore/behat-chrome-extension": "*",
     "dmore/chrome-mink-driver": "*",
