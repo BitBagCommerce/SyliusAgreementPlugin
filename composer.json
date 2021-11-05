@@ -33,6 +33,7 @@
     "phpstan/phpstan-webmozart-assert": "^1.0",
     "phpunit/phpunit": "^9.5",
     "symfony/dotenv": "*",
+    "symfony/config": "^2.7 | ^3.0 | ^4.0",
     "symfony/debug-bundle": "*",
     "symfony/web-profiler-bundle": "*",
     "symfony/browser-kit": "*",
