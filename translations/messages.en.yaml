@@ -1,4 +1,3 @@
-#
 #    agreements: Agreements
 #    more: More
 #    less: Less
@@ -13,6 +12,7 @@
 bitbag_sylius_agreement_plugin:
   ui:
     agreements: Agreements
+    edit_agreement: Edit Agreement
     manage_agreements: Manage agreements
     new_agreement: New Agreement
     id: ID

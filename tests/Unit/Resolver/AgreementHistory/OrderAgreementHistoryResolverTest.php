@@ -54,12 +54,16 @@ final class OrderAgreementHistoryResolverTest extends TestCase
     public function testSupports()
     {
         $this->cartContext = $this->createMock(CartContextInterface::class);
-        $this->cartContext->expects(self::once())
+
+        $this->cartContext
+            ->expects(self::once())
             ->method('getCart')
             ->willReturn(new Order());
+
         $agreementInterface = $this->createMock(AgreementInterface::class);
         $agreementHistoryRepository = $this->createMock(AgreementHistoryRepositoryInterface::class);
         $orderAgreementHistoryResolver = new OrderAgreementHistoryResolver($this->cartContext,$agreementHistoryRepository);
+
         Assert::assertSame($orderAgreementHistoryResolver->supports($agreementInterface),true);
 
 

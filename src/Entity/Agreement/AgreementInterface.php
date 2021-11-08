@@ -37,8 +37,10 @@ interface AgreementInterface extends ResourceInterface, TranslatableInterface, T
 
     public function setContexts(array $contexts): void;
 
+    /** @return ?AgreementInterface */
     public function getParent(): ?self;
 
+    /** @var ?AgreementInterface $parent */
     public function setParent(?self $parent): void;
 
     public function getOrderOnView(): int;

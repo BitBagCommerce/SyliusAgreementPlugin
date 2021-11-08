@@ -7,20 +7,16 @@
                   xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
     <mapped-superclass name="BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement"
                        table="bitbag_sylius_agreement_plugin_agreement">
-
-
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
         </id>
-        <field name="code" column="agreement_code" type="string"
-               unique="true" length="120" nullable="true"/>
-        <field name="mode" column="agreement_mode" type="string"/>
+        <field name="code" column="agreement_code" unique="true" length="120" nullable="true"/>
+        <field name="mode" column="agreement_mode"/>
         <field name="enabled" column='enabled' type="boolean"/>
         <field name="publishedAt" column="published_at" type="datetime">
             <gedmo:timestampable on="create"/>
         </field>
-        <field name="updatedAt" column="updated_at" type="datetime"
-               nullable="true" >
+        <field name="updatedAt" column="updated_at" type="datetime" nullable="true" >
             <gedmo:timestampable on="update"/>
         </field>
         <field name="contexts" column="context" type="array"/>
@@ -30,12 +26,11 @@
             </options>
         </field>
         <field name="approved" column="approved" type="boolean"/>
-        <field name="archivedAt" column="archived_at" type="datetime"
-        nullable="true"/>
-        <one-to-one field="parent"
-                    target-entity="Agreement">
+        <field name="archivedAt" column="archived_at" type="datetime" nullable="true"/>
+        <one-to-one field="parent" target-entity="Agreement">
             <join-column name="parent_id" referenced-column-name="id"/>
         </one-to-one>
-        <many-to-many field="customers" mapped-by="agreements" target-entity="Sylius\Component\Customer\Model\CustomerInterface"/>
+        <many-to-many field="customers" mapped-by="agreements"
+                      target-entity="Sylius\Component\Customer\Model\CustomerInterface"/>
     </mapped-superclass>
 </doctrine-mapping>

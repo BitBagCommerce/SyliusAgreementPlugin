@@ -121,7 +121,8 @@ final class AgreementSubscriber implements EventSubscriberInterface
             $agreementHistoryState = AgreementHistoryStates::STATE_ACCEPTED;
         } elseif (
             $resolvedAgreementHistoryState !== AgreementHistoryStates::STATE_SHOWN
-            && null !== $agreementHistory->getId()) {
+            && null !== $agreementHistory->getId()
+        ) {
             $agreementHistoryState = AgreementHistoryStates::STATE_WITHDRAWN;
         }
 

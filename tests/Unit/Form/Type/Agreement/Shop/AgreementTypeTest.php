@@ -20,8 +20,10 @@ final class AgreementTypeTest extends TestCase
     /** @dataProvider buildFormDataProvider  */
     public function testBuildForm
     (
-        array $options, string $agreementClass,
-        array $addWith, array $validationGroups
+        array $options,
+        string $agreementClass,
+        array $addWith,
+        array $validationGroups
     ): void
     {
 

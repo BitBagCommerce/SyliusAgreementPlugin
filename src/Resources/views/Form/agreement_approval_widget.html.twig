@@ -17,7 +17,6 @@
 {% endmacro %}
 
 {% block bitbag_sylius_agreement_plugin_agreement_approval_checkbox_row %}
-    {{ dump(form) }}
     <div class="agreements-form-item{% if form.parent.vars.required%} required{% endif%} m-t-15">
         {% if form.parent.vars.mode == constant('BitBag\\SyliusAgreementPlugin\\Entity\\Agreement\\AgreementInterface::MODE_REQUIRED_AND_NON_CANCELLABLE') and form.vars.approved == true %}
             <div class="non-cancellable d-inline-block">

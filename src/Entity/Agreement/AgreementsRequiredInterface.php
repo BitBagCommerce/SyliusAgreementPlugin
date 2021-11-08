@@ -8,7 +8,9 @@ use Doctrine\Common\Collections\Collection;
 
 interface AgreementsRequiredInterface
 {
-    public function getAgreements(): Collection;
+    /** @return Collection | ?Agreement[] */
+    public function getAgreements(): ?Collection;
 
+    /** @var Collection | ?Agreement[] $agreements */
     public function setAgreements(?Collection $agreements):void;
 }

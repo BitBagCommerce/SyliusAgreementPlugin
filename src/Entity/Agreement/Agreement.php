@@ -116,6 +116,7 @@ class Agreement implements AgreementInterface
         $this->contexts = $contexts;
     }
 
+    /** @return ?AgreementInterface */
     public function getParent(): ?AgreementInterface
     {
         return $this->parent;
@@ -161,7 +162,7 @@ class Agreement implements AgreementInterface
         return AgreementInterface::MODE_ONLY_SHOW === $this->mode;
     }
 
-
+    /** @return AgreementTranslation */
     protected function createTranslation(): TranslationInterface
     {
         return new AgreementTranslation();
