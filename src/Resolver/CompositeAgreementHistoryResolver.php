@@ -10,9 +10,7 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 
 final class CompositeAgreementHistoryResolver implements AgreementHistoryResolverInterface
 {
-    /**
-     * @var AgreementHistoryResolverInterface[]
-     */
+    /** @var AgreementHistoryResolverInterface[] */
     private iterable $agreementHistoryResolvers;
 
     private FactoryInterface $agreementHistoryFactory;
@@ -20,8 +18,7 @@ final class CompositeAgreementHistoryResolver implements AgreementHistoryResolve
     public function __construct(
         iterable $agreementHistoryResolvers,
         FactoryInterface $agreementHistoryFactory
-    )
-    {
+    ) {
         $this->agreementHistoryResolvers = $agreementHistoryResolvers;
         $this->agreementHistoryFactory = $agreementHistoryFactory;
     }

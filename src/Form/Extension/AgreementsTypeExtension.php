@@ -20,8 +20,7 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
     public function __construct(
         AgreementResolverInterface $agreementResolver,
         AgreementApprovalResolverInterface $agreementApprovalResolver
-    )
-    {
+    ) {
         $this->agreementResolver = $agreementResolver;
         $this->agreementApprovalResolver = $agreementApprovalResolver;
     }

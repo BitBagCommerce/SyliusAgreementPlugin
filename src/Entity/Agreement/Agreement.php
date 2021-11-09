@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Entity\Agreement;
 
-use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sylius\Component\Resource\Model\TimestampableTrait;
 use Sylius\Component\Resource\Model\ToggleableTrait;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
-
+use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 
 class Agreement implements AgreementInterface
 {
@@ -30,14 +29,14 @@ class Agreement implements AgreementInterface
 
     protected ?\DateTime $publishedAt = null;
 
-    /** @var \DateTime | null  */
-    protected $updatedAt = null;
-    /** @var \DateTime | null  */
-    protected $createdAt = null;
+    /** @var \DateTime|null */
+    protected $updatedAt;
+
+    /** @var \DateTime|null */
+    protected $createdAt;
 
     protected array $contexts = [];
 
-    /** @var AgreementInterface|null  */
     protected ?AgreementInterface $parent = null;
 
     protected int $orderOnView = 1;
@@ -45,8 +44,9 @@ class Agreement implements AgreementInterface
     protected bool $approved = false;
 
     protected ?\DateTime $archivedAt = null;
+
     /** @var CustomerInterface|null */
-    protected $customers = null;
+    protected $customers;
 
     public function __construct()
     {

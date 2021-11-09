@@ -2,12 +2,14 @@
 
 namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Form\Extension;
 
+use BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementContexts;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Form\Extension\AgreementsTypeExtension;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCollectionType;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementApproval\AgreementApprovalResolver;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementApprovalResolverInterface;
+use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
@@ -30,10 +32,8 @@ final class AgreementTypeExtensionTest extends TestCase
      * @var AgreementResolverInterface|mixed|\PHPUnit\Framework\MockObject\MockObject
      */
     private $agreementResolver;
-    /**
-     * @var mixed|\PHPUnit\Framework\MockObject\MockObject|Security
-     */
-    private $security;
+
+    /** @var Agreement $agreement */
     private $agreement;
 
     public function setUp():void
@@ -42,10 +42,14 @@ final class AgreementTypeExtensionTest extends TestCase
             ->createMock(FormBuilderInterface::class);
         $this->agreementResolver = $this
             ->createMock(AgreementResolverInterface::class);
-        $this->agreementApprovalResolver = $this
-            ->createMock(AgreementApprovalResolverInterface::class);
-        $this->security = $this->createMock(Security::class);
-        $this->agreement = $this->createMock(AgreementInterface::class);
+        $this->agreementHistoryResolver = $this
+            ->createMock(AgreementHistoryResolverInterface::class);
+        $this->agreementApprovalResolver = new AgreementApprovalResolver($this->agreementHistoryResolver);
+        $this->agreement = new Agreement();
+        $this->subject = new AgreementsTypeExtension(
+            $this->agreementResolver,
+            $this->agreementApprovalResolver
+        );
     }
 
     public function testBuildForm()
@@ -65,17 +69,6 @@ final class AgreementTypeExtensionTest extends TestCase
             ->with(AgreementContexts::CONTEXT_REGISTRATION_FORM,[])
             ->willReturn([$this->agreement]);
 
-        $this->agreementApprovalResolver
-            ->method('resolve')
-            ->with($this->agreement)
-            ->willReturn(true);
-
-        $this->agreement->method('setApproved')
-            ->with(true);
-
-
-
-
         $this->builder
             ->expects(self::atLeast(1))
             ->method('add')
@@ -90,11 +83,7 @@ final class AgreementTypeExtensionTest extends TestCase
             )
             ->willReturn($this->builder, []);
 
-        $subject =
-            new AgreementsTypeExtension($this->agreementResolver,
-                $this->agreementApprovalResolver);
-
-        $subject->buildForm($this->builder,[]);
+        $this->subject->buildForm($this->builder,[]);
     }
 
     public function testReturnType()

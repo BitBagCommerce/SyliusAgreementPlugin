@@ -13,7 +13,7 @@ final class SyliusAgreementPlugin extends Bundle
 {
     use SyliusPluginTrait;
 
-    public function build(ContainerBuilder $container):void
+    public function build(ContainerBuilder $container): void
     {
         parent::build($container);
 

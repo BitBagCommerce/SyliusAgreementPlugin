@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the `liip/LiipImagineBundle` project.
  *
@@ -16,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ExtendedTypesPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container) :void
+    public function process(ContainerBuilder $container): void
     {
         $parameter = $container->getParameter('sylius_agreement_plugin.extended_form_types');
 //        dd($parameter);

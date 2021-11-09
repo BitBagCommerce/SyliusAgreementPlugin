@@ -17,13 +17,25 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class AgreementTypeTest extends TestCase
 {
+
+    /**
+     * @var mixed|\PHPUnit\Framework\MockObject\MockObject|FormBuilderInterface
+     */
+    private $builder;
+
+    public function setUp() :void
+    {
+        $this->builder = $this->createMock(FormBuilderInterface::class);
+
+    }
+
     /**
      * @dataProvider buildFormDataProvider
      */
     public function testBuildForm(array $modes, array $preparedModes, array $contexts, array $preparedContexts): void
     {
-        $builder = $this->createMock(FormBuilderInterface::class);
-        $builder->expects(self::exactly(7))->method('add')
+
+        $this->builder->expects(self::exactly(7))->method('add')
             ->withConsecutive(
                 [
                     'code',
@@ -88,7 +100,7 @@ final class AgreementTypeTest extends TestCase
             )->willReturnSelf();
 
         $subject = new AgreementType('test', [], $modes, $contexts);
-        $subject->buildForm($builder, []);
+        $subject->buildForm($this->builder, []);
     }
 
     public function buildFormDataProvider(): array

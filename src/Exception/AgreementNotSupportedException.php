@@ -11,7 +11,7 @@ final class AgreementNotSupportedException extends \Exception
 {
     private AgreementInterface $agreement;
 
-    public function __construct(AgreementInterface $agreement, string $message = "", int $code = 0, Throwable $previous = null)
+    public function __construct(AgreementInterface $agreement, string $message = '', int $code = 0, Throwable $previous = null)
     {
         $this->agreement = $agreement;
 

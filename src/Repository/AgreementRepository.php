@@ -15,6 +15,7 @@ class AgreementRepository extends EntityRepository implements AgreementRepositor
         $qb = $this->createQueryBuilder('o');
 
         $qb->select('o');
+
         return $qb;
     }
 

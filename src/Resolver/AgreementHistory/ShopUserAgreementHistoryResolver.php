@@ -20,8 +20,7 @@ final class ShopUserAgreementHistoryResolver implements AgreementHistoryResolver
     public function __construct(
         Security $security,
         AgreementHistoryRepositoryInterface $agreementHistoryRepository
-    )
-    {
+    ) {
         $this->security = $security;
         $this->agreementHistoryRepository = $agreementHistoryRepository;
     }

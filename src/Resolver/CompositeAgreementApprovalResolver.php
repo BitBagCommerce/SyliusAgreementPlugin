@@ -9,9 +9,7 @@ use BitBag\SyliusAgreementPlugin\Exception\AgreementNotSupportedException;
 
 final class CompositeAgreementApprovalResolver implements AgreementApprovalResolverInterface
 {
-    /**
-     * @var AgreementApprovalResolverInterface[]
-     */
+    /** @var AgreementApprovalResolverInterface[] */
     private iterable $agreementApprovalResolvers;
 
     public function __construct(iterable $agreementApprovalResolvers)
@@ -34,6 +32,4 @@ final class CompositeAgreementApprovalResolver implements AgreementApprovalResol
     {
         return true;
     }
-
-
 }

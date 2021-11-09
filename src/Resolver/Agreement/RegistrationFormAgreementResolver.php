@@ -14,8 +14,7 @@ final class RegistrationFormAgreementResolver implements AgreementResolverInterf
 
     public function __construct(
         AgreementRepositoryInterface $agreementRepository
-    )
-    {
+    ) {
         $this->agreementRepository = $agreementRepository;
     }
 

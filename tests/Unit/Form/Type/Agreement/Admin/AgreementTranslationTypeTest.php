@@ -16,10 +16,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AgreementTranslationTypeTest extends TestCase
 {
+    /**
+     * @var mixed|\PHPUnit\Framework\MockObject\MockObject|FormBuilderInterface
+     */
+    private $builder;
+
+    public function setUp(): void
+    {
+        $this->builder = $this->createMock(FormBuilderInterface::class);
+
+    }
+
+
     public function testBuildForm(): void
     {
-        $builder = $this->createMock(FormBuilderInterface::class);
-        $builder->expects(self::exactly(3))->method('add')
+
+        $this->builder->expects(self::exactly(3))->method('add')
             ->withConsecutive(
                 [
                     'name',
@@ -51,7 +63,7 @@ final class AgreementTranslationTypeTest extends TestCase
             ->willReturnSelf();
 
         $subject = new AgreementTranslationType('test', []);
-        $subject->buildForm($builder, []);
+        $subject->buildForm($this->builder, []);
     }
 
     public function testConfigureOptions()

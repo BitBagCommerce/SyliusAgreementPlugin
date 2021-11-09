@@ -84,10 +84,9 @@
         </service>
 
         <service id="form.extension"
-                 class="\BitBag\SyliusAgreementPlugin\DependencyInjection\DependencyInjectionExtension">
+                 class="BitBag\SyliusAgreementPlugin\DependencyInjection\DependencyInjectionExtension">
             <argument/>
-            <argument
-                    type="collection"/>
+            <argument type="collection"/>
             <argument type="iterator"/>
             <argument>%sylius_agreement_plugin.extended_form_types%</argument>
         </service>

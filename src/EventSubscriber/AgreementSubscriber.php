@@ -13,10 +13,10 @@ use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
-use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 use Webmozart\Assert\Assert;
 
 final class AgreementSubscriber implements EventSubscriberInterface
@@ -31,8 +31,7 @@ final class AgreementSubscriber implements EventSubscriberInterface
         AgreementHistoryRepositoryInterface $agreementHistoryRepository,
         AgreementResolverInterface $agreementResolver,
         AgreementHistoryResolverInterface $agreementHistoryResolver
-    )
-    {
+    ) {
         $this->agreementHistoryRepository = $agreementHistoryRepository;
         $this->agreementHistoryResolver = $agreementHistoryResolver;
         $this->agreementResolver = $agreementResolver;
@@ -40,7 +39,7 @@ final class AgreementSubscriber implements EventSubscriberInterface
 
     public function processAgreementsFromUserRegister(ResourceControllerEvent $resourceControllerEvent): void
     {
-        /** @var CustomerInterface $customer*/
+        /** @var CustomerInterface $customer */
         $customer = $resourceControllerEvent->getSubject();
         Assert::isInstanceOf($customer, CustomerInterface::class);
         /** @var ShopUserInterface $shopUser */
@@ -60,7 +59,7 @@ final class AgreementSubscriber implements EventSubscriberInterface
         return [
             'sylius.customer.post_register' => [
                 ['processAgreementsFromUserRegister', -5],
-            ]
+            ],
         ];
     }
 
@@ -69,8 +68,7 @@ final class AgreementSubscriber implements EventSubscriberInterface
         string $context,
         ?OrderInterface $order,
         ?ShopUserInterface $shopUser
-    ): void
-    {
+    ): void {
         Assert::isInstanceOf($submittedAgreements, Collection::class);
         $resolvedAgreements = $this->agreementResolver->resolve($context, []);
 
@@ -82,8 +80,9 @@ final class AgreementSubscriber implements EventSubscriberInterface
             Assert::isInstanceOf($agreementHistory, AgreementHistoryInterface::class);
             $submittedAgreement = $submittedAgreements->filter(
                 static function (AgreementInterface $agreement) use ($resolvedAgreement) {
-                return $agreement->getId() === $resolvedAgreement->getId();
-            })->first();
+                    return $agreement->getId() === $resolvedAgreement->getId();
+                }
+            )->first();
 
             if (null === $agreementHistory->getId()) {
                 $agreementHistory->setContext($context);
@@ -114,8 +113,7 @@ final class AgreementSubscriber implements EventSubscriberInterface
         AgreementHistoryInterface $agreementHistory,
         AgreementInterface $submittedAgreement,
         string $resolvedAgreementHistoryState
-    ): string
-    {
+    ): string {
         $agreementHistoryState = AgreementHistoryStates::STATE_SHOWN;
         if (true === $submittedAgreement->isApproved()) {
             $agreementHistoryState = AgreementHistoryStates::STATE_ACCEPTED;

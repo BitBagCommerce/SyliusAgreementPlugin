@@ -16,7 +16,7 @@ trait AgreementsRequiredTrait
         return $this->agreements;
     }
 
-    public function setAgreements(?Collection $agreements):void
+    public function setAgreements(?Collection $agreements): void
     {
         $this->agreements = $agreements;
     }

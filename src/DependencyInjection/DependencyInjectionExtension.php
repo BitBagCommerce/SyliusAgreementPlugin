@@ -17,16 +17,16 @@ class DependencyInjectionExtension implements FormExtensionInterface
     /** @var FormTypeGuesserInterface|null */
     private $guesser;
 
-    /** @var bool  */
+    /** @var bool */
     private $guesserLoaded = false;
 
-    /** @var ContainerInterface  */
+    /** @var ContainerInterface */
     private $typeContainer;
 
-    /** @var iterable[]  */
+    /** @var iterable[] */
     private $typeExtensionServices;
 
-    /** @var iterable  */
+    /** @var iterable */
     private $guesserServices;
 
     private array $agreementExtensionTypes;
@@ -34,8 +34,12 @@ class DependencyInjectionExtension implements FormExtensionInterface
     /**
      * @param iterable[] $typeExtensionServices
      */
-    public function __construct(ContainerInterface $typeContainer, array $typeExtensionServices, iterable $guesserServices, array $agreementExtensionTypes)
-    {
+    public function __construct(
+        ContainerInterface $typeContainer,
+        array $typeExtensionServices,
+        iterable $guesserServices,
+        array $agreementExtensionTypes
+    ) {
         $this->typeContainer = $typeContainer;
         $this->typeExtensionServices = $typeExtensionServices;
         $this->guesserServices = $guesserServices;
@@ -43,20 +47,19 @@ class DependencyInjectionExtension implements FormExtensionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getType($name): FormTypeInterface
     {
         if (!$this->typeContainer->has($name)) {
             throw new InvalidArgumentException(sprintf('The field type "%s" is not registered in the service container.', $name));
         }
-        /** @var FormTypeInterface $typeName */
-        $typeName = $this->typeContainer->get($name);
-        return $typeName;
+
+        return $this->typeContainer->get($name);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function hasType($name)
     {
@@ -64,7 +67,8 @@ class DependencyInjectionExtension implements FormExtensionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
+     *
      * @return array
      */
     public function getTypeExtensions($name)
@@ -89,7 +93,6 @@ class DependencyInjectionExtension implements FormExtensionInterface
 
     /**
      * @param FormTypeExtensionInterface $extension
-     * @return array
      */
     private function loadExtendedTypes($extension): array
     {
@@ -102,7 +105,7 @@ class DependencyInjectionExtension implements FormExtensionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function hasTypeExtensions($name)
     {
@@ -110,7 +113,7 @@ class DependencyInjectionExtension implements FormExtensionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getTypeGuesser()
     {

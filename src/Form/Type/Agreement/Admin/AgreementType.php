@@ -19,9 +19,9 @@ final class AgreementType extends AbstractResourceType
 
     private array $contexts;
 
-    public function __construct(string $dataClass, array $validationGroups = [], array $modes =[], array $contexts=[])
+    public function __construct(string $dataClass, array $validationGroups = [], array $modes = [], array $contexts = [])
     {
-        parent::__construct($dataClass,$validationGroups);
+        parent::__construct($dataClass, $validationGroups);
 
         $this->modes = $modes;
         $this->contexts = $contexts;
@@ -29,7 +29,6 @@ final class AgreementType extends AbstractResourceType
 
     private function prepareModesData(): array
     {
-
         $modes = [];
 
         foreach ($this->modes as $mode) {
@@ -52,7 +51,6 @@ final class AgreementType extends AbstractResourceType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $modes = $this->prepareModesData();
         $contexts = $this->prepareContextsData();
 
@@ -89,7 +87,6 @@ final class AgreementType extends AbstractResourceType
                 ],
                 'label' => 'bitbag_sylius_agreement_plugin.ui.translations',
             ]);
-
     }
 
     public function getBlockPrefix(): string

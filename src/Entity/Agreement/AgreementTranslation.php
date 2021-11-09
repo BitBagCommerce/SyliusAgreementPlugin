@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Entity\Agreement;
 
-use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\AbstractTranslation;
-
 
 class AgreementTranslation extends AbstractTranslation implements AgreementTranslationInterface
 {
-
     protected int $id;
 
     protected string $name = '';

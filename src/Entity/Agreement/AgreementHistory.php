@@ -8,31 +8,31 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Component\Resource\Model\TimestampableTrait;
 
-
 class AgreementHistory implements AgreementHistoryInterface
 {
     use TimestampableTrait;
 
     protected ?int $id = null;
-    /** @var AgreementInterface | null */
+
+    /** @var AgreementInterface|null */
     protected $agreement;
 
-    /** @var ShopUserInterface | null */
+    /** @var ShopUserInterface|null */
     protected $shopUser;
 
-    /** @var OrderInterface | null  */
+    /** @var OrderInterface|null */
     protected $order;
 
-    /** @var string  */
+    /** @var string */
     protected $state = AgreementHistoryStates::STATE_ASSIGNED;
 
-    /** @var string  */
+    /** @var string */
     protected $context = AgreementContexts::CONTEXT_UNKNOWN;
 
-    /** @var \DateTime | null */
+    /** @var \DateTime|null */
     protected $updatedAt;
 
-    /** @var \DateTime | null */
+    /** @var \DateTime|null */
     protected $createdAt;
 
     public function __construct()
@@ -50,12 +50,13 @@ class AgreementHistory implements AgreementHistoryInterface
     {
         return $this->id;
     }
+
     /** @return ?AgreementInterface */
     public function getAgreement(): ?AgreementInterface
     {
         return $this->agreement;
     }
-    /** @var ?AgreementInterface $agreement */
+
     public function setAgreement(?AgreementInterface $agreement): void
     {
         $this->agreement = $agreement;
@@ -67,7 +68,6 @@ class AgreementHistory implements AgreementHistoryInterface
         return $this->shopUser;
     }
 
-    /** @var ?ShopUserInterface $shopUser */
     public function setShopUser(?ShopUserInterface $shopUser): void
     {
         $this->shopUser = $shopUser;
@@ -79,7 +79,6 @@ class AgreementHistory implements AgreementHistoryInterface
         return $this->order;
     }
 
-    /** @var ?OrderInterface $order */
     public function setOrder(?OrderInterface $order): void
     {
         $this->order = $order;
@@ -91,7 +90,6 @@ class AgreementHistory implements AgreementHistoryInterface
         return $this->state;
     }
 
-    /** @var string $state */
     public function setState(string $state): void
     {
         $this->state = $state;
@@ -103,7 +101,6 @@ class AgreementHistory implements AgreementHistoryInterface
         return $this->context;
     }
 
-    /** @var string $context */
     public function setContext(string $context): void
     {
         $this->context = $context;
