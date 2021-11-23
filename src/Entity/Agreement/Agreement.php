@@ -18,7 +18,7 @@ class Agreement implements AgreementInterface
     use TimestampableTrait;
 
     use TranslatableTrait {
-        __construct as protected initializeTranslationsCollection;
+        TranslatableTrait::__construct as protected initializeTranslationsCollection;
     }
 
     protected ?int $id = null;
@@ -56,7 +56,7 @@ class Agreement implements AgreementInterface
 
     public function __clone()
     {
-        if ($this->id) {
+        if (null !== $this->id) {
             $this->id = null;
             $clonedTranslations = new ArrayCollection();
             foreach ($this->translations as $translation) {

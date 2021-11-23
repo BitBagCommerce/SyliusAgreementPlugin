@@ -25,6 +25,6 @@ final class RegistrationFormAgreementResolver implements AgreementResolverInterf
 
     public function supports(string $context, array $options): bool
     {
-        return $context === 'sylius_customer_registration';
+        return 'sylius_customer_registration' === $context;
     }
 }

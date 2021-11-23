@@ -30,7 +30,7 @@ final class ShopUserAgreementHistoryResolver implements AgreementHistoryResolver
         /** @var ShopUserInterface $shopUser */
         $shopUser = $this->security->getUser();
 
-        if ($agreement->getId() !== null && $shopUser->getId() !== null) {
+        if (null !== $agreement->getId() && null !== $shopUser->getId()) {
             /** @var AgreementHistoryInterface|null $agreementHistory */
             $agreementHistory = $this->agreementHistoryRepository->findOneForShopUser($agreement, $shopUser);
 

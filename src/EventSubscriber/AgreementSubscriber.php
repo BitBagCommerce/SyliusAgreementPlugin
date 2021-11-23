@@ -39,15 +39,18 @@ final class AgreementSubscriber implements EventSubscriberInterface
 
     public function processAgreementsFromUserRegister(ResourceControllerEvent $resourceControllerEvent): void
     {
-        /** @var CustomerInterface $customer */
+        /** @var ?CustomerInterface $customer */
         $customer = $resourceControllerEvent->getSubject();
         Assert::isInstanceOf($customer, CustomerInterface::class);
-        /** @var ShopUserInterface $shopUser */
-        $shopUser = $customer->getUser();
 
+        /** @var ?ShopUserInterface $shopUser */
+        $shopUser = $customer->getUser();
         Assert::isInstanceOf($shopUser, ShopUserInterface::class);
+        /** @var Collection $userAgreements */
+        $userAgreements = $customer->getAgreements();
+
         $this->handleAgreements(
-            $customer->getAgreements(),
+            $userAgreements,
             AgreementContexts::CONTEXT_REGISTRATION_FORM,
             null,
             $shopUser
@@ -69,17 +72,16 @@ final class AgreementSubscriber implements EventSubscriberInterface
         ?OrderInterface $order,
         ?ShopUserInterface $shopUser
     ): void {
-        Assert::isInstanceOf($submittedAgreements, Collection::class);
+
         $resolvedAgreements = $this->agreementResolver->resolve($context, []);
 
         /** @var AgreementInterface $resolvedAgreement */
         foreach ($resolvedAgreements as $resolvedAgreement) {
-            Assert::isInstanceOf($resolvedAgreement, AgreementInterface::class);
             $agreementHistory = $this->agreementHistoryResolver->resolveHistory($resolvedAgreement);
 
             Assert::isInstanceOf($agreementHistory, AgreementHistoryInterface::class);
             $submittedAgreement = $submittedAgreements->filter(
-                static function (AgreementInterface $agreement) use ($resolvedAgreement) {
+                static function (AgreementInterface $agreement) use ($resolvedAgreement): bool {
                     return $agreement->getId() === $resolvedAgreement->getId();
                 }
             )->first();
@@ -118,7 +120,7 @@ final class AgreementSubscriber implements EventSubscriberInterface
         if (true === $submittedAgreement->isApproved()) {
             $agreementHistoryState = AgreementHistoryStates::STATE_ACCEPTED;
         } elseif (
-            $resolvedAgreementHistoryState !== AgreementHistoryStates::STATE_SHOWN
+            AgreementHistoryStates::STATE_SHOWN !== $resolvedAgreementHistoryState
             && null !== $agreementHistory->getId()
         ) {
             $agreementHistoryState = AgreementHistoryStates::STATE_WITHDRAWN;

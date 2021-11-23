@@ -62,7 +62,7 @@ final class CompositeAgreementResolverTest extends TestCase
         self::assertTrue($subject->supports('', []));
     }
 
-    private function mockResolver(bool $supports, array $resolved): ?object
+    private function mockResolver(bool $supports, array $resolved): object
     {
         $mock = $this->createMock(AgreementResolverInterface::class);
         $mock->method('supports')->willReturn($supports);

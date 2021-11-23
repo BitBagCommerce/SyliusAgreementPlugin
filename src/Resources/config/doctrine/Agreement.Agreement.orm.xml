@@ -7,7 +7,7 @@
                   xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
     <mapped-superclass name="BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement"
                        table="bitbag_sylius_agreement_plugin_agreement">
-        <id name="id" type="integer">
+        <id name="id" column="id" type="integer">
             <generator strategy="AUTO"/>
         </id>
         <field name="code" column="agreement_code" unique="true" length="120" nullable="true"/>
@@ -30,7 +30,5 @@
         <one-to-one field="parent" target-entity="Agreement">
             <join-column name="parent_id" referenced-column-name="id"/>
         </one-to-one>
-        <many-to-many field="customers" mapped-by="agreements"
-                      target-entity="Sylius\Component\Customer\Model\CustomerInterface"/>
     </mapped-superclass>
 </doctrine-mapping>

@@ -35,6 +35,12 @@ final class AgreementTypeExtensionTest extends TestCase
 
     /** @var Agreement $agreement */
     private $agreement;
+    /**
+     * @var AgreementHistoryResolverInterface|mixed|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $agreementHistoryResolver;
+
+    private AgreementsTypeExtension $subject;
 
     public function setUp():void
     {
@@ -92,7 +98,7 @@ final class AgreementTypeExtensionTest extends TestCase
             new AgreementsTypeExtension($this->agreementResolver,
                 $this->agreementApprovalResolver);
 
-        Assert::assertSame([],$subject->getExtendedTypes());
+        Assert::assertSame([],$subject::getExtendedTypes());
     }
 
 }

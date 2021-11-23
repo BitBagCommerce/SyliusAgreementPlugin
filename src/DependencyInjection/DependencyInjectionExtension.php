@@ -69,11 +69,11 @@ class DependencyInjectionExtension implements FormExtensionInterface
     /**
      * @inheritdoc
      *
-     * @return array
+     * @return FormTypeExtensionInterface[]
      */
     public function getTypeExtensions($name)
     {
-        /** @var FormExtensionInterface[] $extensions */
+        /** @var FormTypeExtensionInterface[] $extensions */
         $extensions = [];
 
         if (isset($this->typeExtensionServices[$name])) {
@@ -125,7 +125,7 @@ class DependencyInjectionExtension implements FormExtensionInterface
                 $guessers[] = $service;
             }
 
-            if ($guessers) {
+            if ([]!==$guessers) {
                 $this->guesser = new FormTypeGuesserChain($guessers);
             }
         }

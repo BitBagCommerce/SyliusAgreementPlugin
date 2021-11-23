@@ -26,21 +26,19 @@ final class CompositeAgreementHistoryResolver implements AgreementHistoryResolve
     public function resolveHistory(AgreementInterface $agreement): ?AgreementHistoryInterface
     {
         $agreementHistory = null;
-        foreach ($this->agreementHistoryResolvers as $agreementHistory) {
-            if ($agreementHistory->supports($agreement)) {
-                $agreementHistory = $agreementHistory->resolveHistory($agreement);
+        foreach ($this->agreementHistoryResolvers as $agreementHistoryIterator) {
+            if ($agreementHistoryIterator->supports($agreement)) {
+                $agreementHistory = $agreementHistoryIterator->resolveHistory($agreement);
             }
 
             if ($agreementHistory instanceof AgreementHistoryInterface) {
                 break;
             }
         }
-
         if (!$agreementHistory instanceof AgreementHistoryInterface) {
             /** @var AgreementHistoryInterface $agreementHistory */
             $agreementHistory = $this->agreementHistoryFactory->createNew();
         }
-
         return $agreementHistory;
     }
 

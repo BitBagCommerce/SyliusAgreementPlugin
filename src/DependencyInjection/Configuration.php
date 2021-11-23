@@ -13,6 +13,7 @@ final class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder('bitbag_sylius_agreement_plugin');
         $rootNode = $treeBuilder->getRootNode();
+        /** @phpstan-ignore-next-line  */
         $rootNode
             ->children()
             ->arrayNode('extended_form_types')
