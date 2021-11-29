@@ -57,8 +57,7 @@ final class AgreementType extends AbstractType
         FormView $view,
         FormInterface $form,
         array $options
-    ): void
-    {
+    ): void {
         parent::buildView($view, $form, $options);
         $view->vars['code'] = $options['code'];
         $view->vars['required'] = $options['required'];

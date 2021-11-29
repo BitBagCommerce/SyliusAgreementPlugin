@@ -30,11 +30,10 @@ final class AgreementType extends AbstractResourceType
         array $validationGroups = [],
         array $modes = [],
         array $contexts = []
-    )
-    {
+    ) {
         parent::__construct($dataClass, $validationGroups);
 
-        $this->agreementRepository=$agreementRepository;
+        $this->agreementRepository = $agreementRepository;
         $this->modes = $modes;
         $this->contexts = $contexts;
     }

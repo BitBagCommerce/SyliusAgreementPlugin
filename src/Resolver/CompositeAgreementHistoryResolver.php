@@ -39,6 +39,7 @@ final class CompositeAgreementHistoryResolver implements AgreementHistoryResolve
             /** @var AgreementHistoryInterface $agreementHistory */
             $agreementHistory = $this->agreementHistoryFactory->createNew();
         }
+
         return $agreementHistory;
     }
 

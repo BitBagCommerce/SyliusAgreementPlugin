@@ -57,7 +57,7 @@ class AgreementRepository extends EntityRepository implements AgreementRepositor
             ->setParameter('now', $now)
         ;
 
-        if ([]!==$matchOnlyThisIdentifiers) {
+        if ([] !== $matchOnlyThisIdentifiers) {
             $qb
                 ->andWhere(
                     $qb->expr()->in('o.id', ':identifiers')
@@ -73,7 +73,7 @@ class AgreementRepository extends EntityRepository implements AgreementRepositor
 
     public function findAgreementsByContexts(array $contexts): array
     {
-        if ([]===$contexts) {
+        if ([] === $contexts) {
             return [];
         }
 
@@ -125,5 +125,4 @@ class AgreementRepository extends EntityRepository implements AgreementRepositor
             ->getQuery()
             ->getResult();
     }
-
 }

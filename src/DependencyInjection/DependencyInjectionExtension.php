@@ -125,7 +125,7 @@ class DependencyInjectionExtension implements FormExtensionInterface
                 $guessers[] = $service;
             }
 
-            if ([]!==$guessers) {
+            if ([] !== $guessers) {
                 $this->guesser = new FormTypeGuesserChain($guessers);
             }
         }

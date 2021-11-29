@@ -72,7 +72,6 @@ final class AgreementSubscriber implements EventSubscriberInterface
         ?OrderInterface $order,
         ?ShopUserInterface $shopUser
     ): void {
-
         $resolvedAgreements = $this->agreementResolver->resolve($context, []);
 
         /** @var AgreementInterface $resolvedAgreement */

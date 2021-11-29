@@ -16,8 +16,7 @@ final class AgreementNotSupportedException extends \Exception
         string $message = '',
         int $code = 0,
         Throwable $previous = null
-    )
-    {
+    ) {
         $this->agreement = $agreement;
 
         parent::__construct($message, $code, $previous);

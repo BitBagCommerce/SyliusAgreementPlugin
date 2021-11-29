@@ -26,8 +26,7 @@ final class AgreementCheckboxType extends AbstractType
         FormView $view,
         FormInterface $form,
         array $options
-    ): void
-    {
+    ): void {
         parent::buildView($view, $form, $options);
         $view->vars['extended_label'] = $options['extended_label'];
         $view->vars['approved'] = $options['approved'];
