@@ -7,8 +7,8 @@
                 {% if extendedLabel | length > 0 %}
                     <P class="hidden">&nbsp;{{ extendedLabel | striptags('<a>') | raw }}</P>
                     <a class="agreement-toggle" href="javascript:void(0)">
-                        <span>{{ 'sylius.ui.less' | trans }}</span>
-                        <span>{{ 'sylius.ui.more' | trans }}</span>
+                        <span>{{ 'bitbag_sylius_agreement_plugin.ui.agreement.less' | trans }}</span>
+                        <span>{{ 'bitbag_sylius_agreement_plugin.ui.agreement.more' | trans }}</span>
                     </a>
                 {% endif %}
             {% endapply %}

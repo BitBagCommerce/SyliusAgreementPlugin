@@ -1,13 +1,3 @@
-#    agreements: Agreements
-#    more: More
-#    less: Less
-#
-#    agreement:
-#      name: Name
-#      body: Body
-#      extended_body: Extended body
-#      enabled: Enabled
-
 
 bitbag_sylius_agreement_plugin:
   ui:
@@ -35,3 +25,9 @@ bitbag_sylius_agreement_plugin:
         not_required: Not required
       contexts:
         registration_form: Registration form
+      name: Name
+      body: Body
+      extended_body: Extended body
+      enabled: Enabled
+      more: More
+      less: Less
