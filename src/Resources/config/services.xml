@@ -16,6 +16,7 @@
         <service id="bitbag_sylius_agreement_plugin.form.type.agreement.admin.agreement_type"
                  class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementType">
             <argument>%bitbag_sylius_agreement_plugin.model.agreement.class%</argument>
+            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
             <argument>%bitbag_sylius_agreement_plugin.form.type.agreement.validation_groups%</argument>
             <argument>%sylius_agreement_plugin.modes%</argument>
             <argument>%sylius_agreement_plugin.contexts%</argument>
@@ -97,6 +98,9 @@
             <argument type="collection"/>
             <argument type="iterator"/>
             <argument>%sylius_agreement_plugin.extended_form_types%</argument>
+        </service>
+        <service id="bitbag.form.type.autocomplete_agreement_choice" class="\BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementAutocompleteChoiceType">
+            <tag name="form.type" />
         </service>
 
     </services>

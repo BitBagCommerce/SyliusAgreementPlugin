@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin;
 
+use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
+use Sylius\Bundle\ResourceBundle\Form\DataTransformer\ResourceToIdentifierTransformer;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -12,15 +14,19 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\ReversedTransformer;
 
 final class AgreementType extends AbstractResourceType
 {
+    private AgreementRepositoryInterface $agreementRepository;
+
     private array $modes;
 
     private array $contexts;
 
     public function __construct(
         string $dataClass,
+        AgreementRepositoryInterface $agreementRepository,
         array $validationGroups = [],
         array $modes = [],
         array $contexts = []
@@ -28,11 +34,12 @@ final class AgreementType extends AbstractResourceType
     {
         parent::__construct($dataClass, $validationGroups);
 
+        $this->agreementRepository=$agreementRepository;
         $this->modes = $modes;
         $this->contexts = $contexts;
     }
 
-    private function prepareModesData(): array
+    protected function prepareModesData(): array
     {
         $modes = [];
 
@@ -43,7 +50,7 @@ final class AgreementType extends AbstractResourceType
         return $modes;
     }
 
-    private function prepareContextsData(): array
+    protected function prepareContextsData(): array
     {
         $contexts = [];
 
@@ -60,6 +67,12 @@ final class AgreementType extends AbstractResourceType
         $contexts = $this->prepareContextsData();
 
         $builder
+            ->add('parent', AgreementAutocompleteChoiceType::class, [
+                'label' => 'bitbag_sylius_agreement_plugin.ui.agreement',
+                'resource' => 'bitbag_sylius_agreement_plugin.agreement',
+                'choice_name' => 'code',
+                'choice_value' => 'id',
+            ])
             ->add('code', TextType::class, [
                 'label' => 'bitbag_sylius_agreement_plugin.ui.code',
                 'empty_data' => '',
@@ -92,6 +105,14 @@ final class AgreementType extends AbstractResourceType
                 ],
                 'label' => 'bitbag_sylius_agreement_plugin.ui.translations',
             ]);
+
+        $builder->get('parent')->addModelTransformer(
+            new ReversedTransformer(
+                new ResourceToIdentifierTransformer($this->agreementRepository, 'id')
+            )
+        )->addModelTransformer(
+            new ResourceToIdentifierTransformer($this->agreementRepository, 'id')
+        );
     }
 
     public function getBlockPrefix(): string

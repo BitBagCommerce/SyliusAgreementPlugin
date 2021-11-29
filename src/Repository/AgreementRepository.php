@@ -115,4 +115,15 @@ class AgreementRepository extends EntityRepository implements AgreementRepositor
 
         return $result;
     }
+
+    public function findByNamePart(string $phrase, ?int $limit = null): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.code LIKE :code')
+            ->setParameter('code', '%' . $phrase . '%')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

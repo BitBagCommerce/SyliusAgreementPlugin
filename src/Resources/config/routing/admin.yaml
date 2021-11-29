@@ -26,3 +26,18 @@ bitbag_sylius_agreement_plugin_admin_agreement_archive:
       redirect:
         route: referer
         parameters: {}
+
+bitbag_sylius_agreement_plugin_admin_ajax_agreement_choice:
+  path: /agreements/new/search
+  methods: [GET]
+  defaults:
+    _controller: bitbag_sylius_agreement_plugin.controller.agreement:indexAction
+    _format: json
+    _sylius:
+      serialization_groups: [Default]
+      permission: true
+      repository:
+        method: findByNamePart
+        arguments:
+          phrase: $phrase
+          limit: 25
