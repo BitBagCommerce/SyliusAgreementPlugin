@@ -51,7 +51,7 @@ final class AgreementSubscriber implements EventSubscriberInterface
 
         $this->handleAgreements(
             $userAgreements,
-            AgreementContexts::CONTEXT_REGISTRATION_FORM,
+            'sylius_customer_registration',
             null,
             $shopUser
         );

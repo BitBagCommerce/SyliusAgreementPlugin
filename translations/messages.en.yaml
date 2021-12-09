@@ -2,6 +2,7 @@
 bitbag_sylius_agreement_plugin:
   ui:
     agreements: Agreements
+    agreement_parent: Agreement parent
     edit_agreement: Edit Agreement
     manage_agreements: Manage agreements
     new_agreement: New Agreement
@@ -18,6 +19,12 @@ bitbag_sylius_agreement_plugin:
     mode: Mode
     translations: Translations
     agreement:
+      name: Name
+      body: Body
+      extended_body: Extended body
+      enabled: Enabled
+      more: More
+      less: Less
       modes:
         required: Required
         only_show: Only show
@@ -25,9 +32,3 @@ bitbag_sylius_agreement_plugin:
         not_required: Not required
       contexts:
         registration_form: Registration form
-      name: Name
-      body: Body
-      extended_body: Extended body
-      enabled: Enabled
-      more: More
-      less: Less
