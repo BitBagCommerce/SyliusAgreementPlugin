@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Form\Type\Agreement\Admin;
 
+use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementAutocompleteChoiceType;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementTranslationType;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementType;
+use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -14,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\ReversedTransformer;
 
 final class AgreementTypeTest extends TestCase
 {
@@ -22,11 +25,17 @@ final class AgreementTypeTest extends TestCase
      * @var mixed|\PHPUnit\Framework\MockObject\MockObject|FormBuilderInterface
      */
     private $builder;
+    /**
+     * @var AgreementRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    private $agreementRepository;
+
 
     public function setUp() :void
     {
         $this->builder = $this->createMock(FormBuilderInterface::class);
-
+        $this->agreementRepository= $this->createMock(AgreementRepositoryInterface::class);
+        $this->reversedTransformer = $this->createMock(ReversedTransformer::class);
     }
 
     /**
@@ -35,8 +44,18 @@ final class AgreementTypeTest extends TestCase
     public function testBuildForm(array $modes, array $preparedModes, array $contexts, array $preparedContexts): void
     {
 
-        $this->builder->expects(self::exactly(7))->method('add')
+        $this->builder->expects(self::exactly(8))->method('add')
             ->withConsecutive(
+                [
+                    'parent',
+                    AgreementAutocompleteChoiceType::class,
+                    [
+                        'label' => 'bitbag_sylius_agreement_plugin.ui.agreement',
+                        'resource' => 'bitbag_sylius_agreement_plugin.agreement',
+                        'choice_name' => 'code',
+                        'choice_value' => 'id',
+                    ]
+                ],
                 [
                     'code',
                     TextType::class,
@@ -98,8 +117,20 @@ final class AgreementTypeTest extends TestCase
                     ]
                 ]
             )->willReturnSelf();
+        $this->builder
+            ->expects(self::once())
+            ->method('get')
+            ->with('parent')
+            ->willReturnSelf();
 
-        $subject = new AgreementType('test', [], $modes, $contexts);
+
+
+        $this->builder
+            ->expects(self::exactly(2))
+            ->method('addModelTransformer')
+            ->willReturnSelf();
+
+        $subject = new AgreementType('test', $this->agreementRepository, [], $modes, $contexts);
         $subject->buildForm($this->builder, []);
     }
 

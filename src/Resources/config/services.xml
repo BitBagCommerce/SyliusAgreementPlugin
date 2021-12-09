@@ -16,7 +16,6 @@
         <service id="bitbag_sylius_agreement_plugin.form.type.agreement.admin.agreement_type"
                  class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementType">
             <argument>%bitbag_sylius_agreement_plugin.model.agreement.class%</argument>
-            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
             <argument>%bitbag_sylius_agreement_plugin.form.type.agreement.validation_groups%</argument>
             <argument>%sylius_agreement_plugin.modes%</argument>
             <argument>%sylius_agreement_plugin.contexts%</argument>
