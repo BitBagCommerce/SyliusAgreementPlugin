@@ -16,10 +16,8 @@ final class AgreementController extends ResourceController
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
 
-        /** @var AgreementRepositoryInterface $repository */
-        $repository = $this->repository;
         /** @var AgreementInterface|null $agreement */
-        $agreement = $repository->findOneByParent($configuration->getRequest()->attributes->getInt('id'));
+        $agreement = $this->repository->findOneByParent($configuration->getRequest()->attributes->getInt('id'));
 
         if (null !== $agreement) {
             return $this->redirectToRoute('bitbag_sylius_agreement_plugin_admin_agreement_update', ['id' => $agreement->getId()]);
