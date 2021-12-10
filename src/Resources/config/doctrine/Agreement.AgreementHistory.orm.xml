@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd"
+                  xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
+    <mapped-superclass name="BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistory"
+                       table="bitbag_sylius_agreement_plugin_agreement_history">
+        <id name="id" type="integer">
+            <generator strategy="AUTO"/>
+        </id>
+        <field name="state" column="agreement_state" type="string" length="80"/>
+        <field name="context" column="agreement_context" type="string" length="120"/>
+        <field name="updatedAt" column="updated_at" type="datetime" nullable="true">
+            <gedmo:timestampable on="update"/>
+        </field>
+        <field name="createdAt" column="created_at" type="datetime">
+            <gedmo:timestampable on="create"/>
+        </field>
+        <many-to-one field="agreement"
+                     target-entity="BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement">
+            <join-column name="agreement" referenced-column-name="id" />
+        </many-to-one>
+        <many-to-one field="shopUser" target-entity="Sylius\Component\Core\Model\ShopUserInterface">
+            <join-column name="shop_user_id" referenced-column-name="id"/>
+        </many-to-one>
+        <many-to-one field="order" target-entity="Sylius\Component\Order\Model\OrderInterface">
+            <join-column name="order_id" referenced-column-name="id"/>
+        </many-to-one>
+    </mapped-superclass>
+</doctrine-mapping>

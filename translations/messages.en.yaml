@@ -1,5 +1,34 @@
-sylius:
+
+bitbag_sylius_agreement_plugin:
   ui:
     agreements: Agreements
-    more: More
-    less: Less
+    agreement_parent: Agreement parent
+    edit_agreement: Edit Agreement
+    manage_agreements: Manage agreements
+    new_agreement: New Agreement
+    id: ID
+    name: Name
+    code: Code
+    order_on_view: Order on view
+    contexts_label: Contexts
+    published_at: Published at
+    archived_at: Archived at
+    enabled: Enabled
+    body: Body
+    extended_body: Extended body
+    mode: Mode
+    translations: Translations
+    agreement:
+      name: Name
+      body: Body
+      extended_body: Extended body
+      enabled: Enabled
+      more: More
+      less: Less
+      modes:
+        required: Required
+        only_show: Only show
+        required_and_non_cancellable: Required and non-cancellable
+        not_required: Not required
+      contexts:
+        registration_form: Registration form

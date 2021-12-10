@@ -5,17 +5,12 @@ declare(strict_types=1);
 namespace BitBag\SyliusAgreementPlugin\Entity\Agreement;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Sylius\Component\Resource\Model\TimestampableTrait;
 use Sylius\Component\Resource\Model\ToggleableTrait;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
+use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 
-/**
- * @ORM\MappedSuperclass
- * @ORM\Table(name="bitbag_sylius_agreement_plugin_agreement")
- */
 class Agreement implements AgreementInterface
 {
     use ToggleableTrait;
@@ -23,75 +18,35 @@ class Agreement implements AgreementInterface
     use TimestampableTrait;
 
     use TranslatableTrait {
-        __construct as protected initializeTranslationsCollection;
+        TranslatableTrait::__construct as protected initializeTranslationsCollection;
     }
 
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer", name="id")
-     */
     protected ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", name="agreement_code", unique=true, length=120, nullable=true)
-     */
     protected ?string $code = null;
 
-    /**
-     * @ORM\Column(type="string", name="agreement_mode")
-     */
     protected string $mode = self::MODE_REQUIRED;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true, name="published_at")
-     */
     protected ?\DateTime $publishedAt = null;
 
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean", name="enabled")
-     */
-    protected $enabled = true;
+    /** @var \DateTime|null */
+    protected $updatedAt;
 
-    /**
-     * @var \DateTimeInterface|null
-     * @ORM\Column(type="datetime", nullable=true, name="updated_at")
-     * @Gedmo\Timestampable(on="update")
-     */
-    protected $updatedAt = null;
+    /** @var \DateTime|null */
+    protected $createdAt;
 
-    /**
-     *
-     * @var \DateTimeInterface|null
-     * @ORM\Column(type="datetime", name="created_at")
-     * @Gedmo\Timestampable(on="create")
-     */
-    protected $createdAt = null;
-
-    /**
-     * @ORM\Column(type="array")
-     */
     protected array $contexts = [];
 
-    /**
-     * @ORM\OneToOne(targetEntity="BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement")
-     * @ORM\JoinColumn(name="parent_id", nullable=true, referencedColumnName="id")
-     */
     protected ?AgreementInterface $parent = null;
 
-    /**
-     * @ORM\Column(type="integer", name="order_on_view", options={"default": 1})
-     */
     protected int $orderOnView = 1;
 
-    /** @var bool */
     protected bool $approved = false;
 
-    /**
-     * @ORM\Column(type="datetime", name="archived_at", nullable=true)
-     */
     protected ?\DateTime $archivedAt = null;
+
+    /** @var CustomerInterface|null */
+    protected $customers;
 
     public function __construct()
     {
@@ -101,7 +56,7 @@ class Agreement implements AgreementInterface
 
     public function __clone()
     {
-        if ($this->id) {
+        if (null !== $this->id) {
             $this->id = null;
             $clonedTranslations = new ArrayCollection();
             foreach ($this->translations as $translation) {
@@ -161,6 +116,7 @@ class Agreement implements AgreementInterface
         $this->contexts = $contexts;
     }
 
+    /** @return ?AgreementInterface */
     public function getParent(): ?AgreementInterface
     {
         return $this->parent;
@@ -201,21 +157,12 @@ class Agreement implements AgreementInterface
         $this->archivedAt = $archivedAt;
     }
 
-    public function getEdiumAgreementType(): ?string
-    {
-        return $this->ediumAgreementType;
-    }
-
-    public function setEdiumAgreementType(?string $ediumAgreementType): void
-    {
-        $this->ediumAgreementType = $ediumAgreementType;
-    }
-
     public function isReadOnly(): bool
     {
         return AgreementInterface::MODE_ONLY_SHOW === $this->mode;
     }
 
+    /** @return AgreementTranslation */
     protected function createTranslation(): TranslationInterface
     {
         return new AgreementTranslation();
