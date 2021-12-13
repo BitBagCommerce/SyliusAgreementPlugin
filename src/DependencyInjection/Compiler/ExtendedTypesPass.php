@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace BitBag\SyliusAgreementPlugin\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
