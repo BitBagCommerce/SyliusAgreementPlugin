@@ -22,12 +22,15 @@ final class AgreementCheckboxType extends AbstractType
         return 'bitbag_sylius_agreement_plugin_agreement_approval_checkbox';
     }
 
-    public function buildView(FormView $view, FormInterface $form, array $options): void
-    {
+    public function buildView(
+        FormView $view,
+        FormInterface $form,
+        array $options
+    ): void {
         parent::buildView($view, $form, $options);
         $view->vars['extended_label'] = $options['extended_label'];
         $view->vars['approved'] = $options['approved'];
-        $view->vars['checked'] = null !== $form->getViewData() || ($options['approved'] && !$form->isSubmitted());
+        $view->vars['checked'] = null !== $form->getViewData() || ($view->vars['approved'] && !$form->isSubmitted());
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -6,10 +6,9 @@ namespace BitBag\SyliusAgreementPlugin\Repository;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
+use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
-use Doctrine\ORM\Query\Expr\Join;
-use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 class AgreementHistoryRepository extends EntityRepository implements AgreementHistoryRepositoryInterface
 {
@@ -25,7 +24,10 @@ class AgreementHistoryRepository extends EntityRepository implements AgreementHi
             ->orderBy('o.createdAt', 'DESC')
             ->setMaxResults(1);
 
-        return $qb->getQuery()->getOneOrNullResult();
+        /** @var AgreementHistoryInterface|null $result */
+        $result = $qb->getQuery()->getOneOrNullResult();
+
+        return $result;
     }
 
     public function findOneForOrder(AgreementInterface $agreement, OrderInterface $order): ?AgreementHistoryInterface
@@ -40,6 +42,9 @@ class AgreementHistoryRepository extends EntityRepository implements AgreementHi
             ->orderBy('o.createdAt', 'DESC')
             ->setMaxResults(1);
 
-        return $qb->getQuery()->getOneOrNullResult();
+        /** @var AgreementHistoryInterface|null $result */
+        $result = $qb->getQuery()->getOneOrNullResult();
+
+        return $result;
     }
 }

@@ -15,3 +15,4 @@ sylius_agreement:
 twig:
     form_themes:
         - '@SyliusAgreementPlugin/Form/agreement_approval_widget.html.twig'
+        - '@SyliusAgreementPlugin/Admin/Form/agreement_autocomplete_choice.html.twig'

@@ -11,8 +11,12 @@ final class AgreementNotSupportedException extends \Exception
 {
     private AgreementInterface $agreement;
 
-    public function __construct(AgreementInterface $agreement, $message = "", $code = 0, Throwable $previous = null)
-    {
+    public function __construct(
+        AgreementInterface $agreement,
+        string $message = '',
+        int $code = 0,
+        Throwable $previous = null
+    ) {
         $this->agreement = $agreement;
 
         parent::__construct($message, $code, $previous);

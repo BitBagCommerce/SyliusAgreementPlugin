@@ -16,17 +16,17 @@ final class AgreementTranslationType extends AbstractResourceType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'sylius_agreement_plugin.form.agreement.name',
+                'label' => 'bitbag_sylius_agreement_plugin.ui.name',
                 'empty_data' => '',
                 'required' => true,
             ])
             ->add('body', TextareaType::class, [
-                'label' => 'sylius_agreement_plugin.form.agreement.body',
+                'label' => 'bitbag_sylius_agreement_plugin.ui.body',
                 'empty_data' => '',
                 'required' => true,
             ])
             ->add('extendedBody', TextareaType::class, [
-                'label' => 'sylius_agreement_plugin.form.agreement.extended_body',
+                'label' => 'bitbag_sylius_agreement_plugin.ui.extended_body',
                 'required' => false,
             ])
         ;

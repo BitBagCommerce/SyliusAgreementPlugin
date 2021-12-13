@@ -42,7 +42,7 @@
 
         <service id="bitbag_sylius_agreement_plugin.form.type.agreement.shop.agreement_collection_type"
                  class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCollectionType">
-            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
+                <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
             <tag name="form.type"/>
         </service>
 

@@ -22,8 +22,11 @@ final class AgreementHiddenType extends AbstractType
         return 'bitbag_sylius_agreement_plugin_agreement_approval_hidden';
     }
 
-    public function buildView(FormView $view, FormInterface $form, array $options): void
-    {
+    public function buildView(
+        FormView $view,
+        FormInterface $form,
+        array $options
+    ): void {
         parent::buildView($view, $form, $options);
         $view->vars['extended_label'] = $options['extended_label'];
     }

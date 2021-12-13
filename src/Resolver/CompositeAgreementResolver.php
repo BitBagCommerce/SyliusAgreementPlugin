@@ -6,9 +6,7 @@ namespace BitBag\SyliusAgreementPlugin\Resolver;
 
 final class CompositeAgreementResolver implements AgreementResolverInterface
 {
-    /**
-     * @var AgreementResolverInterface[]
-     */
+    /** @var AgreementResolverInterface[] */
     private iterable $agreementResolvers;
 
     public function __construct(iterable $agreementResolvers)

@@ -16,7 +16,7 @@ final class AdminMenuListener
         if (null !== $configurationMenu) {
             $configurationMenu
                 ->addChild('agreement', ['route' => 'bitbag_sylius_agreement_plugin_admin_agreement_index'])
-                ->setLabel('sylius.ui.agreements')
+                ->setLabel('bitbag_sylius_agreement_plugin.ui.agreements')
                 ->setLabelAttribute('icon', 'file alternate outline');
         }
     }

@@ -33,7 +33,7 @@ final class AgreementCollectionType extends AbstractType
             ->setDefault('entry_name', static function (AgreementInterface $agreement) {
                 return $agreement->getId();
             })
-            ->setDefault('entry_options', static function (AgreementInterface $agreement) {
+            ->setDefault('entry_options', static function (AgreementInterface $agreement): array {
                 /** @var AgreementTranslationInterface $translation */
                 $translation = $agreement->getTranslation();
 
@@ -59,16 +59,16 @@ final class AgreementCollectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $self = $this;
-        $builder->addEventListener(FormEvents::SUBMIT, static function (FormEvent $event) use ($self) {
+        $builder->addEventListener(FormEvents::SUBMIT, static function (FormEvent $event) use ($self): void {
             /** @var AgreementInterface[] $agreements */
             $agreements = $event->getData();
             $submittedAgreements = new ArrayCollection();
             foreach ($agreements as $agreementId => $agreement) {
                 /** @var AgreementInterface $submittedAgreement */
                 $submittedAgreement = $self->agreementRepository->find($agreementId);
-                if ($submittedAgreement) {
-                    $submittedAgreement->setApproved($agreement && $agreement->isApproved());
-                }
+
+                $submittedAgreement->setApproved($agreement->isApproved());
+
                 $submittedAgreements->add($submittedAgreement);
             }
 
