@@ -24,7 +24,7 @@ class AgreementHistoryRepository extends EntityRepository implements AgreementHi
             ->orderBy('o.createdAt', 'DESC')
             ->setMaxResults(1);
 
-        /** @var AgreementHistoryInterface|null $result */
+        /** @var ?AgreementHistoryInterface $result */
         $result = $qb->getQuery()->getOneOrNullResult();
 
         return $result;

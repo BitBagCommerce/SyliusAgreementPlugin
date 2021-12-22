@@ -7,28 +7,35 @@
                   xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping">
     <mapped-superclass name="BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement"
                        table="bitbag_sylius_agreement_plugin_agreement">
+
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO"/>
         </id>
+
         <field name="code" column="agreement_code" unique="true" length="120" nullable="true"/>
         <field name="mode" column="agreement_mode"/>
         <field name="enabled" column='enabled' type="boolean"/>
-        <field name="publishedAt" column="published_at" type="datetime">
-            <gedmo:timestampable on="create"/>
-        </field>
-        <field name="updatedAt" column="updated_at" type="datetime" nullable="true" >
-            <gedmo:timestampable on="update"/>
-        </field>
+        <field name="approved" column="approved" type="boolean"/>
+        <field name="archivedAt" column="archived_at" type="datetime" nullable="true"/>
         <field name="contexts" column="context" type="array"/>
+
         <field name="orderOnView" column="order_on_view" type="integer">
             <options>
                 <option name="default" >1</option>
             </options>
         </field>
-        <field name="approved" column="approved" type="boolean"/>
-        <field name="archivedAt" column="archived_at" type="datetime" nullable="true"/>
+
+        <field name="publishedAt" column="published_at" type="datetime">
+            <gedmo:timestampable on="create"/>
+        </field>
+
+        <field name="updatedAt" column="updated_at" type="datetime" nullable="true" >
+            <gedmo:timestampable on="update"/>
+        </field>
+
         <one-to-one field="parent" target-entity="Agreement">
             <join-column name="parent_id" referenced-column-name="id"/>
         </one-to-one>
+
     </mapped-superclass>
 </doctrine-mapping>

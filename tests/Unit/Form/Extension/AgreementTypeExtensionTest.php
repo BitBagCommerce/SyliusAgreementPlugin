@@ -50,12 +50,15 @@ final class AgreementTypeExtensionTest extends TestCase
             ->createMock(AgreementResolverInterface::class);
         $this->agreementHistoryResolver = $this
             ->createMock(AgreementHistoryResolverInterface::class);
+
         $this->agreementApprovalResolver = new AgreementApprovalResolver($this->agreementHistoryResolver);
         $this->agreement = new Agreement();
+
         $this->subject = new AgreementsTypeExtension(
             $this->agreementResolver,
             $this->agreementApprovalResolver
         );
+
     }
 
     public function testBuildForm()
@@ -100,5 +103,4 @@ final class AgreementTypeExtensionTest extends TestCase
 
         Assert::assertSame([],$subject::getExtendedTypes());
     }
-
 }

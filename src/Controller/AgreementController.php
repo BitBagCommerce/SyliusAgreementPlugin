@@ -18,6 +18,7 @@ final class AgreementController extends ResourceController
 
         /** @var AgreementRepositoryInterface $repository */
         $repository = $this->repository;
+
         /** @var AgreementInterface|null $agreement */
         $agreement = $repository->findOneByParent($configuration->getRequest()->attributes->getInt('id'));
 

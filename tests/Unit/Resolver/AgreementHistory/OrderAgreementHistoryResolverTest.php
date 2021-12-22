@@ -66,9 +66,6 @@ final class OrderAgreementHistoryResolverTest extends TestCase
 
         Assert::assertSame($orderAgreementHistoryResolver->supports($agreementInterface),true);
 
-
-
-
     }
 
 }

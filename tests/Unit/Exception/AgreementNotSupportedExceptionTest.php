@@ -38,5 +38,4 @@ class AgreementNotSupportedExceptionTest extends TestCase
         $exception = new AgreementNotSupportedException($agreement);
         Assert::assertSame($agreement,$exception->getAgreement());
     }
-
 }

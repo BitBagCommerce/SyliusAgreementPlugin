@@ -47,5 +47,4 @@ class RegistrationFormAgreementResolverTest extends TestCase
         Assert::same($result,[$this->agreement]);
 
     }
-
 }
