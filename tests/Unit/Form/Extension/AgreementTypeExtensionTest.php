@@ -33,14 +33,14 @@ final class AgreementTypeExtensionTest extends TestCase
      */
     private $agreementResolver;
 
-    /** @var Agreement $agreement */
+    /** @var Agreement*/
     private $agreement;
-    /**
-     * @var AgreementHistoryResolverInterface|mixed|\PHPUnit\Framework\MockObject\MockObject
-     */
+
+    /** @var AgreementHistoryResolverInterface|mixed|\PHPUnit\Framework\MockObject\MockObject */
     private $agreementHistoryResolver;
 
-    private AgreementsTypeExtension $subject;
+    /** @var AgreementsTypeExtension */
+    private $subject;
 
     public function setUp():void
     {

@@ -33,8 +33,7 @@ class AgreementAutocompleteChoiceType extends AbstractType
         FormInterface $form,
         array $options
     ): void {
-        $view->vars['remote_criteria_type'] = 'contains';
-        $view->vars['remote_criteria_name'] = 'phrase';
+        parent::buildView();
     }
 
     /**

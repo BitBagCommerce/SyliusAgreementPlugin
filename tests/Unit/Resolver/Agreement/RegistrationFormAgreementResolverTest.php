@@ -15,15 +15,14 @@ use Webmozart\Assert\Assert;
 
 class RegistrationFormAgreementResolverTest extends TestCase
 {
-    /**
-     * @var AgreementRepositoryInterface|mixed|\PHPUnit\Framework\MockObject\MockObject
-     */
+    /** @var AgreementRepositoryInterface|mixed|\PHPUnit\Framework\MockObject\MockObject*/
     private $agreementRepository;
-    /**
-     * @var AgreementInterface|mixed|\PHPUnit\Framework\MockObject\MockObject
-     */
+
+    /** @var AgreementInterface */
     private $agreement;
-    private RegistrationFormAgreementResolver $registrationFormAgreement;
+
+    /** @var RegistrationFormAgreementResolver */
+    private $registrationFormAgreement;
 
     public function setUp(): void
     {

@@ -56,7 +56,7 @@ class Agreement implements AgreementInterface
 
     public function __clone()
     {
-        if (null !== $this->id) {
+        if ($this->id) {
             $this->id = null;
             $clonedTranslations = new ArrayCollection();
             foreach ($this->translations as $translation) {

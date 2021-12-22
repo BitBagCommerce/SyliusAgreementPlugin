@@ -1,11 +1,11 @@
 {% extends 'form_div_layout.html.twig' %}
 
-{% macro renderLabel(formId, label, extendedLabel = '')%}
+{% macro renderLabel(form_id, label, extended_label = '')%}
     {% apply spaceless %}
-        <label for="{{ formId }}">{{ label | striptags('<a>') | raw }}
+        <label for="{{ form_id }}">{{ label | striptags('<a>') | raw }}
             {% apply spaceless %}
-                {% if extendedLabel | length > 0 %}
-                    <P class="hidden">&nbsp;{{ extendedLabel | striptags('<a>') | raw }}</P>
+                {% if extended_label | length > 0 %}
+                    <P class="hidden">&nbsp;{{ extended_label | striptags('<a>') | raw }}</P>
                     <a class="agreement-toggle" href="javascript:void(0)">
                         <span>{{ 'bitbag_sylius_agreement_plugin.ui.agreement.less' | trans }}</span>
                         <span>{{ 'bitbag_sylius_agreement_plugin.ui.agreement.more' | trans }}</span>

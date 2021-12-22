@@ -21,7 +21,7 @@
 
         <field name="orderOnView" column="order_on_view" type="integer">
             <options>
-                <option name="default" >1</option>
+                <option name="default">1</option>
             </options>
         </field>
 
