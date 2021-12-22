@@ -30,6 +30,11 @@ final class AgreementTypeTest extends TestCase
      */
     private $agreementRepository;
 
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|ReversedTransformer
+     */
+    private $reversedTransformer;
+
 
     public function setUp() :void
     {

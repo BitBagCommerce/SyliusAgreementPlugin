@@ -75,23 +75,12 @@ final class AgreementSubscriber implements EventSubscriberInterface
 
         /** @var AgreementInterface $resolvedAgreement */
         foreach ($resolvedAgreements as $resolvedAgreement) {
-            $agreementHistory = $this->agreementHistoryResolver->resolveHistory($resolvedAgreement);
+            $submittedAgreement = $this->getSubmittedAgreement($submittedAgreements, $resolvedAgreement);
 
-            Assert::isInstanceOf($agreementHistory, AgreementHistoryInterface::class);
-            $submittedAgreement = $submittedAgreements->filter(
-                static function (AgreementInterface $agreement) use ($resolvedAgreement): bool {
-                    return $agreement->getId() === $resolvedAgreement->getId();
-                }
-            )->first();
-
-            if (null === $agreementHistory->getId()) {
-                $agreementHistory->setContext($context);
-                $agreementHistory->setShopUser($shopUser);
-                $agreementHistory->setOrder($order);
-                $agreementHistory->setAgreement($resolvedAgreement);
-            }
+            $agreementHistory = $this->setAgreementHistoryProperties($context, $order, $shopUser, $resolvedAgreement);
 
             $resolvedAgreementHistoryState = $agreementHistory->getState();
+
             $agreementHistoryState = $this->determineState(
                 $agreementHistory,
                 $submittedAgreement,
@@ -104,6 +93,7 @@ final class AgreementSubscriber implements EventSubscriberInterface
             ) {
                 $agreementHistory = clone $agreementHistory;
             }
+
             $agreementHistory->setState($agreementHistoryState);
             $this->agreementHistoryRepository->add($agreementHistory);
         }
@@ -115,6 +105,7 @@ final class AgreementSubscriber implements EventSubscriberInterface
         string $resolvedAgreementHistoryState
     ): string {
         $agreementHistoryState = AgreementHistoryStates::STATE_SHOWN;
+
         if (true === $submittedAgreement->isApproved()) {
             $agreementHistoryState = AgreementHistoryStates::STATE_ACCEPTED;
         } elseif (
@@ -125,5 +116,33 @@ final class AgreementSubscriber implements EventSubscriberInterface
         }
 
         return $agreementHistoryState;
+    }
+
+    public function getSubmittedAgreement(Collection $submittedAgreements, AgreementInterface $resolvedAgreement): AgreementInterface
+    {
+        return $submittedAgreements->filter(
+            static function (AgreementInterface $agreement) use ($resolvedAgreement): bool {
+                return $agreement->getId() === $resolvedAgreement->getId();
+            }
+        )->first();
+    }
+
+    public function setAgreementHistoryProperties(
+        string $context,
+        ?OrderInterface $order,
+        ?ShopUserInterface $shopUser,
+        AgreementInterface $resolvedAgreement
+    ): AgreementHistoryInterface {
+        $agreementHistory = $this->agreementHistoryResolver->resolveHistory($resolvedAgreement);
+        Assert::isInstanceOf($agreementHistory, AgreementHistoryInterface::class);
+
+        if (null === $agreementHistory->getId()) {
+            $agreementHistory->setContext($context);
+            $agreementHistory->setShopUser($shopUser);
+            $agreementHistory->setOrder($order);
+            $agreementHistory->setAgreement($resolvedAgreement);
+        }
+
+        return $agreementHistory;
     }
 }

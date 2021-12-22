@@ -33,7 +33,7 @@ class AgreementAutocompleteChoiceType extends AbstractType
         FormInterface $form,
         array $options
     ): void {
-        parent::buildView();
+        parent::buildView($view, $form, $options);
     }
 
     /**

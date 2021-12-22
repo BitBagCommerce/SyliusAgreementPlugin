@@ -56,16 +56,17 @@ class Agreement implements AgreementInterface
 
     public function __clone()
     {
-        if ($this->id) {
-            $this->id = null;
-            $clonedTranslations = new ArrayCollection();
-            foreach ($this->translations as $translation) {
-                $clonedTranslation = clone $translation;
-                $clonedTranslation->setTranslatable($this);
-                $clonedTranslations->add($clonedTranslation);
-            }
-            $this->translations = $clonedTranslations;
+        if (null === $this->id) {
+            return;
         }
+        $this->id = null;
+        $clonedTranslations = new ArrayCollection();
+        foreach ($this->translations as $translation) {
+            $clonedTranslation = clone $translation;
+            $clonedTranslation->setTranslatable($this);
+            $clonedTranslations->add($clonedTranslation);
+        }
+        $this->translations = $clonedTranslations;
     }
 
     public function getId(): ?int
