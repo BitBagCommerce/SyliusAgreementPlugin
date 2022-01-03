@@ -31,7 +31,7 @@ final class AgreementCheckboxType extends AbstractType
         $view->vars['extended_label'] = $options['extended_label'];
         $view->vars['approved'] = $options['approved'];
         /** @phpstan-ignore-next-line  */
-        $view->vars['checked'] = null !== $form->getViewData() || ($view->vars['approved'] && !$form->isSubmitted());
+        $view->vars['checked'] = null !== $form->getViewData() || ($options['approved'] && !$form->isSubmitted());
     }
 
     public function configureOptions(OptionsResolver $resolver): void
