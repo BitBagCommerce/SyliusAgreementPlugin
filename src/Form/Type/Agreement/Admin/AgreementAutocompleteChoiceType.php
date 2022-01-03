@@ -6,8 +6,6 @@ namespace BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin;
 
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceAutocompleteChoiceType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AgreementAutocompleteChoiceType extends AbstractType
@@ -23,17 +21,6 @@ class AgreementAutocompleteChoiceType extends AbstractType
             'choice_name' => 'code',
             'choice_value' => 'id',
         ]);
-    }
-
-    /**
-     * @psalm-suppress MissingPropertyType
-     */
-    public function buildView(
-        FormView $view,
-        FormInterface $form,
-        array $options
-    ): void {
-        parent::buildView($view, $form, $options);
     }
 
     /**
