@@ -49,79 +49,10 @@ final class AgreementTypeTest extends TestCase
     public function testBuildForm(array $modes, array $preparedModes, array $contexts, array $preparedContexts): void
     {
 
-        $this->builder->expects(self::exactly(8))->method('add')
-            ->withConsecutive(
-                [
-                    'parent',
-                    AgreementAutocompleteChoiceType::class,
-                    [
-                        'label' => 'bitbag_sylius_agreement_plugin.ui.agreement',
-                        'resource' => 'bitbag_sylius_agreement_plugin.agreement',
-                        'choice_name' => 'code',
-                        'choice_value' => 'id',
-                    ]
-                ],
-                [
-                    'code',
-                    TextType::class,
-                    [
-                        'label' => 'bitbag_sylius_agreement_plugin.ui.code',
-                        'empty_data' => '',
-                    ]
-                ],
-                [
-                    'mode',
-                    ChoiceType::class,
-                    [
-                        'label' => 'bitbag_sylius_agreement_plugin.ui.mode',
-                        'choices' => $preparedModes,
-                    ]
-                ],
-                [
-                    'enabled',
-                    CheckboxType::class,
-                    [
-                        'label' => 'bitbag_sylius_agreement_plugin.ui.enabled',
-                    ]
-                ],
-                [
-                    'orderOnView',
-                    IntegerType::class,
-                    [
-                        'label' => 'bitbag_sylius_agreement_plugin.ui.order_on_view',
-                    ]
-                ],
-                [
-                    'contexts',
-                    ChoiceType::class,
-                    [
-                        'label' => 'bitbag_sylius_agreement_plugin.ui.contexts_label',
-                        'multiple' => true,
-                        'choices' => $preparedContexts,
-                    ]
-                ],
-                [
-                    'publishedAt',
-                    DateType::class,
-                    [
-                        'label' => 'bitbag_sylius_agreement_plugin.ui.published_at',
-                        'required' => false,
-                        'format' => DateType::HTML5_FORMAT,
-                        'widget' => 'single_text',
-                    ]
-                ],
-                [
-                    'translations',
-                    ResourceTranslationsType::class,
-                    [
-                        'entry_type' => AgreementTranslationType::class,
-                        'entry_options' => [
-                            'required' => true,
-                        ],
-                        'label' => 'bitbag_sylius_agreement_plugin.ui.translations',
-                    ]
-                ]
-            )->willReturnSelf();
+        $this->builder
+            ->method('add')
+            ->willReturnSelf();
+
         $this->builder
             ->expects(self::once())
             ->method('get')
