@@ -132,14 +132,11 @@ jobs:
             -   name: Run PHPStan
                 run: vendor/bin/phpstan analyse -c vendor/bitbag/coding-standard/phpstan.neon -l max src/
 
-            - name: Run ECS
-              run: vendor/bin/ecs check src
+            -   name: Run ECS
+                run: vendor/bin/ecs check src
 
             -   name: Run PHPUnit
                 run: vendor/bin/phpunit --colors=always
-
-#            -   name: Run Behat
-#                run: vendor/bin/behat --colors --strict -vvv --no-interaction || vendor/bin/behat --colors --strict -vvv --no-interaction --rerun
 
             -   name: Upload Behat logs
                 uses: actions/upload-artifact@v2
