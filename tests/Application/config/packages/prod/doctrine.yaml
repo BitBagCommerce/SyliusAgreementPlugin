@@ -15,12 +15,12 @@ services:
         class: Symfony\Component\Cache\DoctrineProvider
         public: false
         arguments:
-            - '@doctrine.result_cache_pool'
+            - '@cache.app'
     doctrine.system_cache_provider:
         class: Symfony\Component\Cache\DoctrineProvider
         public: false
         arguments:
-            - '@doctrine.system_cache_pool'
+            - '@cache.app'
 
 framework:
     cache:

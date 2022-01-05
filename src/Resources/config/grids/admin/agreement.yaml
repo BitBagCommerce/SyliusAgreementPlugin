@@ -13,39 +13,39 @@ sylius_grid:
             fields:
                 id:
                     type: string
-                    label: sylius.ui.id
+                    label: bitbag_sylius_agreement_plugin.ui.id
                     sortable: ~
                 translation.name:
                     type: string
-                    label: sylius.ui.name
+                    label: bitbag_sylius_agreement_plugin.ui.name
                     sortable: translations.name
                 code:
                     type: string
-                    label: sylius.ui.code
+                    label: bitbag_sylius_agreement_plugin.ui.code
                     sortable: ~
                 orderOnView:
                     type: string
-                    label: app.ui.order_on_view
+                    label: bitbag_sylius_agreement_plugin.ui.order_on_view
                     sortable: ~
                 contexts:
                     type: twig
                     path: contexts
-                    label: app.ui.contexts_label
+                    label: bitbag_sylius_agreement_plugin.ui.contexts_label
                     options:
                         template: "@SyliusAgreementPlugin/Admin/Agreement/Grid/Field/contexts.html.twig"
                 enabled:
                     type: twig
-                    label: sylius.ui.enabled
+                    label: bitbag_sylius_agreement_plugin.ui.enabled
                     options:
                         template: "@SyliusUi/Grid/Field/enabled.html.twig"
                 published_at:
                     type: datetime
-                    label: app.ui.published_at
+                    label: bitbag_sylius_agreement_plugin.ui.published_at
                     options:
                         format: 'Y:m:d'
                 archived_at:
                     type: datetime
-                    label: app.ui.archived_at
+                    label: bitbag_sylius_agreement_plugin.ui.archived_at
                     options:
                         format: 'Y:m:d'
             actions:

@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Resolver\AgreementHistory;
+namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Resolver\AgreementHistory;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepositoryInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistory\OrderAgreementHistoryResolver;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Sylius\Component\Core\Model\Order;
+use Sylius\Component\Order\Context\CartContext;
 use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
@@ -47,4 +50,22 @@ final class OrderAgreementHistoryResolverTest extends TestCase
             [null, 1, null, null],
         ];
     }
+
+    public function testSupports()
+    {
+        $cartContext = $this->createMock(CartContextInterface::class);
+
+        $cartContext
+            ->expects(self::once())
+            ->method('getCart')
+            ->willReturn(new Order());
+
+        $agreementInterface = $this->createMock(AgreementInterface::class);
+        $agreementHistoryRepository = $this->createMock(AgreementHistoryRepositoryInterface::class);
+        $orderAgreementHistoryResolver = new OrderAgreementHistoryResolver($cartContext,$agreementHistoryRepository);
+
+        Assert::assertSame($orderAgreementHistoryResolver->supports($agreementInterface),true);
+
+    }
+
 }

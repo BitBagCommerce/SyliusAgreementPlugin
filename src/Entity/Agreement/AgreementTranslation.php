@@ -4,39 +4,19 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Entity\Agreement;
 
-use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Resource\Model\AbstractTranslation;
 
-/**
- * @ORM\MappedSuperclass
- * @ORM\Table(name="bitbag_sylius_agreement_plugin_agreement_translation")
- */
 class AgreementTranslation extends AbstractTranslation implements AgreementTranslationInterface
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
-     */
-    protected ?int $id = null;
+    protected int $id;
 
-    /**
-     * var string
-     * @ORM\Column(type="string", name="name")
-     */
     protected string $name = '';
 
-    /**
-     * @ORM\Column(type="text", name="body")
-     */
     protected string $body = '';
 
-    /**
-     * @ORM\Column(type="text", nullable=true, name="extended_body")
-     */
     protected ?string $extendedBody = null;
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

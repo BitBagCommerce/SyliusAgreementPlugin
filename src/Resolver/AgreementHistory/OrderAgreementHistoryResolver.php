@@ -20,8 +20,7 @@ final class OrderAgreementHistoryResolver implements AgreementHistoryResolverInt
     public function __construct(
         CartContextInterface $cartContext,
         AgreementHistoryRepositoryInterface $agreementHistoryRepository
-    )
-    {
+    ) {
         $this->cartContext = $cartContext;
         $this->agreementHistoryRepository = $agreementHistoryRepository;
     }
@@ -31,7 +30,7 @@ final class OrderAgreementHistoryResolver implements AgreementHistoryResolverInt
         /** @var OrderInterface $order */
         $order = $this->cartContext->getCart();
 
-        if ($agreement->getId() !== null && $order->getId() !== null) {
+        if (null !== $agreement->getId() && null !== $order->getId()) {
             return $this->agreementHistoryRepository->findOneForOrder($agreement, $order);
         }
 

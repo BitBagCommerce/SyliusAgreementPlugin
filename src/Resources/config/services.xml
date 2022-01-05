@@ -42,14 +42,13 @@
 
         <service id="bitbag_sylius_agreement_plugin.form.type.agreement.shop.agreement_collection_type"
                  class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCollectionType">
-            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
+                <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
             <tag name="form.type"/>
         </service>
 
         <service id="bitbag_sylius_agreement_plugin.form.extension.agreements_type_extension"
                  class="BitBag\SyliusAgreementPlugin\Form\Extension\AgreementsTypeExtension">
             <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.agreement"/>
-            <argument type="service" id="security.helper"/>
             <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.agreement_approval"/>
             <argument>%sylius_agreement_plugin.extended_form_types%</argument>
             <tag name="form.type_extension"
@@ -62,11 +61,11 @@
         </service>
 
         <service id="BitBag\SyliusAgreementPlugin\Resolver\AgreementApproval\AgreementApprovalResolver">
-            <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.agreement_history"/>
+            <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.composite_agreement_history"/>
             <tag name="bitbag_sylius_agreement_plugin.agreement_approval_resolver" priority="0"/>
         </service>
 
-        <service id="bitbag_sylius_agreement_plugin.resolver.agreement_history"
+        <service id="bitbag_sylius_agreement_plugin.resolver.composite_agreement_history"
                  class="BitBag\SyliusAgreementPlugin\Resolver\CompositeAgreementHistoryResolver">
             <argument type="tagged_iterator" tag="bitbag_sylius_agreement_plugin.agreement_history_resolver"/>
             <argument type="service" id="bitbag_sylius_agreement_plugin.factory.agreement_history"/>
@@ -85,10 +84,9 @@
         </service>
 
         <service id="form.extension"
-                 class="\BitBag\SyliusAgreementPlugin\DependencyInjection\DependencyInjectionExtension">
+                 class="BitBag\SyliusAgreementPlugin\DependencyInjection\DependencyInjectionExtension">
             <argument/>
-            <argument
-                    type="collection"/>
+            <argument type="collection"/>
             <argument type="iterator"/>
             <argument>%sylius_agreement_plugin.extended_form_types%</argument>
         </service>
@@ -96,10 +94,13 @@
         <service id="bitbag_sylius_agreement_plugin.resolver.agreement"
                  class="\BitBag\SyliusAgreementPlugin\Resolver\CompositeAgreementResolver">
             <argument type="tagged_iterator" tag="bitbag_sylius_agreement_plugin.agreement_resolver"/>
-            <argument
-                    type="collection"/>
+            <argument type="collection"/>
             <argument type="iterator"/>
             <argument>%sylius_agreement_plugin.extended_form_types%</argument>
         </service>
+        <service id="bitbag.form.type.autocomplete_agreement_choice" class="\BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementAutocompleteChoiceType">
+            <tag name="form.type" />
+        </service>
+
     </services>
 </container>

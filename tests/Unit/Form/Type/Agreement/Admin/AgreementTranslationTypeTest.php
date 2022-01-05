@@ -2,9 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Form\Type\Agreement\Admin;
+namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Form\Type\Agreement\Admin;
 
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementTranslationType;
+use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCollectionType;
+use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -13,16 +16,28 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AgreementTranslationTypeTest extends TestCase
 {
+    /**
+     * @var mixed|\PHPUnit\Framework\MockObject\MockObject|FormBuilderInterface
+     */
+    private $builder;
+
+    public function setUp(): void
+    {
+        $this->builder = $this->createMock(FormBuilderInterface::class);
+
+    }
+
+
     public function testBuildForm(): void
     {
-        $builder = $this->createMock(FormBuilderInterface::class);
-        $builder->expects(self::exactly(3))->method('add')
+
+        $this->builder->expects(self::exactly(3))->method('add')
             ->withConsecutive(
                 [
                     'name',
                     TextType::class,
                     [
-                        'label' => 'sylius_agreement_plugin.form.agreement.name',
+                        'label' => 'bitbag_sylius_agreement_plugin.ui.name',
                         'empty_data' => '',
                         'required' => true,
                     ]
@@ -31,7 +46,7 @@ final class AgreementTranslationTypeTest extends TestCase
                     'body',
                     TextareaType::class,
                     [
-                        'label' => 'sylius_agreement_plugin.form.agreement.body',
+                        'label' => 'bitbag_sylius_agreement_plugin.ui.body',
                         'empty_data' => '',
                         'required' => true,
                     ]
@@ -40,7 +55,7 @@ final class AgreementTranslationTypeTest extends TestCase
                     'extendedBody',
                     TextareaType::class,
                     [
-                        'label' => 'sylius_agreement_plugin.form.agreement.extended_body',
+                        'label' => 'bitbag_sylius_agreement_plugin.ui.extended_body',
                         'required' => false,
                     ]
                 ]
@@ -48,7 +63,7 @@ final class AgreementTranslationTypeTest extends TestCase
             ->willReturnSelf();
 
         $subject = new AgreementTranslationType('test', []);
-        $subject->buildForm($builder, []);
+        $subject->buildForm($this->builder, []);
     }
 
     public function testConfigureOptions()
@@ -60,4 +75,5 @@ final class AgreementTranslationTypeTest extends TestCase
 
         $subject->configureOptions($resolver);
     }
+
 }

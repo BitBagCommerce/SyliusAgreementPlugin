@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Resolver;
+namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Resolver;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
@@ -65,7 +65,7 @@ final class CompositeAgreementHistoryResolverTest extends TestCase
         self::assertTrue($subject->supports($this->createMock(AgreementInterface::class)));
     }
 
-    private function mockHistoryResolver(bool $supports, ?object $history = null): ?object
+    private function mockHistoryResolver(bool $supports, ?object $history = null): object
     {
         $mock = $this->createMock(AgreementHistoryResolverInterface::class);
         $mock->method('supports')->willReturn($supports);

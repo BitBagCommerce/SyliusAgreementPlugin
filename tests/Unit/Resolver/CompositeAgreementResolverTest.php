@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Resolver;
+namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Resolver;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
@@ -62,7 +62,7 @@ final class CompositeAgreementResolverTest extends TestCase
         self::assertTrue($subject->supports('', []));
     }
 
-    private function mockResolver(bool $supports, array $resolved): ?object
+    private function mockResolver(bool $supports, array $resolved): object
     {
         $mock = $this->createMock(AgreementResolverInterface::class);
         $mock->method('supports')->willReturn($supports);

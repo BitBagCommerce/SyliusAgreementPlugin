@@ -10,29 +10,19 @@ use BitBag\SyliusAgreementPlugin\Resolver\AgreementApprovalResolverInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Security\Core\Security;
 
 final class AgreementsTypeExtension extends AbstractTypeExtension
 {
     private AgreementResolverInterface $agreementResolver;
 
-    private Security $security;
-
     private AgreementApprovalResolverInterface $agreementApprovalResolver;
-
-    private array $extendedFormTypes;
 
     public function __construct(
         AgreementResolverInterface $agreementResolver,
-        Security $security,
-        AgreementApprovalResolverInterface $agreementApprovalResolver,
-        array $extendedFormTypes
-    )
-    {
+        AgreementApprovalResolverInterface $agreementApprovalResolver
+    ) {
         $this->agreementResolver = $agreementResolver;
-        $this->security = $security;
         $this->agreementApprovalResolver = $agreementApprovalResolver;
-        $this->extendedFormTypes = $extendedFormTypes;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

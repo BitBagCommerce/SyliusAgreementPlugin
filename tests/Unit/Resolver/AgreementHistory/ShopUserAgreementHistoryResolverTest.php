@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Resolver\AgreementHistory;
+namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Resolver\AgreementHistory;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistory;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;

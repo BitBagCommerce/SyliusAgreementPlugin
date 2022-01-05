@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\Tests\Unit\Form\Type\Agreement\Shop;
+namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Form\Type\Agreement\Shop;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -70,11 +70,11 @@ final class AgreementCheckboxTypeTest extends TestCase
             [
                 [
                     'extended_label' => 'label2',
-                    'approved' => false
+                    'approved' => true
                 ],
-                $this->mockForm( true, null),
+                $this->mockForm( false, null),
                 'label2',
-                false,
+                true,
                 true
             ],
         ];
@@ -90,11 +90,15 @@ final class AgreementCheckboxTypeTest extends TestCase
         return $mock;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function testConfigureOptions()
     {
-        parent::configureOptions($resolver);
+        $resolver = $this
+            ->createMock(OptionsResolver::class);
+        $resolver->expects(self::once())
+            ->method('setRequired')
+            ->with(['extended_label', 'approved']);
+        $agreementCheckboxType = new AgreementCheckboxType();
+        $agreementCheckboxType->configureOptions($resolver);
 
-        $resolver
-            ->setRequired(['extended_label', 'approved']);
     }
 }
