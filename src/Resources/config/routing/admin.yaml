@@ -8,7 +8,7 @@ bitbag_sylius_agreement_plugin_admin_agreement:
     permission: true
     vars:
         all:
-            subheader: bitbag.sylius_agreement_plugin.ui.manage_agreements
+            subheader: bitbag_sylius_agreement_plugin.ui.manage_agreements
         index:
             icon: 'file alternate outline'
   type: sylius.resource
@@ -17,7 +17,7 @@ bitbag_sylius_agreement_plugin_admin_agreement_archive:
   path: /agreements/{id}/archive
   methods: [PATCH]
   defaults:
-    _controller: bitbag.sylius_agreement_plugin.controller.agreement:updateAction
+    _controller: bitbag_sylius_agreement_plugin.controller.agreement:updateAction
     _sylius:
       section: admin
       permission: true
@@ -26,3 +26,18 @@ bitbag_sylius_agreement_plugin_admin_agreement_archive:
       redirect:
         route: referer
         parameters: {}
+
+bitbag_sylius_agreement_plugin_admin_ajax_agreement_choice:
+  path: /agreements/new/search
+  methods: [GET]
+  defaults:
+    _controller: bitbag_sylius_agreement_plugin.controller.agreement:indexAction
+    _format: json
+    _sylius:
+      serialization_groups: [Default]
+      permission: true
+      repository:
+        method: findByNamePart
+        arguments:
+          phrase: $phrase
+          limit: 25

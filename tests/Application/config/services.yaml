@@ -1,4 +1,20 @@
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en_US
+  locale: en_US
+
+services:
+  BitBag\SyliusAgreementPlugin\Resolver\Agreement\RegistrationFormAgreementResolver:
+    arguments:
+      - '@bitbag_sylius_agreement_plugin.repository.agreement'
+      - '@session'
+    tags:
+      - { name: 'bitbag_sylius_agreement_plugin.agreement_resolver' }
+
+
+  bitbag_sylius_agreement_plugin.event_subscriber.agreement_subscriber:
+    class: BitBag\SyliusAgreementPlugin\EventSubscriber\AgreementSubscriber
+    arguments:
+      - '@bitbag_sylius_agreement_plugin.repository.agreement_history'
+      - '@bitbag_sylius_agreement_plugin.resolver.agreement'
+      - '@bitbag_sylius_agreement_plugin.resolver.composite_agreement_history'
+    tags:
+      - { name: 'kernel.event_subscriber' }

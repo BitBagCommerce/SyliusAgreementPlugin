@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin;
 
-use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementContexts;
-use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
+use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
+use Sylius\Bundle\ResourceBundle\Form\DataTransformer\ResourceToIdentifierTransformer;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -14,58 +14,85 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\ReversedTransformer;
 
 final class AgreementType extends AbstractResourceType
 {
+    private AgreementRepositoryInterface $agreementRepository;
+
+    private array $modes;
+
+    private array $contexts;
+
+    public function __construct(
+        string $dataClass,
+        AgreementRepositoryInterface $agreementRepository,
+        array $validationGroups = [],
+        array $modes = [],
+        array $contexts = []
+    ) {
+        parent::__construct($dataClass, $validationGroups);
+
+        $this->agreementRepository = $agreementRepository;
+        $this->modes = $modes;
+        $this->contexts = $contexts;
+    }
+
+    protected function prepareModesData(): array
+    {
+        $modes = [];
+
+        foreach ($this->modes as $mode) {
+            $modes[\sprintf('bitbag_sylius_agreement_plugin.ui.agreement.modes.%s', $mode)] = $mode;
+        }
+
+        return $modes;
+    }
+
+    protected function prepareContextsData(): array
+    {
+        $contexts = [];
+
+        foreach ($this->contexts as $context) {
+            $contexts[\sprintf('bitbag_sylius_agreement_plugin.ui.agreement.contexts.%s', $context)] = $context;
+        }
+
+        return $contexts;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $modes = [
-            'app.form.agreement.modes.required_and_non_cancellable' => AgreementInterface::MODE_REQUIRED_AND_NON_CANCELLABLE,
-            'app.form.agreement.modes.required' => AgreementInterface::MODE_REQUIRED,
-            'app.form.agreement.modes.only_show' => AgreementInterface::MODE_ONLY_SHOW,
-            'app.form.agreement.modes.not_required' => AgreementInterface::MODE_NOT_REQUIRED,
-        ];
-
-        $contexts = [
-            'app.form.agreement.contexts.unknown' => AgreementContexts::CONTEXT_UNKNOWN,
-            'app.form.agreement.contexts.registration_form' => AgreementContexts::CONTEXT_REGISTRATION_FORM,
-            'app.form.agreement.contexts.account' => AgreementContexts::CONTEXT_ACCOUNT,
-            'app.form.agreement.contexts.logged_in_order_summary' => AgreementContexts::CONTEXT_LOGGED_IN_ORDER_SUMMARY,
-            'app.form.agreement.contexts.anonymous_order_summary' => AgreementContexts::CONTEXT_ANONYMOUS_ORDER_SUMMARY,
-            'app.form.agreement.contexts.contact_form' => AgreementContexts::CONTEXT_CONTACT_FORM,
-            'app_update_1.form.agreement.contexts.newsletter_form_subscribe' => AgreementContexts::CONTEXT_NEWSLETTER_FORM_SUBSCRIBE,
-            'app_update_1.form.agreement.contexts.newsletter_form_unsubscribe' => AgreementContexts::CONTEXT_NEWSLETTER_FORM_UNSUBSCRIBE,
-        ];
-
-        $ediumAgreementType = [
-            'app.form.agreement.edium_agreements.' . strtolower(AgreementInterface::COMPANY_SOLE_TRADER) => AgreementInterface::COMPANY_SOLE_TRADER,
-            'app.form.agreement.edium_agreements.' . strtolower(AgreementInterface::INFORMATION_OBLIGATION) => AgreementInterface::INFORMATION_OBLIGATION,
-            'app.form.agreement.edium_agreements.' . strtolower(AgreementInterface::EMAIL_MARKETING) => AgreementInterface::EMAIL_MARKETING,
-            'app.form.agreement.edium_agreements.' . strtolower(AgreementInterface::COOPERATION_CONDITIONS) => AgreementInterface::COOPERATION_CONDITIONS,
-        ];
+        $modes = $this->prepareModesData();
+        $contexts = $this->prepareContextsData();
 
         $builder
+            ->add('parent', AgreementAutocompleteChoiceType::class, [
+                'label' => 'bitbag_sylius_agreement_plugin.ui.agreement',
+                'resource' => 'bitbag_sylius_agreement_plugin.agreement',
+                'choice_name' => 'code',
+                'choice_value' => 'id',
+            ])
             ->add('code', TextType::class, [
-                'label' => 'app.form.agreement.code',
+                'label' => 'bitbag_sylius_agreement_plugin.ui.code',
                 'empty_data' => '',
             ])
             ->add('mode', ChoiceType::class, [
-                'label' => 'app.form.agreement.mode',
+                'label' => 'bitbag_sylius_agreement_plugin.ui.mode',
                 'choices' => $modes,
             ])
             ->add('enabled', CheckboxType::class, [
-                'label' => 'app.form.agreement.enabled',
+                'label' => 'bitbag_sylius_agreement_plugin.ui.enabled',
             ])
             ->add('orderOnView', IntegerType::class, [
-                'label' => 'app.form.agreement.order_on_view',
+                'label' => 'bitbag_sylius_agreement_plugin.ui.order_on_view',
             ])
             ->add('contexts', ChoiceType::class, [
-                'label' => 'app.form.agreement.contexts_label',
+                'label' => 'bitbag_sylius_agreement_plugin.ui.contexts_label',
                 'multiple' => true,
                 'choices' => $contexts,
             ])
             ->add('publishedAt', DateType::class, [
-                'label' => 'app.form.agreement.published_at',
+                'label' => 'bitbag_sylius_agreement_plugin.ui.published_at',
                 'required' => false,
                 'format' => DateType::HTML5_FORMAT,
                 'widget' => 'single_text',
@@ -73,15 +100,22 @@ final class AgreementType extends AbstractResourceType
             ->add('translations', ResourceTranslationsType::class, [
                 'entry_type' => AgreementTranslationType::class,
                 'entry_options' => [
-                  'required' => true,
+                    'required' => true,
                 ],
-                'label' => 'app.form.agreement.translations',
-            ])
-        ;
+                'label' => 'bitbag_sylius_agreement_plugin.ui.translations',
+            ]);
+
+        $builder->get('parent')->addModelTransformer(
+            new ReversedTransformer(
+                new ResourceToIdentifierTransformer($this->agreementRepository, 'id')
+            )
+        )->addModelTransformer(
+            new ResourceToIdentifierTransformer($this->agreementRepository, 'id')
+        );
     }
 
     public function getBlockPrefix(): string
     {
-        return 'app_agreement';
+        return 'bitbag_sylius_agreement_plugin_agreement';
     }
 }

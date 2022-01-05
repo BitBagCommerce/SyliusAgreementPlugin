@@ -14,10 +14,7 @@ class AgreementRepository extends EntityRepository implements AgreementRepositor
     {
         $qb = $this->createQueryBuilder('o');
 
-        $qb
-            ->select('o')
-            ->where($qb->expr()->eq('o.enabled', 'true'))
-        ;
+        $qb->select('o');
 
         return $qb;
     }
@@ -31,10 +28,12 @@ class AgreementRepository extends EntityRepository implements AgreementRepositor
             ->where($qb->expr()->eq('o.parent', ':parent'))
             ->setParameter('parent', $id);
 
-        return $qb
+        /** @var AgreementInterface|null $result */
+        $result = $qb
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
+
+        return $result;
     }
 
     public function findAgreementsByContext(string $context, array $matchOnlyThisIdentifiers = []): array
@@ -58,7 +57,7 @@ class AgreementRepository extends EntityRepository implements AgreementRepositor
             ->setParameter('now', $now)
         ;
 
-        if (!empty($matchOnlyThisIdentifiers)) {
+        if ([] !== $matchOnlyThisIdentifiers) {
             $qb
                 ->andWhere(
                     $qb->expr()->in('o.id', ':identifiers')
@@ -66,12 +65,15 @@ class AgreementRepository extends EntityRepository implements AgreementRepositor
                 ->setParameter('identifiers', $matchOnlyThisIdentifiers);
         }
 
-        return $qb->getQuery()->getResult();
+        /** @var array $result */
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
     }
 
     public function findAgreementsByContexts(array $contexts): array
     {
-        if (empty($contexts)) {
+        if ([] === $contexts) {
             return [];
         }
 
@@ -108,6 +110,19 @@ class AgreementRepository extends EntityRepository implements AgreementRepositor
         $qb
             ->andWhere($qb->expr()->orX(...$contextExpressions));
 
-        return $qb->getQuery()->getResult();
+        /** @var array $result */
+        $result = $qb->getQuery()->getResult();
+
+        return $result;
+    }
+
+    public function findByNamePart(string $phrase, ?int $limit = null): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.code LIKE :code')
+            ->setParameter('code', '%' . $phrase . '%')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
     }
 }

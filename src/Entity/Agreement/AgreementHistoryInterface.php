@@ -11,22 +11,27 @@ use Sylius\Component\Resource\Model\TimestampableInterface;
 
 interface AgreementHistoryInterface extends TimestampableInterface, ResourceInterface
 {
+    /** @return ?AgreementInterface */
     public function getAgreement(): ?AgreementInterface;
 
     public function setAgreement(?AgreementInterface $agreement): void;
 
+    /** @return ?ShopUserInterface */
     public function getShopUser(): ?ShopUserInterface;
 
     public function setShopUser(?ShopUserInterface $shopUser): void;
 
+    /** @return ?OrderInterface */
     public function getOrder(): ?OrderInterface;
 
     public function setOrder(?OrderInterface $order): void;
 
+    /** @return string */
     public function getState(): string;
 
     public function setState(string $state): void;
 
+    /** @return string */
     public function getContext(): string;
 
     public function setContext(string $context): void;

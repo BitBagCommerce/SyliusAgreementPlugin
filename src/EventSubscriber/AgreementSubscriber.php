@@ -4,146 +4,88 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\EventSubscriber;
 
-use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementContexts;
+use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryStates;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
-use BitBag\SyliusAgreementPlugin\Event\CompanyUserAgreementsUpdateEvent;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepositoryInterface;
-use BitBag\SyliusAgreementPlugin\Resolver\AgreementApprovalResolverInterface;
+use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
-use BitBag\SyliusAgreementPlugin\Resolver\RequiredAccountAgreementsResolverInterface;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Security;
+use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 use Webmozart\Assert\Assert;
 
 final class AgreementSubscriber implements EventSubscriberInterface
 {
-    /** @var AgreementHistoryRepositoryInterface */
-    private $agreementHistoryRepository;
+    private AgreementHistoryRepositoryInterface $agreementHistoryRepository;
 
-    /** @var Security */
-    private $security;
+    private AgreementResolverInterface $agreementResolver;
 
-    /** @var AgreementResolverInterface */
-    private $agreementResolver;
-
-    /** @var AgreementApprovalResolverInterface */
-    private $agreementApprovalResolver;
-
-    /** @var SessionInterface */
-    private $session;
+    private AgreementHistoryResolverInterface $agreementHistoryResolver;
 
     public function __construct(
         AgreementHistoryRepositoryInterface $agreementHistoryRepository,
-        Security $security,
         AgreementResolverInterface $agreementResolver,
-        AgreementApprovalResolverInterface $agreementApprovalResolver,
-        SessionInterface $session
+        AgreementHistoryResolverInterface $agreementHistoryResolver
     ) {
         $this->agreementHistoryRepository = $agreementHistoryRepository;
-        $this->security = $security;
-        $this->agreementApprovalResolver = $agreementApprovalResolver;
+        $this->agreementHistoryResolver = $agreementHistoryResolver;
         $this->agreementResolver = $agreementResolver;
-        $this->session = $session;
     }
 
     public function processAgreementsFromUserRegister(ResourceControllerEvent $resourceControllerEvent): void
     {
-        /** @var CompanyUserInterface $subject */
-        $subject = $resourceControllerEvent->getSubject();
-        Assert::isInstanceOf($subject, CompanyUserInterface::class);
-        /** @var ShopUserInterface $shopUser */
-        $shopUser = $subject->getCustomer()->getUser();
+        /** @var ?CustomerInterface $customer */
+        $customer = $resourceControllerEvent->getSubject();
+        Assert::isInstanceOf($customer, CustomerInterface::class);
+
+        /** @var ?ShopUserInterface $shopUser */
+        $shopUser = $customer->getUser();
         Assert::isInstanceOf($shopUser, ShopUserInterface::class);
+        /** @var Collection $userAgreements */
+        $userAgreements = $customer->getAgreements();
+
         $this->handleAgreements(
-            $subject->getAgreements(),
-            AgreementContexts::CONTEXT_REGISTRATION_FORM,
+            $userAgreements,
+            'sylius_customer_registration',
             null,
             $shopUser
         );
     }
 
-    public function processAgreementsFromCheckout(ResourceControllerEvent $resourceControllerEvent): void
-    {
-        /** @var OrderInterface $subject */
-        $subject = $resourceControllerEvent->getSubject();
-        Assert::isInstanceOf($subject, OrderInterface::class);
-        /** @var ShopUserInterface|null $shopUser */
-        $shopUser = $this->security->getUser();
-        $this->handleAgreements(
-            $subject->getAgreements(),
-            $shopUser ? AgreementContexts::CONTEXT_LOGGED_IN_ORDER_SUMMARY : AgreementContexts::CONTEXT_ANONYMOUS_ORDER_SUMMARY,
-            $subject,
-            $shopUser
-        );
-    }
-
-    public function processCompanyUserAgreementsUpdate(CompanyUserAgreementsUpdateEvent $companyUserAgreementsUpdateEvent): void
-    {
-        $companyUser = $companyUserAgreementsUpdateEvent->getCompanyUser();
-        /** @var CustomerInterface $customer */
-        $customer = $companyUser->getCustomer();
-        /** @var ShopUserInterface $shopUser */
-        $shopUser = $customer->getUser();
-        $this->handleAgreements(
-           $companyUser->getAgreements(),
-           AgreementContexts::CONTEXT_ACCOUNT,
-           null, $shopUser
-       );
-
-        if (null !== $this->session->get(RequiredAccountAgreementsResolverInterface::SESSION_AGREEMENT_REQUIRE_ACCEPTATION_IDENTIFIERS)) {
-            $this->session->remove(RequiredAccountAgreementsResolverInterface::SESSION_AGREEMENT_REQUIRE_ACCEPTATION_IDENTIFIERS);
-        }
-    }
-
     public static function getSubscribedEvents(): array
     {
         return [
-            'app.company_user.post_register' => [
-                ['processAgreementsFromUserRegister', 10],
-            ],
-            'sylius.order.pre_complete' => [
-                ['processAgreementsFromCheckout', 10],
-            ],
-            CompanyUserAgreementsUpdateEvent::class => [
-                ['processCompanyUserAgreementsUpdate', 10],
+            'sylius.customer.post_register' => [
+                ['processAgreementsFromUserRegister', -5],
             ],
         ];
     }
 
     private function handleAgreements(
-        ArrayCollection $submittedAgreements,
+        Collection $submittedAgreements,
         string $context,
         ?OrderInterface $order,
         ?ShopUserInterface $shopUser
     ): void {
-        $resolvedAgreements = $this->agreementResolver->resolve($context);
+        $resolvedAgreements = $this->agreementResolver->resolve($context, []);
 
         /** @var AgreementInterface $resolvedAgreement */
         foreach ($resolvedAgreements as $resolvedAgreement) {
-            $agreementHistory = $this->agreementApprovalResolver->resolveHistory($resolvedAgreement);
+            $submittedAgreement = $this->getSubmittedAgreement($submittedAgreements, $resolvedAgreement);
 
-            $submittedAgreement = $submittedAgreements->filter(static function (AgreementInterface $agreement) use ($resolvedAgreement) {
-                return $agreement->getId() === $resolvedAgreement->getId();
-            })->first();
+            $agreementHistory = $this->setAgreementHistoryProperties($context, $order, $shopUser, $resolvedAgreement);
 
-            if (null === $agreementHistory->getId()) {
-                $agreementHistory->setContext($context);
-                $agreementHistory->setShopUser($shopUser);
-                $agreementHistory->setOrder($order);
-                $agreementHistory->setAgreement($resolvedAgreement);
-            }
-
-            $agreementHistoryState = AgreementHistoryStates::STATE_SHOWN;
             $resolvedAgreementHistoryState = $agreementHistory->getState();
-            if ($submittedAgreement instanceof AgreementInterface && true === $submittedAgreement->isApproved()) {
-                $agreementHistoryState = AgreementHistoryStates::STATE_ACCEPTED;
-            } elseif ($resolvedAgreementHistoryState !== AgreementHistoryStates::STATE_SHOWN && null !== $agreementHistory->getId()) {
-                $agreementHistoryState = AgreementHistoryStates::STATE_WITHDRAWN;
-            }
+
+            $agreementHistoryState = $this->determineState(
+                $agreementHistory,
+                $submittedAgreement,
+                $resolvedAgreementHistoryState
+            );
 
             if (
                 $agreementHistoryState !== $resolvedAgreementHistoryState &&
@@ -151,8 +93,56 @@ final class AgreementSubscriber implements EventSubscriberInterface
             ) {
                 $agreementHistory = clone $agreementHistory;
             }
+
             $agreementHistory->setState($agreementHistoryState);
             $this->agreementHistoryRepository->add($agreementHistory);
         }
+    }
+
+    private function determineState(
+        AgreementHistoryInterface $agreementHistory,
+        AgreementInterface $submittedAgreement,
+        string $resolvedAgreementHistoryState
+    ): string {
+        $agreementHistoryState = AgreementHistoryStates::STATE_SHOWN;
+
+        if (true === $submittedAgreement->isApproved()) {
+            $agreementHistoryState = AgreementHistoryStates::STATE_ACCEPTED;
+        } elseif (
+            AgreementHistoryStates::STATE_SHOWN !== $resolvedAgreementHistoryState
+            && null !== $agreementHistory->getId()
+        ) {
+            $agreementHistoryState = AgreementHistoryStates::STATE_WITHDRAWN;
+        }
+
+        return $agreementHistoryState;
+    }
+
+    public function getSubmittedAgreement(Collection $submittedAgreements, AgreementInterface $resolvedAgreement): AgreementInterface
+    {
+        return $submittedAgreements->filter(
+            static function (AgreementInterface $agreement) use ($resolvedAgreement): bool {
+                return $agreement->getId() === $resolvedAgreement->getId();
+            }
+        )->first();
+    }
+
+    public function setAgreementHistoryProperties(
+        string $context,
+        ?OrderInterface $order,
+        ?ShopUserInterface $shopUser,
+        AgreementInterface $resolvedAgreement
+    ): AgreementHistoryInterface {
+        $agreementHistory = $this->agreementHistoryResolver->resolveHistory($resolvedAgreement);
+        Assert::isInstanceOf($agreementHistory, AgreementHistoryInterface::class);
+
+        if (null === $agreementHistory->getId()) {
+            $agreementHistory->setContext($context);
+            $agreementHistory->setShopUser($shopUser);
+            $agreementHistory->setOrder($order);
+            $agreementHistory->setAgreement($resolvedAgreement);
+        }
+
+        return $agreementHistory;
     }
 }

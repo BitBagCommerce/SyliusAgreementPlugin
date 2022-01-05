@@ -6,5 +6,7 @@ namespace BitBag\SyliusAgreementPlugin\Resolver;
 
 interface AgreementResolverInterface
 {
-    public function resolve(string $context): array;
+    public function resolve(string $context, array $options): array;
+
+    public function supports(string $context, array $options): bool;
 }

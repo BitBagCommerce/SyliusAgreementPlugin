@@ -6,70 +6,33 @@ namespace BitBag\SyliusAgreementPlugin\Entity\Agreement;
 
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Sylius\Component\Resource\Model\TimestampableTrait;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="bitbag_sylius_agreement_plugin_agreementhistory")
- */
 class AgreementHistory implements AgreementHistoryInterface
 {
     use TimestampableTrait;
 
-    /**
-     * @var int|null
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
-     */
     protected ?int $id = null;
 
-    /**
-     * @var AgreementInterface|null
-     * @ORM\ManyToOne(targetEntity="BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement")
-     */
+    /** @var AgreementInterface|null */
     protected $agreement;
 
-    /**
-     * @var ShopUserInterface|null
-     * @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\ShopUser", inversedBy="agreementsHistory")
-     * @ORM\JoinColumn(name="shop_user_id", referencedColumnName="id")
-     */
+    /** @var ShopUserInterface|null */
     protected $shopUser;
 
-    /**
-     * @var OrderInterface|null
-     * @ORM\ManyToOne(targetEntity="Sylius\Component\Core\Model\Order", inversedBy="agreementsHistory")
-     * @ORM\JoinColumn(name="order_id", referencedColumnName="id")
-     */
+    /** @var OrderInterface|null */
     protected $order;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=80, name="agreement_state")
-     */
+    /** @var string */
     protected $state = AgreementHistoryStates::STATE_ASSIGNED;
 
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=120, name="agreement_context")
-     */
+    /** @var string */
     protected $context = AgreementContexts::CONTEXT_UNKNOWN;
 
-    /**
-     * @var \DateTime|null
-     * @ORM\Column(type="datetime", nullable=true, name="updated_at")
-     * @Gedmo\Timestampable(on="update")
-     */
+    /** @var \DateTime|null */
     protected $updatedAt;
 
-    /**
-     * @var \DateTime
-     * @ORM\Column(type="datetime", name="created_at")
-     * @Gedmo\Timestampable(on="create")
-     */
+    /** @var \DateTime|null */
     protected $createdAt;
 
     public function __construct()
@@ -88,6 +51,7 @@ class AgreementHistory implements AgreementHistoryInterface
         return $this->id;
     }
 
+    /** @return ?AgreementInterface */
     public function getAgreement(): ?AgreementInterface
     {
         return $this->agreement;
@@ -98,6 +62,7 @@ class AgreementHistory implements AgreementHistoryInterface
         $this->agreement = $agreement;
     }
 
+    /** @return ?ShopUserInterface */
     public function getShopUser(): ?ShopUserInterface
     {
         return $this->shopUser;
@@ -108,6 +73,7 @@ class AgreementHistory implements AgreementHistoryInterface
         $this->shopUser = $shopUser;
     }
 
+    /** @return ?OrderInterface */
     public function getOrder(): ?OrderInterface
     {
         return $this->order;
@@ -118,6 +84,7 @@ class AgreementHistory implements AgreementHistoryInterface
         $this->order = $order;
     }
 
+    /** @return string */
     public function getState(): string
     {
         return $this->state;
@@ -128,6 +95,7 @@ class AgreementHistory implements AgreementHistoryInterface
         $this->state = $state;
     }
 
+    /** @return string */
     public function getContext(): string
     {
         return $this->context;
