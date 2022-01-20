@@ -1,6 +1,6 @@
 imports:
     - { resource: "@SyliusAgreementPlugin/Resources/config/resources.yaml" }
-    - { resource: "@SyliusAgreementPlugin/Resources/config/grids/admin/agreement.yaml" }
+    - { resource: "@SyliusAgreementPlugin/Resources/config/grids/*/*.yaml" }
 
 sylius_agreement:
     extended_form_types:
@@ -15,4 +15,3 @@ sylius_agreement:
 twig:
     form_themes:
         - '@SyliusAgreementPlugin/Form/agreement_approval_widget.html.twig'
-        - '@SyliusAgreementPlugin/Admin/Form/agreement_autocomplete_choice.html.twig'

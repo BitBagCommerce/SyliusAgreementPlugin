@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 
 trait AgreementsRequiredTrait
 {
-    /** @var Collection|AgreementInterface[] */
+    /** @var ?Collection|AgreementInterface[] */
     protected $agreements;
 
     public function getAgreements(): ?Collection

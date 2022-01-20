@@ -66,11 +66,8 @@ final class AgreementType extends AbstractResourceType
         $contexts = $this->prepareContextsData();
 
         $builder
-            ->add('parent', AgreementAutocompleteChoiceType::class, [
+            ->add('parent', TextType::class, [
                 'label' => 'bitbag_sylius_agreement_plugin.ui.agreement',
-                'resource' => 'bitbag_sylius_agreement_plugin.agreement',
-                'choice_name' => 'code',
-                'choice_value' => 'id',
             ])
             ->add('code', TextType::class, [
                 'label' => 'bitbag_sylius_agreement_plugin.ui.code',

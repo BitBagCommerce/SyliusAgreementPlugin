@@ -28,7 +28,7 @@ bitbag_sylius_agreement_plugin_admin_agreement_archive:
         parameters: {}
 
 bitbag_sylius_agreement_plugin_admin_ajax_agreement_choice:
-  path: /agreements/new/search
+  path: /admin/agreement/search
   methods: [GET]
   defaults:
     _controller: bitbag_sylius_agreement_plugin.controller.agreement:indexAction

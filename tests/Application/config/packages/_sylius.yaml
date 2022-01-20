@@ -9,11 +9,16 @@ imports:
 
     - { resource: "@SyliusAgreementPlugin/Resources/config/config.yaml" }
 
-    - { resource: "../../src/Resources/config/config.yaml" }
-
 parameters:
     sylius_core.public_dir: '%kernel.project_dir%/public'
 
 sylius_shop:
     product_grid:
         include_all_descendants: true
+
+sylius_customer:
+    resources:
+        customer:
+            classes:
+                model: Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\Customer
+
