@@ -67,7 +67,7 @@ final class AgreementType extends AbstractResourceType
 
         $builder
             ->add('parent', TextType::class, [
-                'label' => 'bitbag_sylius_agreement_plugin.ui.agreement'
+                'label' => 'bitbag_sylius_agreement_plugin.ui.agreement',
             ])
             ->add('code', TextType::class, [
                 'label' => 'bitbag_sylius_agreement_plugin.ui.code',
@@ -109,7 +109,6 @@ final class AgreementType extends AbstractResourceType
         )->addModelTransformer(
             new ResourceToIdentifierTransformer($this->agreementRepository, 'id')
         );
-
     }
 
     public function getBlockPrefix(): string
