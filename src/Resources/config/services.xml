@@ -16,6 +16,7 @@
         <service id="bitbag_sylius_agreement_plugin.form.type.agreement.admin.agreement_type"
                  class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementType">
             <argument>%bitbag_sylius_agreement_plugin.model.agreement.class%</argument>
+            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
             <argument>%bitbag_sylius_agreement_plugin.form.type.agreement.validation_groups%</argument>
             <argument>%sylius_agreement_plugin.modes%</argument>
             <argument>%sylius_agreement_plugin.contexts%</argument>
@@ -42,7 +43,7 @@
 
         <service id="bitbag_sylius_agreement_plugin.form.type.agreement.shop.agreement_collection_type"
                  class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCollectionType">
-                <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
+            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
             <tag name="form.type"/>
         </service>
 
@@ -74,13 +75,12 @@
         <service id="BitBag\SyliusAgreementPlugin\Resolver\AgreementHistory\OrderAgreementHistoryResolver">
             <argument type="service" id="sylius.context.cart"/>
             <tag name="bitbag_sylius_agreement_plugin.agreement_history_resolver" priority="0"/>
-            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement_history"/>
+            <argument type="service" id="BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepository"></argument>
         </service>
 
         <service id="BitBag\SyliusAgreementPlugin\Resolver\AgreementHistory\ShopUserAgreementHistoryResolver">
             <argument type="service" id="security.helper"/>
-            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement_history"/>
-            <tag name="bitbag_sylius_agreement_plugin.agreement_history_resolver" priority="10"/>
+            <argument type="service" id="BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepository"></argument>
         </service>
 
         <service id="form.extension"

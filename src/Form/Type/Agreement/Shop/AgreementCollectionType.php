@@ -36,7 +36,6 @@ final class AgreementCollectionType extends AbstractType
             ->setDefault('entry_options', static function (AgreementInterface $agreement): array {
                 /** @var AgreementTranslationInterface $translation */
                 $translation = $agreement->getTranslation();
-
                 return [
                     'required' => in_array(
                         $agreement->getMode(),

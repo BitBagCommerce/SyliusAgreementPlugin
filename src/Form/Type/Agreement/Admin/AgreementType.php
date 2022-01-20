@@ -66,11 +66,8 @@ final class AgreementType extends AbstractResourceType
         $contexts = $this->prepareContextsData();
 
         $builder
-            ->add('parent', AgreementAutocompleteChoiceType::class, [
-                'label' => 'bitbag_sylius_agreement_plugin.ui.agreement',
-                'resource' => 'bitbag_sylius_agreement_plugin.agreement',
-                'choice_name' => 'code',
-                'choice_value' => 'id',
+            ->add('parent', TextType::class, [
+                'label' => 'bitbag_sylius_agreement_plugin.ui.agreement'
             ])
             ->add('code', TextType::class, [
                 'label' => 'bitbag_sylius_agreement_plugin.ui.code',
@@ -112,6 +109,7 @@ final class AgreementType extends AbstractResourceType
         )->addModelTransformer(
             new ResourceToIdentifierTransformer($this->agreementRepository, 'id')
         );
+
     }
 
     public function getBlockPrefix(): string
