@@ -14,7 +14,7 @@ class AgreementTranslation extends AbstractTranslation implements AgreementTrans
 
     protected string $body = '';
 
-    protected ?string $extendedBody = null;
+    protected ?string $extendedBody = '';
 
     public function getId(): ?int
     {

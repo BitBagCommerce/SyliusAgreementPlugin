@@ -12,6 +12,6 @@
         </id>
         <field name="name" column="name" type="string"/>
         <field name="body" column="body" type="text"/>
-        <field name="extendedBody" column="extended_body" type="text"/>
+        <field name="extendedBody" column="extended_body" type="text" nullable="true"/>
     </mapped-superclass>
 </doctrine-mapping>
