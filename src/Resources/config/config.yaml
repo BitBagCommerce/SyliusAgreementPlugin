@@ -1,8 +1,9 @@
 imports:
-    - { resource: "@SyliusAgreementPlugin/Resources/config/resources.yaml" }
-    - { resource: "@SyliusAgreementPlugin/Resources/config/grids/*/*.yaml" }
+    - { resource: "@BitBagSyliusAgreementPlugin/Resources/config/resources.yaml" }
+    - { resource: "@BitBagSyliusAgreementPlugin/Resources/config/grids/*/*.yaml" }
+    - { resource: "@BitBagSyliusAgreementPlugin/Resources/config/services.xml" }
 
-sylius_agreement:
+bit_bag_sylius_agreement:
     extended_form_types:
         - Sylius\Bundle\CoreBundle\Form\Type\Customer\CustomerRegistrationType
     modes:
@@ -14,4 +15,4 @@ sylius_agreement:
         - registration_form
 twig:
     form_themes:
-        - '@SyliusAgreementPlugin/Form/agreement_approval_widget.html.twig'
+        - '@BitBagSyliusAgreementPlugin/Form/agreement_approval_widget.html.twig'

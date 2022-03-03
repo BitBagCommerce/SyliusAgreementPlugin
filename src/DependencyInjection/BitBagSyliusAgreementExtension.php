@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
-final class SyliusAgreementExtension extends Extension
+final class BitBagSyliusAgreementExtension extends Extension
 {
     public function getConfiguration(array $config, ContainerBuilder $container): ConfigurationInterface
     {

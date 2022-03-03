@@ -7,7 +7,7 @@ imports:
 
     - { resource: "@SyliusApiBundle/Resources/config/app/config.yaml" }
 
-    - { resource: "@SyliusAgreementPlugin/Resources/config/config.yaml" }
+    - { resource: "@BitBagSyliusAgreementPlugin/Resources/config/config.yaml" }
 
 parameters:
     sylius_core.public_dir: '%kernel.project_dir%/public'

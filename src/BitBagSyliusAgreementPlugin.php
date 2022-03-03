@@ -8,7 +8,7 @@ use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-final class SyliusAgreementPlugin extends Bundle
+final class BitBagSyliusAgreementPlugin extends Bundle
 {
     use SyliusPluginTrait;
 

@@ -9,7 +9,6 @@ services:
     tags:
       - { name: 'bitbag_sylius_agreement_plugin.agreement_resolver' }
 
-
   bitbag_sylius_agreement_plugin.event_subscriber.agreement_subscriber:
     class: BitBag\SyliusAgreementPlugin\EventSubscriber\AgreementSubscriber
     arguments:
