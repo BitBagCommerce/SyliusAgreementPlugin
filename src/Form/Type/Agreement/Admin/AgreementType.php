@@ -56,7 +56,6 @@ final class AgreementType extends AbstractResourceType
         foreach ($this->contexts as $context) {
             $contexts[\sprintf('bitbag_sylius_agreement_plugin.ui.agreement.contexts.%s', $context)] = $context;
         }
-        //dd($context);
         return $contexts;
     }
 
