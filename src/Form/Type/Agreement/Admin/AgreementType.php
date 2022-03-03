@@ -56,7 +56,7 @@ final class AgreementType extends AbstractResourceType
         foreach ($this->contexts as $context) {
             $contexts[\sprintf('bitbag_sylius_agreement_plugin.ui.agreement.contexts.%s', $context)] = $context;
         }
-
+        //dd($context);
         return $contexts;
     }
 
@@ -66,8 +66,9 @@ final class AgreementType extends AbstractResourceType
         $contexts = $this->prepareContextsData();
 
         $builder
-            ->add('parent', TextType::class, [
-                'label' => 'bitbag_sylius_agreement_plugin.ui.agreement',
+            ->add('parent', AgreementAutocompleteChoiceType::class, [
+                'label' => 'bitbag_sylius_agreement_plugin.ui.agreement_parent',
+                'required' => false,
             ])
             ->add('code', TextType::class, [
                 'label' => 'bitbag_sylius_agreement_plugin.ui.code',
@@ -87,6 +88,7 @@ final class AgreementType extends AbstractResourceType
                 'label' => 'bitbag_sylius_agreement_plugin.ui.contexts_label',
                 'multiple' => true,
                 'choices' => $contexts,
+                'data' => ['registration_form'],
             ])
             ->add('publishedAt', DateType::class, [
                 'label' => 'bitbag_sylius_agreement_plugin.ui.published_at',

@@ -27,8 +27,8 @@ bitbag_sylius_agreement_plugin_admin_agreement_archive:
         route: referer
         parameters: {}
 
-bitbag_sylius_agreement_plugin_admin_ajax_agreement_choice:
-  path: /admin/agreement/search
+bitbag_sylius_agreement_plugin_ajax_by_name_phrase:
+  path: /agreement/search
   methods: [GET]
   defaults:
     _controller: bitbag_sylius_agreement_plugin.controller.agreement:indexAction
@@ -40,4 +40,5 @@ bitbag_sylius_agreement_plugin_admin_ajax_agreement_choice:
         method: findByNamePart
         arguments:
           phrase: $phrase
+          locale: null
           limit: 25

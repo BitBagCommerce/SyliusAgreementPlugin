@@ -39,7 +39,7 @@ class AgreementAutocompleteChoiceType extends AbstractType
      */
     public function getBlockPrefix(): string
     {
-        return 'bitbag_sylius_agreement_plugin_admin_ajax_agreement_choice';
+        return 'bitbag_sylius_agreement_plugin_parent_autocomplete_choice';
     }
 
     /**
