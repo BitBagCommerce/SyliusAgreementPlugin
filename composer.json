@@ -11,7 +11,7 @@
     }
   },
   "require": {
-    "sylius/sylius": "^1.9@stable || ^1.10@stable",
+    "sylius/sylius": "~1.9.0 || ~1.10.0 || ~1.11.0",
     "friendsofsymfony/oauth-server-bundle": "2.*@dev",
     "php": "^7.4 || ^8.0",
     "bitbag/coding-standard": "^v1.0.1"
@@ -48,5 +48,12 @@
       "./vendor/bin/phpstan analyze --configuration=vendor/bitbag/coding-standard/phpstan.neon tests/Unit --level=5",
       "./vendor/bin/phpunit --colors=always"
     ]
+  },
+  "config": {
+    "allow-plugins": {
+      "symfony/thanks": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "phpstan/extension-installer": true
+    }
   }
 }
