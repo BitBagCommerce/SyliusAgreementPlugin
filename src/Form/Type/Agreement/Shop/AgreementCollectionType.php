@@ -65,16 +65,16 @@ final class AgreementCollectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $self = $this;
-        $builder->addEventListener(FormEvents::SUBMIT, static function (FormEvent $event) use ($self): void {
+        $builder->addEventListener(FormEvents::SUBMIT, static function (FormEvent $event) use ($self) {
             /** @var AgreementInterface[] $agreements */
             $agreements = $event->getData();
             $submittedAgreements = new ArrayCollection();
             foreach ($agreements as $agreementId => $agreement) {
                 /** @var AgreementInterface $submittedAgreement */
                 $submittedAgreement = $self->agreementRepository->find($agreementId);
-
-                $submittedAgreement->setApproved($agreement->isApproved());
-
+                if ($submittedAgreement) {
+                    $submittedAgreement->setApproved($agreement && $agreement->isApproved());
+                }
                 $submittedAgreements->add($submittedAgreement);
             }
 
