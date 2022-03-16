@@ -70,7 +70,7 @@ final class AgreementCollectionType extends AbstractType
             foreach ($agreements as $agreementId => $agreement) {
                 /** @var AgreementInterface $submittedAgreement */
                 $submittedAgreement = $self->agreementRepository->find($agreementId);
-                $submittedAgreement->setApproved($agreement && $agreement->isApproved());
+                $submittedAgreement->setApproved(true);
                 $submittedAgreements->add($submittedAgreement);
             }
 
