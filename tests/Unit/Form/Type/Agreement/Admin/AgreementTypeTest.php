@@ -1,76 +1,51 @@
 <?php
 
+/*
+ * This file was created by developers working at BitBag
+ * Do you need more information about us and what we do? Visit our https://bitbag.io website!
+ * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
+*/
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Form\Type\Agreement\Admin;
 
-use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementAutocompleteChoiceType;
-use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementTranslationType;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementType;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sylius\Bundle\ResourceBundle\Form\Type\ResourceTranslationsType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\ReversedTransformer;
 
 final class AgreementTypeTest extends TestCase
 {
-
     /**
-     * @var mixed|\PHPUnit\Framework\MockObject\MockObject|FormBuilderInterface
+     * @dataProvider build_form_data_provider
      */
-    private $builder;
-    /**
-     * @var AgreementRepositoryInterface|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $agreementRepository;
-
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ReversedTransformer
-     */
-    private $reversedTransformer;
-
-
-    public function setUp() :void
+    public function test_it_builds_form_correctly(array $modes, array $preparedModes, array $contexts, array $preparedContexts): void
     {
-        $this->builder = $this->createMock(FormBuilderInterface::class);
-        $this->agreementRepository= $this->createMock(AgreementRepositoryInterface::class);
-        $this->reversedTransformer = $this->createMock(ReversedTransformer::class);
-    }
+        $builder = $this->mock_builder();
+        $agreementRepository = $this->mock_agreement_repository();
 
-    /**
-     * @dataProvider buildFormDataProvider
-     */
-    public function testBuildForm(array $modes, array $preparedModes, array $contexts, array $preparedContexts): void
-    {
-
-        $this->builder
+        $builder
             ->method('add')
             ->willReturnSelf();
 
-        $this->builder
+        $builder
             ->expects(self::once())
             ->method('get')
             ->with('parent')
             ->willReturnSelf();
 
-
-
-        $this->builder
+        $builder
             ->expects(self::exactly(2))
             ->method('addModelTransformer')
             ->willReturnSelf();
 
-        $subject = new AgreementType('test', $this->agreementRepository, [], $modes, $contexts);
-        $subject->buildForm($this->builder, []);
+        $subject = new AgreementType('test', $agreementRepository, [], $modes, $contexts);
+        $subject->buildForm($builder, []);
     }
 
-    public function buildFormDataProvider(): array
+    public function build_form_data_provider(): array
     {
         return [
             [
@@ -93,5 +68,32 @@ final class AgreementTypeTest extends TestCase
                 ]
             ]
         ];
+    }
+
+    /**
+     * @dataProvider build_form_data_provider
+     */
+    public function test_it_has_correct_block_prefix(array $modes, array $preparedModes, array $contexts, array $preparedContexts): void
+    {
+        $agreementRepository = $this->mock_agreement_repository();
+
+        $form = new AgreementType('test', $agreementRepository, [], $modes, $contexts);
+        self::assertEquals('bitbag_sylius_agreement_plugin_agreement', $form->getBlockPrefix());
+    }
+
+    /**
+     * @return AgreementRepositoryInterface|MockObject
+     */
+    private function mock_agreement_repository(): object
+    {
+        return $this->createMock(AgreementRepositoryInterface::class);
+    }
+
+    /**
+     * @return FormBuilderInterface|MockObject
+     */
+    private function mock_builder(): object
+    {
+        return $this->createMock(FormBuilderInterface::class);
     }
 }

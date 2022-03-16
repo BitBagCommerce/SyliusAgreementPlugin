@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * This file was created by developers working at BitBag
+ * Do you need more information about us and what we do? Visit our https://bitbag.io website!
+ * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
+*/
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Form\Type\Agreement\Admin;
@@ -17,6 +23,7 @@ class AgreementAutocompleteChoiceTypeTest extends TestCase
     {
         $type = new AgreementAutocompleteChoiceType();
         $view = new FormView();
+
         $type->buildView($view, $this->mock_form(), []);
         self::assertEquals('contains', $view->vars['remote_criteria_type']);
         self::assertEquals('phrase', $view->vars['remote_criteria_name']);
@@ -46,6 +53,7 @@ class AgreementAutocompleteChoiceTypeTest extends TestCase
     public function test_it_has_correct_block_prefix(): void
     {
         $type = new AgreementAutocompleteChoiceType();
+
         self::assertEquals(
             'bitbag_sylius_agreement_plugin_parent_autocomplete_choice',
             $type->getBlockPrefix()
@@ -55,6 +63,7 @@ class AgreementAutocompleteChoiceTypeTest extends TestCase
     public function test_it_has_correct_parent(): void
     {
         $type = new AgreementAutocompleteChoiceType();
+
         self::assertEquals(
             'Sylius\Bundle\ResourceBundle\Form\Type\ResourceAutocompleteChoiceType',
             $type->getParent()
