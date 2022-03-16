@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * This file was created by developers working at BitBag
+ * Do you need more information about us and what we do? Visit our https://bitbag.io website!
+ * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
+*/
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Menu;
@@ -29,29 +35,33 @@ final class AdminMenuListenerTest extends TestCase
         $this->event = $this->createMock(MenuBuilderEvent::class);
         $this->menu = $this->createMock(ItemInterface::class);
         $this->configurationMenu = $this->createMock(ItemInterface::class);
-
     }
 
-
-    public function testAddAgreementItems(): void
+    public function test_it_adds_agreement_items(): void
     {
+        $this->event
+            ->expects(self::once())
+            ->method('getMenu')
+            ->willReturn($this->menu);
 
-
-        $this->event->expects(self::once())->method('getMenu')->willReturn($this->menu);
-
-
-        $this->menu->expects(self::once())->method('getChild')->with('configuration')->willReturn($this->configurationMenu);
+        $this->menu
+            ->expects(self::once())
+            ->method('getChild')
+            ->with('configuration')
+            ->willReturn($this->configurationMenu);
 
         $this->configurationMenu
             ->expects(self::once())
             ->method('addChild')
             ->with('agreement', ['route' => 'bitbag_sylius_agreement_plugin_admin_agreement_index'])
             ->willReturnSelf();
+
         $this->configurationMenu
             ->expects(self::once())
             ->method('setLabel')
             ->with('bitbag_sylius_agreement_plugin.ui.agreements')
             ->willReturnSelf();
+
         $this->configurationMenu
             ->expects(self::once())
             ->method('setLabelAttribute')

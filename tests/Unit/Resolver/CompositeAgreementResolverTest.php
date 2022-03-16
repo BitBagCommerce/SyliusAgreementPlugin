@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * This file was created by developers working at BitBag
+ * Do you need more information about us and what we do? Visit our https://bitbag.io website!
+ * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
+*/
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Resolver;
@@ -12,9 +18,9 @@ use PHPUnit\Framework\TestCase;
 final class CompositeAgreementResolverTest extends TestCase
 {
     /**
-     * @dataProvider resolveDataProvider
+     * @dataProvider resolve_data_provider
      */
-    public function testResolve(
+    public function test_it_resolves(
         array $resolvers,
         array $output
     ): void
@@ -24,7 +30,7 @@ final class CompositeAgreementResolverTest extends TestCase
         self::assertEquals($output, $subject->resolve('', []));
     }
 
-    public function resolveDataProvider(): array
+    public function resolve_data_provider(): array
     {
         $agreement1 = $this->createMock(AgreementInterface::class);
         $agreement2 = $this->createMock(AgreementInterface::class);
@@ -33,36 +39,36 @@ final class CompositeAgreementResolverTest extends TestCase
         return [
             [
                 [
-                    $this->mockResolver(false, [$agreement1, $agreement2]),
-                    $this->mockResolver(true, []),
+                    $this->mock_resolver(false, [$agreement1, $agreement2]),
+                    $this->mock_resolver(true, []),
                 ],
                 []
             ],
             [
                 [
-                    $this->mockResolver(true, [$agreement1, $agreement2]),
-                    $this->mockResolver(true, []),
+                    $this->mock_resolver(true, [$agreement1, $agreement2]),
+                    $this->mock_resolver(true, []),
                 ],
                 [$agreement1, $agreement2]
             ],
             [
                 [
-                    $this->mockResolver(true, [$agreement1, $agreement3]),
-                    $this->mockResolver(true, [$agreement2]),
+                    $this->mock_resolver(true, [$agreement1, $agreement3]),
+                    $this->mock_resolver(true, [$agreement2]),
                 ],
                 [$agreement1, $agreement3, $agreement2]
             ],
         ];
     }
 
-    public function testSupports(): void
+    public function test_it_supports(): void
     {
         $subject = new CompositeAgreementResolver([]);
 
         self::assertTrue($subject->supports('', []));
     }
 
-    private function mockResolver(bool $supports, array $resolved): object
+    private function mock_resolver(bool $supports, array $resolved): object
     {
         $mock = $this->createMock(AgreementResolverInterface::class);
         $mock->method('supports')->willReturn($supports);

@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * This file was created by developers working at BitBag
+ * Do you need more information about us and what we do? Visit our https://bitbag.io website!
+ * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
+*/
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Resolver\AgreementHistory;
@@ -15,9 +21,9 @@ use Symfony\Component\Security\Core\Security;
 final class ShopUserAgreementHistoryResolverTest extends TestCase
 {
     /**
-     * @dataProvider resolveHistoryDataProvider
+     * @dataProvider resolve_history_data_provider
      */
-    public function testResolveHistory(?int $agreementId = null, ?int $shopUserId = null, ?object $agreementHistory = null, ?object $output = null): void
+    public function test_it_resolves_history(?int $agreementId = null, ?int $shopUserId = null, ?object $agreementHistory = null, ?object $output = null): void
     {
         $security = $this->createMock(Security::class);
         $agreementHistoryRepository = $this->createMock(AgreementHistoryRepositoryInterface::class);
@@ -32,13 +38,17 @@ final class ShopUserAgreementHistoryResolverTest extends TestCase
             ->method('findOneForShopUser')
             ->with($agreement, $shopUser)
             ->willReturn($agreementHistory);
-        $security->expects(self::once())->method('getUser')->willReturn($shopUser);
+
+        $security
+            ->expects(self::once())
+            ->method('getUser')
+            ->willReturn($shopUser);
 
         $subject = new ShopUserAgreementHistoryResolver($security, $agreementHistoryRepository);
         self::assertEquals($output, $subject->resolveHistory($agreement));
     }
 
-    public function resolveHistoryDataProvider(): array
+    public function resolve_history_data_provider(): array
     {
         $agreement = $this->createMock(AgreementHistory::class);
         return [
@@ -50,17 +60,20 @@ final class ShopUserAgreementHistoryResolverTest extends TestCase
         ];
     }
 
-    public function testSupports(): void
+    public function test_it_supports(): void
     {
         $security = $this->createMock(Security::class);
+        $shopUser = $this->createMock(ShopUserInterface::class);
+        $agreement = $this->createMock(AgreementInterface::class);
         $agreementHistoryRepository = $this->createMock(AgreementHistoryRepositoryInterface::class);
 
-        $agreement = $this->createMock(AgreementInterface::class);
         $subject = new ShopUserAgreementHistoryResolver($security, $agreementHistoryRepository);
         self::assertFalse($subject->supports($agreement));
 
-        $shopUser = $this->createMock(ShopUserInterface::class);
-        $security->expects(self::once())->method('getUser')->willReturn($shopUser);
+        $security
+            ->expects(self::once())
+            ->method('getUser')
+            ->willReturn($shopUser);
         self::assertTrue($subject->supports($agreement));
     }
 }

@@ -51,6 +51,7 @@ final class AgreementSubscriber implements EventSubscriberInterface
         /** @var ?ShopUserInterface $shopUser */
         $shopUser = $customer->getUser();
         Assert::isInstanceOf($shopUser, ShopUserInterface::class);
+
         /** @var Collection $userAgreements */
         $userAgreements = $customer->getAgreements();
 

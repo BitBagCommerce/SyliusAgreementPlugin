@@ -36,9 +36,7 @@ final class AgreementCollectionType extends AbstractType
 
         $resolver
             ->setDefault('entry_type', AgreementType::class)
-            ->setDefault('entry_name', static function (AgreementInterface $agreement) {
-                return $agreement->getId();
-            })
+            ->setDefault('entry_name', static fn (AgreementInterface $agreement) => $agreement->getId())
             ->setDefault('entry_options', static function (AgreementInterface $agreement): array {
                 /** @var AgreementTranslationInterface $translation */
                 $translation = $agreement->getTranslation();
