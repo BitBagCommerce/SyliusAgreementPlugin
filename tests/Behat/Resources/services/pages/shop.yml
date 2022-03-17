@@ -1,0 +1,4 @@
+services:
+    bitbag_sylius_agreement_plugin.behat.page.shop.account.register:
+      class: Tests\BitBag\SyliusAgreementPlugin\Behat\Page\Shop\Account\RegisterPage
+      parent: sylius.behat.page.shop.account.register

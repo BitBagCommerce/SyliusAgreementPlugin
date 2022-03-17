@@ -1,10 +1,2 @@
-# Put your Behat suites definitions here
-
-default:
-    suites:
-        greeting_customer:
-            contexts:
-                - bitbag_sylius_agreement.context.ui.shop.welcome
-
-            filters:
-                tags: "@greeting_customer"
+imports:
+    - suites/ui/customer_registration.yml

@@ -1,0 +1,9 @@
+services:
+    _defaults: { public: true }
+
+    bitbag_sylius_agreement_plugin.behat.context.setup.agreement:
+      class: Tests\BitBag\SyliusAgreementPlugin\Behat\Context\Setup\AgreementContext
+      arguments:
+        - "@bitbag_sylius_agreement_plugin.factory.agreement"
+        - "@bitbag_sylius_agreement_plugin.factory.agreement_translation"
+        - "@bitbag_sylius_agreement_plugin.repository.agreement"
