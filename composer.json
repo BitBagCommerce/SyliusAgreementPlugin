@@ -1,5 +1,5 @@
 {
-  "name": "bitbag/sylius-agreement-plugin",
+  "name": "bitbag/agreement-plugin",
   "description": "Agreement plugin for Sylius",
   "type": "sylius-plugin",
   "license": "MIT",
