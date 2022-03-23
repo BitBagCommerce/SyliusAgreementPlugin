@@ -15,6 +15,7 @@ use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AgreementTypeTest extends TestCase
 {
@@ -79,6 +80,23 @@ final class AgreementTypeTest extends TestCase
 
         $form = new AgreementType('test', $agreementRepository, [], $modes, $contexts);
         self::assertEquals('bitbag_sylius_agreement_plugin_agreement', $form->getBlockPrefix());
+    }
+
+    /**
+     * @dataProvider build_form_data_provider
+     */
+    public function test_it_configures_correctly(array $modes, array $preparedModes, array $contexts, array $preparedContexts)
+    {
+        $resolver = $this->createMock(OptionsResolver::class);
+        $agreementRepository = $this->mock_agreement_repository();
+
+        $resolver
+            ->expects(self::once())
+            ->method('setDefaults')
+            ->with(['validation_groups' => ['Agreement']]);
+
+        $form = new AgreementType('test', $agreementRepository, [], $modes, $contexts);
+        $form->configureOptions($resolver);
     }
 
     /**

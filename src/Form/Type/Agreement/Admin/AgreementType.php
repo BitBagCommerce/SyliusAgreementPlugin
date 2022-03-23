@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\ReversedTransformer;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AgreementType extends AbstractResourceType
 {
@@ -64,6 +65,15 @@ final class AgreementType extends AbstractResourceType
         }
 
         return $contexts;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'validation_groups' => [
+                'Agreement',
+            ],
+        ]);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
