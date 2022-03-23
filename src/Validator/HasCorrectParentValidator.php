@@ -18,15 +18,15 @@ use Webmozart\Assert\Assert;
 class HasCorrectParentValidator extends ConstraintValidator
 {
     /**
-     * @param Agreement|mixed $value
+     * @param Agreement|mixed $agreement
      * @param HasCorrectParent|Constraint $constraint
      */
-    public function validate($value, Constraint $constraint)
+    public function validate($agreement, Constraint $constraint): void
     {
-        Assert::isInstanceOf($value, Agreement::class);
-
-        if ($value->getId() === $value->getParent()->getId()) {
-            $this->context->addViolation(HasCorrectParent::PARENT_ID_SAME_AS_AGREEMENT);
+        if ($agreement !== null && $agreement->getParent() !== null) {
+            if ($agreement->getId() === $agreement->getParent()->getId()) {
+                $this->context->addViolation(HasCorrectParent::PARENT_ID_SAME_AS_AGREEMENT);
+            }
         }
     }
 }
