@@ -13,7 +13,6 @@ namespace BitBag\SyliusAgreementPlugin\Validator;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-use Webmozart\Assert\Assert;
 
 class HasCorrectParentValidator extends ConstraintValidator
 {
@@ -23,7 +22,7 @@ class HasCorrectParentValidator extends ConstraintValidator
      */
     public function validate($agreement, Constraint $constraint): void
     {
-        if ($agreement !== null && $agreement->getParent() !== null) {
+        if (null !== $agreement && null !== $agreement->getParent()) {
             if ($agreement->getId() === $agreement->getParent()->getId()) {
                 $this->context->addViolation(HasCorrectParent::PARENT_ID_SAME_AS_AGREEMENT);
             }
