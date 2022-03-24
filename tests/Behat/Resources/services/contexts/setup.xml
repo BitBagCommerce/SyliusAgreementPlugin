@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <defaults public="true" />
+
+        <service id="bitbag_sylius_agreement_plugin.behat.context.setup.agreement"
+                 class="Tests\BitBag\SyliusAgreementPlugin\Behat\Context\Setup\AgreementContext">
+            <argument type="service" id="bitbag_sylius_agreement_plugin.factory.agreement" />
+            <argument type="service" id="bitbag_sylius_agreement_plugin.factory.agreement_translation" />
+            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement" />
+        </service>
+
+    </services>
+</container>

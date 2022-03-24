@@ -1,7 +1,0 @@
-services:
-    _defaults: { public: true }
-
-    bitbag_sylius_agreement_plugin.behat.context.ui.shop.registration:
-      class: Tests\BitBag\SyliusAgreementPlugin\Behat\Context\Ui\Shop\RegistrationContext
-      arguments:
-        - "@bitbag_sylius_agreement_plugin.behat.page.shop.account.register"
