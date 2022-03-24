@@ -29,8 +29,4 @@ final class RegistrationContext implements Context
     {
         $this->registerPage->iCheckAgreement($agreementCode);
     }
-
-
-
-
 }

@@ -12,21 +12,22 @@ namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Menu;
 
 use BitBag\SyliusAgreementPlugin\Menu\AdminMenuListener;
 use Knp\Menu\ItemInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
 final class AdminMenuListenerTest extends TestCase
 {
     /**
-     * @var mixed|\PHPUnit\Framework\MockObject\MockObject|MenuBuilderEvent
+     * @var mixed|MockObject|MenuBuilderEvent
      */
     private $event;
     /**
-     * @var ItemInterface|mixed|\PHPUnit\Framework\MockObject\MockObject
+     * @var ItemInterface|mixed|MockObject
      */
     private $configurationMenu;
     /**
-     * @var ItemInterface|mixed|\PHPUnit\Framework\MockObject\MockObject
+     * @var ItemInterface|mixed|MockObject
      */
     private $menu;
 

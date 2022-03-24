@@ -28,9 +28,9 @@ final class AgreementSubscriberTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $subscriber = new AgreementSubscriber(
-            $this->mock_agreement_history_repository(),
-            $this->mock_agreement_resolver(),
-            $this->mock_agreement_history_resolver()
+            $this->mockAgreementHistoryRepository(),
+            $this->mockAgreementResolver(),
+            $this->mockAgreementHistoryResolver()
         );
 
         $subscriber->processAgreementsFromUserRegister(new ResourceControllerEvent(new \stdClass()));
@@ -40,12 +40,12 @@ final class AgreementSubscriberTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $subscriber = new AgreementSubscriber(
-            $this->mock_agreement_history_repository(),
-            $this->mock_agreement_resolver(),
-            $this->mock_agreement_history_resolver()
+            $this->mockAgreementHistoryRepository(),
+            $this->mockAgreementResolver(),
+            $this->mockAgreementHistoryResolver()
         );
 
-        $customer = $this->mock_customer();
+        $customer = $this->mockCustomer();
 
         $customer
             ->expects(self::once())
@@ -55,16 +55,16 @@ final class AgreementSubscriberTest extends TestCase
         $subscriber->processAgreementsFromUserRegister(new ResourceControllerEvent($customer));
     }
 
-    public function test_it_process_agreements_correctly(): void
+    public function test_it_processes_agreements_correctly(): void
     {
-        $customer = $this->mock_customer();
-        $shopUser = $this->mock_shop_user();
-        $agreementsCollection = $this->mock_collection_of_agreements();
+        $customer = $this->mockCustomer();
+        $shopUser = $this->mockShopUser();
+        $agreementsCollection = $this->mockCollectionOfAgreements();
 
         $subscriber = new AgreementSubscriber(
-            $this->mock_agreement_history_repository(),
-            $this->mock_agreement_resolver(),
-            $this->mock_agreement_history_resolver()
+            $this->mockAgreementHistoryRepository(),
+            $this->mockAgreementResolver(),
+            $this->mockAgreementHistoryResolver()
         );
 
         $customer
@@ -92,7 +92,7 @@ final class AgreementSubscriberTest extends TestCase
     /**
      * @return ShopUserInterface|MockObject
      */
-    private function mock_shop_user(): object
+    private function mockShopUser(): object
     {
         return $this->createMock(ShopUserInterface::class);
     }
@@ -100,7 +100,7 @@ final class AgreementSubscriberTest extends TestCase
     /**
      * @return AgreementResolverInterface|MockObject
      */
-    private function mock_agreement_resolver(): object
+    private function mockAgreementResolver(): object
     {
         return $this->createMock(AgreementResolverInterface::class);
     }
@@ -108,7 +108,7 @@ final class AgreementSubscriberTest extends TestCase
     /**
      * @return CustomerInterface|MockObject
      */
-    private function mock_customer(): object
+    private function mockCustomer(): object
     {
         return $this->createMock(CustomerInterface::class);
     }
@@ -116,7 +116,7 @@ final class AgreementSubscriberTest extends TestCase
     /**
      * @return AgreementHistoryRepositoryInterface|MockObject
      */
-    private function mock_agreement_history_repository(): object
+    private function mockAgreementHistoryRepository(): object
     {
         return $this->createMock(AgreementHistoryRepositoryInterface::class);
     }
@@ -124,7 +124,7 @@ final class AgreementSubscriberTest extends TestCase
     /**
      * @return AgreementHistoryResolverInterface|MockObject
      */
-    private function mock_agreement_history_resolver(): object
+    private function mockAgreementHistoryResolver(): object
     {
         return $this->createMock(AgreementHistoryResolverInterface::class);
     }
@@ -132,12 +132,12 @@ final class AgreementSubscriberTest extends TestCase
     /**
      * @return ArrayCollection|MockObject[]|AgreementInterface[]
      */
-    private function mock_collection_of_agreements(): ArrayCollection
+    private function mockCollectionOfAgreements(): ArrayCollection
     {
         $collection = new ArrayCollection();
 
         for ($i = 1; 5 >= $i; ++$i) {
-            $agreement = $this->mock_agreement();
+            $agreement = $this->mockAgreement();
 
             if (5 === $i) {
                 $agreement
@@ -161,7 +161,7 @@ final class AgreementSubscriberTest extends TestCase
     /**
      * @return AgreementInterface|MockObject
      */
-    private function mock_agreement(): object
+    private function mockAgreement(): object
     {
         return $this->createMock(AgreementInterface::class);
     }

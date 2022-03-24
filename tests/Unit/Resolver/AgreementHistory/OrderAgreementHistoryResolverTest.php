@@ -24,40 +24,38 @@ use Sylius\Component\Core\Model\OrderInterface;
 final class OrderAgreementHistoryResolverTest extends TestCase
 {
     /**
-     * @dataProvider resolve_history_data_provider
+     * @dataProvider resolveHistoryDataProvider
      */
-    public function test_it_resolves_history(?int $cartId = null, ?int $agreementId = null, ?object $agreementHistory = null, ?object $output = null): void
+    public function test_it_resolves_history_correctly(?int $cartId = null, ?int $agreementId = null, ?object $agreementHistory = null, ?object $output = null): void
     {
         $agreement = $this->createMock(AgreementInterface::class);
-        $agreement->expects(self::once())->method('getId')->willReturn($agreementId);
+        $agreement
+            ->expects(self::once())
+            ->method('getId')
+            ->willReturn($agreementId);
 
         $cart = $this->createMock(OrderInterface::class);
-        $cart->expects(self::atMost(1))->method('getId')->willReturn($cartId);
+        $cart->expects(self::atMost(1))
+            ->method('getId')
+            ->willReturn($cartId);
 
         $cartContext = $this->createMock(CartContextInterface::class);
-        $cartContext->expects(self::once())->method('getCart')->willReturn($cart);
+        $cartContext
+            ->expects(self::once())
+            ->method('getCart')
+            ->willReturn($cart);
 
         $repository = $this->createMock(AgreementHistoryRepositoryInterface::class);
-        $repository->method('findOneForOrder')->with($agreement, $cart)->willReturn($agreementHistory);
+        $repository
+            ->method('findOneForOrder')
+            ->with($agreement, $cart)
+            ->willReturn($agreementHistory);
 
         $subject = new OrderAgreementHistoryResolver($cartContext, $repository);
         self::assertEquals($output, $subject->resolveHistory($agreement));
     }
 
-    public function resolve_history_data_provider(): array
-    {
-        $agreementHistory = $this->createMock(AgreementHistoryInterface::class);
-        return [
-            [1, 2, $agreementHistory, $agreementHistory],
-            [1, null, $agreementHistory, null],
-            [null, null, $agreementHistory, null],
-            [null, null, $agreementHistory, null],
-            [null, 1, $agreementHistory, null],
-            [null, 1, null, null],
-        ];
-    }
-
-    public function test_it_supports()
+    public function test_it_supports_order_interface()
     {
         $cartContext = $this->createMock(CartContextInterface::class);
 
@@ -71,5 +69,18 @@ final class OrderAgreementHistoryResolverTest extends TestCase
         $orderAgreementHistoryResolver = new OrderAgreementHistoryResolver($cartContext,$agreementHistoryRepository);
 
         Assert::assertSame($orderAgreementHistoryResolver->supports($agreementInterface),true);
+    }
+
+    public function resolveHistoryDataProvider(): array
+    {
+        $agreementHistory = $this->createMock(AgreementHistoryInterface::class);
+        return [
+            [1, 2, $agreementHistory, $agreementHistory],
+            [1, null, $agreementHistory, null],
+            [null, null, $agreementHistory, null],
+            [null, null, $agreementHistory, null],
+            [null, 1, $agreementHistory, null],
+            [null, 1, null, null],
+        ];
     }
 }

@@ -41,7 +41,7 @@ class RegistrationFormAgreementResolverTest extends TestCase
             new RegistrationFormAgreementResolver($this->agreementRepository);
     }
 
-    public function test_it_resolves()
+    public function test_it_resolves_agreement_form_correctly()
     {
         $this->agreementRepository
             ->expects(self::once())
@@ -55,7 +55,7 @@ class RegistrationFormAgreementResolverTest extends TestCase
         Assert::same($result,[$this->agreement]);
     }
 
-    public function test_it_supports()
+    public function test_it_supports_registration_context()
     {
         $support = new RegistrationFormAgreementResolver($this->agreementRepository);
         self::assertTrue($support->supports('sylius_customer_registration', []));

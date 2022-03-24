@@ -20,10 +20,10 @@ use PHPUnit\Framework\TestCase;
 
 class AgreementNotSupportedExceptionTest extends TestCase
 {
-    public function test_it_throws_exception()
+    public function test_it_throws_exception_when_agreement_is_not_supported()
     {
-        $agreement = $this->mock_agreement();
-        $agreementApprovalResolver = $this->mock_agreement_approval_resolver();
+        $agreement = $this->mockAgreement();
+        $agreementApprovalResolver = $this->mockAgreementApprovalResolver();
 
         $agreementApprovalResolver
             ->method('supports')
@@ -41,17 +41,10 @@ class AgreementNotSupportedExceptionTest extends TestCase
         $agreementApprovalResolver->resolve($agreement);
     }
 
-    public function test_get_agreement()
-    {
-        $agreement = new Agreement();
-        $exception = new AgreementNotSupportedException($agreement);
-        Assert::assertSame($agreement,$exception->getAgreement());
-    }
-
     /**
      * @return AgreementInterface|MockObject
      */
-    private function mock_agreement(): object
+    private function mockAgreement(): object
     {
         return $this->createMock(AgreementInterface::class);
     }
@@ -59,7 +52,7 @@ class AgreementNotSupportedExceptionTest extends TestCase
     /**
      * @return AgreementApprovalResolverInterface|MockObject
      */
-    private function mock_agreement_approval_resolver(): object
+    private function mockAgreementApprovalResolver(): object
     {
         return $this->createMock(AgreementApprovalResolverInterface::class);
     }

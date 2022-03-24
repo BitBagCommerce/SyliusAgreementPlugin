@@ -68,7 +68,7 @@ final class AgreementTypeExtensionTest extends TestCase
 
     }
 
-    public function test_it_builds_form()
+    public function test_it_builds_form_correctly()
     {
 
         $this->builder
@@ -100,14 +100,5 @@ final class AgreementTypeExtensionTest extends TestCase
             ->willReturn($this->builder, []);
 
         $this->subject->buildForm($this->builder,[]);
-    }
-
-    public function test_return_type()
-    {
-        $subject =
-            new AgreementsTypeExtension($this->agreementResolver,
-                $this->agreementApprovalResolver);
-
-        Assert::assertSame([],$subject::getExtendedTypes());
     }
 }

@@ -21,9 +21,9 @@ use Symfony\Component\Security\Core\Security;
 final class ShopUserAgreementHistoryResolverTest extends TestCase
 {
     /**
-     * @dataProvider resolve_history_data_provider
+     * @dataProvider resolveHistoryDataProvider
      */
-    public function test_it_resolves_history(?int $agreementId = null, ?int $shopUserId = null, ?object $agreementHistory = null, ?object $output = null): void
+    public function test_it_resolves_history_correctly(?int $agreementId = null, ?int $shopUserId = null, ?object $agreementHistory = null, ?object $output = null): void
     {
         $security = $this->createMock(Security::class);
         $agreementHistoryRepository = $this->createMock(AgreementHistoryRepositoryInterface::class);
@@ -48,19 +48,7 @@ final class ShopUserAgreementHistoryResolverTest extends TestCase
         self::assertEquals($output, $subject->resolveHistory($agreement));
     }
 
-    public function resolve_history_data_provider(): array
-    {
-        $agreement = $this->createMock(AgreementHistory::class);
-        return [
-          [1, 2, $agreement, $agreement],
-          [1, null, $agreement, null],
-          [null, 2, $agreement, null],
-          [1, 2, $agreement, $agreement],
-          [null, null, null, null],
-        ];
-    }
-
-    public function test_it_supports(): void
+    public function test_it_supports_shop_user(): void
     {
         $security = $this->createMock(Security::class);
         $shopUser = $this->createMock(ShopUserInterface::class);
@@ -75,5 +63,17 @@ final class ShopUserAgreementHistoryResolverTest extends TestCase
             ->method('getUser')
             ->willReturn($shopUser);
         self::assertTrue($subject->supports($agreement));
+    }
+
+    public function resolveHistoryDataProvider(): array
+    {
+        $agreement = $this->createMock(AgreementHistory::class);
+        return [
+            [1, 2, $agreement, $agreement],
+            [1, null, $agreement, null],
+            [null, 2, $agreement, null],
+            [1, 2, $agreement, $agreement],
+            [null, null, null, null],
+        ];
     }
 }

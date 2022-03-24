@@ -20,34 +20,33 @@ use PHPUnit\Framework\TestCase;
 final class AgreementApprovalResolverTest extends TestCase
 {
     /**
-     * @dataProvider resolve_data_provider
+     * @dataProvider resolveDataProvider
      */
-    public function test_it_resolves(string $agreementHistoryState, bool $result): void
+    public function test_it_resolves_history_correctly(string $agreementHistoryState, bool $result): void
     {
         $agreement = $this->createMock(AgreementInterface::class);
 
         $agreementHistory = $this->createMock(AgreementHistoryInterface::class);
-        $agreementHistory->expects(self::once())->method('getState')->willReturn($agreementHistoryState);
+        $agreementHistory
+            ->expects(self::once())
+            ->method('getState')
+            ->willReturn($agreementHistoryState);
 
         $historyResolver = $this->createMock(AgreementHistoryResolverInterface::class);
-        $historyResolver->expects(self::once())->method('resolveHistory')->with($agreement)->willReturn($agreementHistory);
+        $historyResolver
+            ->expects(self::once())
+            ->method('resolveHistory')
+            ->with($agreement)
+            ->willReturn($agreementHistory);
 
         $subject = new AgreementApprovalResolver($historyResolver);
         self::assertEquals($result, $subject->resolve($agreement));
     }
 
-    public function resolve_data_provider(): array
-    {
-        return [
-            [AgreementHistoryStates::STATE_ACCEPTED, true],
-            [AgreementHistoryStates::STATE_ASSIGNED, false],
-        ];
-    }
-
     /**
-     * @dataProvider supports_data_provider
+     * @dataProvider supportsDataProvider
      */
-    public function test_it_supports(bool $historyResolverSupports, bool $supports): void
+    public function test_it_supports_correct_agreement(bool $historyResolverSupports, bool $supports): void
     {
         $agreement = $this->createMock(AgreementInterface::class);
 
@@ -62,11 +61,19 @@ final class AgreementApprovalResolverTest extends TestCase
         self::assertEquals($supports, $subject->supports($agreement));
     }
 
-    public function supports_data_provider(): array
+    public function supportsDataProvider(): array
     {
         return [
             [true, true],
             [false, false]
+        ];
+    }
+
+    public function resolveDataProvider(): array
+    {
+        return [
+            [AgreementHistoryStates::STATE_ACCEPTED, true],
+            [AgreementHistoryStates::STATE_ASSIGNED, false],
         ];
     }
 }
