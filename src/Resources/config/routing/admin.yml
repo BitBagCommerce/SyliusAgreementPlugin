@@ -1,0 +1,2 @@
+sylius_agreement_plugin_admin_agreement:
+  resource: "@BitBagSyliusAgreementPlugin/Resources/config/routing/admin/agreement.yml"

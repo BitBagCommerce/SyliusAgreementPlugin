@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * This file was created by developers working at BitBag
+ * Do you need more information about us and what we do? Visit our https://bitbag.io website!
+ * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
+*/
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Resolver\AgreementHistory;
@@ -20,22 +26,49 @@ final class OrderAgreementHistoryResolverTest extends TestCase
     /**
      * @dataProvider resolveHistoryDataProvider
      */
-    public function testResolveHistory(?int $cartId = null, ?int $agreementId = null, ?object $agreementHistory = null, ?object $output = null): void
+    public function test_it_resolves_history_correctly(?int $cartId = null, ?int $agreementId = null, ?object $agreementHistory = null, ?object $output = null): void
     {
         $agreement = $this->createMock(AgreementInterface::class);
-        $agreement->expects(self::once())->method('getId')->willReturn($agreementId);
+        $agreement
+            ->expects(self::once())
+            ->method('getId')
+            ->willReturn($agreementId);
 
         $cart = $this->createMock(OrderInterface::class);
-        $cart->expects(self::atMost(1))->method('getId')->willReturn($cartId);
+        $cart->expects(self::atMost(1))
+            ->method('getId')
+            ->willReturn($cartId);
 
         $cartContext = $this->createMock(CartContextInterface::class);
-        $cartContext->expects(self::once())->method('getCart')->willReturn($cart);
+        $cartContext
+            ->expects(self::once())
+            ->method('getCart')
+            ->willReturn($cart);
 
         $repository = $this->createMock(AgreementHistoryRepositoryInterface::class);
-        $repository->method('findOneForOrder')->with($agreement, $cart)->willReturn($agreementHistory);
+        $repository
+            ->method('findOneForOrder')
+            ->with($agreement, $cart)
+            ->willReturn($agreementHistory);
 
         $subject = new OrderAgreementHistoryResolver($cartContext, $repository);
         self::assertEquals($output, $subject->resolveHistory($agreement));
+    }
+
+    public function test_it_supports_order_interface()
+    {
+        $cartContext = $this->createMock(CartContextInterface::class);
+
+        $cartContext
+            ->expects(self::once())
+            ->method('getCart')
+            ->willReturn(new Order());
+
+        $agreementInterface = $this->createMock(AgreementInterface::class);
+        $agreementHistoryRepository = $this->createMock(AgreementHistoryRepositoryInterface::class);
+        $orderAgreementHistoryResolver = new OrderAgreementHistoryResolver($cartContext,$agreementHistoryRepository);
+
+        Assert::assertSame($orderAgreementHistoryResolver->supports($agreementInterface),true);
     }
 
     public function resolveHistoryDataProvider(): array
@@ -50,22 +83,4 @@ final class OrderAgreementHistoryResolverTest extends TestCase
             [null, 1, null, null],
         ];
     }
-
-    public function testSupports()
-    {
-        $cartContext = $this->createMock(CartContextInterface::class);
-
-        $cartContext
-            ->expects(self::once())
-            ->method('getCart')
-            ->willReturn(new Order());
-
-        $agreementInterface = $this->createMock(AgreementInterface::class);
-        $agreementHistoryRepository = $this->createMock(AgreementHistoryRepositoryInterface::class);
-        $orderAgreementHistoryResolver = new OrderAgreementHistoryResolver($cartContext,$agreementHistoryRepository);
-
-        Assert::assertSame($orderAgreementHistoryResolver->supports($agreementInterface),true);
-
-    }
-
 }

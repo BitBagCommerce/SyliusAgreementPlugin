@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * This file was created by developers working at BitBag
+ * Do you need more information about us and what we do? Visit our https://bitbag.io website!
+ * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
+*/
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Form\Type\Agreement\Shop;
@@ -8,6 +14,7 @@ use BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCheckboxType;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementHiddenType;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementType;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -17,8 +24,8 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 
 final class AgreementTypeTest extends TestCase
 {
-    /** @dataProvider buildFormDataProvider  */
-    public function testBuildForm
+    /** @dataProvider build_form_data_provider  */
+    public function test_it_builds_correctly
     (
         array $options,
         string $agreementClass,
@@ -27,7 +34,7 @@ final class AgreementTypeTest extends TestCase
     ): void
     {
 
-        $builder = $this->createMock(FormBuilderInterface::class);
+        $builder = $this->mock_form_builder();
         $builder->expects(self::once())->method('add')
         ->with('approved',
             $agreementClass, $addWith)
@@ -39,9 +46,9 @@ final class AgreementTypeTest extends TestCase
         $subject->buildForm($builder, $options);
     }
 
-    public function testConfigureOptions(): void
+    public function test_it_configures_options(): void
     {
-        $resolver = $this->createMock(OptionsResolver::class);
+        $resolver = $this->mock_options_resolver();
         $resolver
             ->expects(self::exactly(6))
             ->method('setDefault')
@@ -68,7 +75,30 @@ final class AgreementTypeTest extends TestCase
         $subject->configureOptions($resolver);
     }
 
-    public function buildFormDataProvider()
+    public function test_it_builds_view(): void
+    {
+        $formView = new FormView();
+        $type = new AgreementType([]);
+        $type->buildView(
+            $formView,
+            $this->mock_form(), [
+                'code' => 'CODE',
+                'required' => true,
+                'mode' => 'MODE',
+            ]
+        );
+        self::assertEquals('CODE', $formView->vars['code']);
+        self::assertEquals(true, $formView->vars['required']);
+        self::assertEquals('MODE', $formView->vars['mode']);
+    }
+
+    public function test_it_has_correct_block_prefix(): void
+    {
+        $type = new AgreementType([]);
+        self::assertEquals('bitbag_sylius_agreement_plugin_agreement_approval', $type->getBlockPrefix());
+    }
+
+    public function build_form_data_provider(): array
     {
         return
             [
@@ -114,5 +144,29 @@ final class AgreementTypeTest extends TestCase
 
             ];
 
+    }
+
+    /**
+     * @return MockObject|FormBuilderInterface
+     */
+    private function mock_form_builder(): object
+    {
+        return $this->createMock(FormBuilderInterface::class);
+    }
+
+    /**
+     * @return MockObject|FormInterface
+     */
+    private function mock_form(): object
+    {
+        return $this->createMock(FormInterface::class);
+    }
+
+    /**
+     * @return MockObject|OptionsResolver
+     */
+    private function mock_options_resolver(): object
+    {
+        return $this->createMock(OptionsResolver::class);
     }
 }

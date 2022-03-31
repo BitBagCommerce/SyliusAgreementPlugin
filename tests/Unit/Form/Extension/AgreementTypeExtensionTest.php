@@ -1,10 +1,17 @@
 <?php
 
+/*
+ * This file was created by developers working at BitBag
+ * Do you need more information about us and what we do? Visit our https://bitbag.io website!
+ * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
+*/
+
+declare(strict_types=1);
+
 namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Form\Extension;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementContexts;
-use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Form\Extension\AgreementsTypeExtension;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCollectionType;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementApproval\AgreementApprovalResolver;
@@ -12,31 +19,31 @@ use BitBag\SyliusAgreementPlugin\Resolver\AgreementApprovalResolverInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Security\Core\Security;
 
 final class AgreementTypeExtensionTest extends TestCase
 {
 
     /**
-     * @var mixed|\PHPUnit\Framework\MockObject\MockObject|FormBuilder
+     * @var mixed|MockObject|FormBuilder
      */
     private $builder;
     /**
-     * @var AgreementApprovalResolverInterface|mixed|\PHPUnit\Framework\MockObject\MockObject
+     * @var AgreementApprovalResolverInterface|mixed|MockObject
      */
     private $agreementApprovalResolver;
     /**
-     * @var AgreementResolverInterface|mixed|\PHPUnit\Framework\MockObject\MockObject
+     * @var AgreementResolverInterface|mixed|MockObject
      */
     private $agreementResolver;
 
     /** @var Agreement*/
     private $agreement;
 
-    /** @var AgreementHistoryResolverInterface|mixed|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var AgreementHistoryResolverInterface|mixed|MockObject */
     private $agreementHistoryResolver;
 
     /** @var AgreementsTypeExtension */
@@ -61,7 +68,7 @@ final class AgreementTypeExtensionTest extends TestCase
 
     }
 
-    public function testBuildForm()
+    public function test_it_builds_form_correctly()
     {
 
         $this->builder
@@ -93,14 +100,5 @@ final class AgreementTypeExtensionTest extends TestCase
             ->willReturn($this->builder, []);
 
         $this->subject->buildForm($this->builder,[]);
-    }
-
-    public function testReturnType()
-    {
-        $subject =
-            new AgreementsTypeExtension($this->agreementResolver,
-                $this->agreementApprovalResolver);
-
-        Assert::assertSame([],$subject::getExtendedTypes());
     }
 }

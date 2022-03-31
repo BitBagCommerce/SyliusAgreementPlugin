@@ -16,7 +16,7 @@
         </include>
         <exclude>
             <directory>src/DependencyInjection</directory>
-            <directory>src/SyliusAgreementPlugin.php</directory>
+            <directory>src/BitBagSyliusAgreementPlugin.php</directory>
         </exclude>
         <report>
             <clover outputFile="coverage.xml" />

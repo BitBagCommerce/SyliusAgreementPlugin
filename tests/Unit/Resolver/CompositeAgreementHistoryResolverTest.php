@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * This file was created by developers working at BitBag
+ * Do you need more information about us and what we do? Visit our https://bitbag.io website!
+ * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
+*/
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Resolver;
@@ -16,7 +22,7 @@ final class CompositeAgreementHistoryResolverTest extends TestCase
     /**
      * @dataProvider resolveHistoryDataProvider
      */
-    public function testResolveHistory(
+    public function test_it_resolves_history_correctly(
         array $agreementHistoryResolvers,
         ?object $factoryNewHistory = null,
         ?object $output = null
@@ -28,6 +34,23 @@ final class CompositeAgreementHistoryResolverTest extends TestCase
         $agreementHistoryFactory->expects(self::atMost(1))->method('createNew')->willReturn($factoryNewHistory);
 
         self::assertEquals($output, $subject->resolveHistory($this->createMock(AgreementInterface::class)));
+    }
+
+    public function test_it_supports_agreement(): void
+    {
+        $agreementHistoryFactory = $this->createMock(FactoryInterface::class);
+        $subject = new CompositeAgreementHistoryResolver([], $agreementHistoryFactory);
+
+        self::assertTrue($subject->supports($this->createMock(AgreementInterface::class)));
+    }
+
+    private function mockHistoryResolver(bool $supports, ?object $history = null): object
+    {
+        $mock = $this->createMock(AgreementHistoryResolverInterface::class);
+        $mock->method('supports')->willReturn($supports);
+        $mock->method('resolveHistory')->willReturn($history);
+
+        return $mock;
     }
 
     public function resolveHistoryDataProvider(): array
@@ -55,22 +78,5 @@ final class CompositeAgreementHistoryResolverTest extends TestCase
                 $agreementHistory2
             ],
         ];
-    }
-
-    public function testSupports(): void
-    {
-        $agreementHistoryFactory = $this->createMock(FactoryInterface::class);
-        $subject = new CompositeAgreementHistoryResolver([], $agreementHistoryFactory);
-
-        self::assertTrue($subject->supports($this->createMock(AgreementInterface::class)));
-    }
-
-    private function mockHistoryResolver(bool $supports, ?object $history = null): object
-    {
-        $mock = $this->createMock(AgreementHistoryResolverInterface::class);
-        $mock->method('supports')->willReturn($supports);
-        $mock->method('resolveHistory')->willReturn($history);
-
-        return $mock;
     }
 }

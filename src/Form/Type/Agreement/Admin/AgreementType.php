@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * This file was created by developers working at BitBag
+ * Do you need more information about us and what we do? Visit our https://bitbag.io website!
+ * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
+*/
+
 declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin;
@@ -15,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\ReversedTransformer;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AgreementType extends AbstractResourceType
 {
@@ -60,14 +67,24 @@ final class AgreementType extends AbstractResourceType
         return $contexts;
     }
 
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'validation_groups' => [
+                'Agreement',
+            ],
+        ]);
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $modes = $this->prepareModesData();
         $contexts = $this->prepareContextsData();
 
         $builder
-            ->add('parent', TextType::class, [
-                'label' => 'bitbag_sylius_agreement_plugin.ui.agreement',
+            ->add('parent', AgreementAutocompleteChoiceType::class, [
+                'label' => 'bitbag_sylius_agreement_plugin.ui.agreement_parent',
+                'required' => false,
             ])
             ->add('code', TextType::class, [
                 'label' => 'bitbag_sylius_agreement_plugin.ui.code',
@@ -87,6 +104,7 @@ final class AgreementType extends AbstractResourceType
                 'label' => 'bitbag_sylius_agreement_plugin.ui.contexts_label',
                 'multiple' => true,
                 'choices' => $contexts,
+                'data' => ['registration_form'],
             ])
             ->add('publishedAt', DateType::class, [
                 'label' => 'bitbag_sylius_agreement_plugin.ui.published_at',

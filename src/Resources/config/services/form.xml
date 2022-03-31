@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+
+        <service id="bitbag_sylius_agreement_plugin.form.type.agreement.admin.agreement_type"
+                 class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementType">
+            <argument>%bitbag_sylius_agreement_plugin.model.agreement.class%</argument>
+            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
+            <argument>%bitbag_sylius_agreement_plugin.form.type.agreement.validation_groups%</argument>
+            <argument>%sylius_agreement_plugin.modes%</argument>
+            <argument>%sylius_agreement_plugin.contexts%</argument>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="bitbag_sylius_agreement_plugin.form.type.agreement.shop.agreement_type"
+                 class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementType">
+            <argument>%bitbag_sylius_agreement_plugin.form.type.agreement.validation_groups%</argument>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="bitbag_sylius_agreement_plugin.form.type.agreement.admin.agreement_translation_type"
+                 class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementTranslationType">
+            <argument>%bitbag_sylius_agreement_plugin.model.agreement_translation.class%</argument>
+            <argument>%bitbag_sylius_agreement_plugin.form.type.agreement.validation_groups%</argument>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="bitbag_sylius_agreement_plugin.form.type.agreement.shop.agreement_collection_type"
+                 class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCollectionType">
+            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="bitbag_sylius_agreement_plugin.form.type.agreement.shop.agreement_checkbox_type"
+                 class="BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCheckboxType">
+            <tag name="form.type"/>
+        </service>
+
+        <service id="bitbag_sylius_agreement_plugin.form.type.autocomplete_agreement_choice_type"
+                 class="\BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Admin\AgreementAutocompleteChoiceType">
+            <tag name="form.type" />
+        </service>
+
+        <service id="bitbag_sylius_agreement_plugin.form.extension.agreements_type_extension"
+                 class="BitBag\SyliusAgreementPlugin\Form\Extension\AgreementsTypeExtension">
+            <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.agreement"/>
+            <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.agreement_approval"/>
+            <argument>%sylius_agreement_plugin.extended_form_types%</argument>
+            <tag name="form.type_extension"
+                 extended-type="Sylius\Bundle\CoreBundle\Form\Type\Customer\CustomerRegistrationType"/>
+        </service>
+
+        <service id="form.extension"
+                 class="BitBag\SyliusAgreementPlugin\DependencyInjection\DependencyInjectionExtension">
+            <argument/>
+            <argument type="collection"/>
+            <argument type="iterator"/>
+            <argument>%sylius_agreement_plugin.extended_form_types%</argument>
+        </service>
+
+    </services>
+</container>

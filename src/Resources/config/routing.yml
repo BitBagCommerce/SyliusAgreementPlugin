@@ -1,0 +1,3 @@
+sylius_agreement_plugin_admin:
+  resource: "@BitBagSyliusAgreementPlugin/Resources/config/routing/admin.yml"
+  prefix: '/%sylius_admin.path_name%'

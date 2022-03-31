@@ -1,9 +1,16 @@
 <?php
 
+/*
+ * This file was created by developers working at BitBag
+ * Do you need more information about us and what we do? Visit our https://bitbag.io website!
+ * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
+*/
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Form\Type\Agreement\Shop;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormInterface;
@@ -13,14 +20,14 @@ use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCheckboxType;
 
 final class AgreementCheckboxTypeTest extends TestCase
 {
-    public function testGetParent(): void
+    public function test_it_has_correct_parent(): void
     {
         $subject = new AgreementCheckboxType();
 
         self::assertEquals(CheckboxType::class, $subject->getParent());
     }
 
-    public function testGetBlockPrefix(): void
+    public function test_it_has_correct_block_prefix(): void
     {
         $subject = new AgreementCheckboxType();
 
@@ -28,10 +35,10 @@ final class AgreementCheckboxTypeTest extends TestCase
     }
 
     /**
-     * @dataProvider buildViewDataProvider
+     * @dataProvider build_view_data_provider
      * @param FormInterface $form
      */
-    public function testBuildView(
+    public function test_it_builds_view_correctly(
         array $options,
         object $form,
         string $extendedLabel,
@@ -40,7 +47,6 @@ final class AgreementCheckboxTypeTest extends TestCase
     ): void
     {
         $subject = new AgreementCheckboxType();
-
         $view = new FormView();
 
         $subject->buildView(
@@ -54,7 +60,7 @@ final class AgreementCheckboxTypeTest extends TestCase
         self::assertEquals($checked, $view->vars['checked']);
     }
 
-    public function buildViewDataProvider(): array
+    public function build_view_data_provider(): array
     {
         return [
             [
@@ -62,7 +68,7 @@ final class AgreementCheckboxTypeTest extends TestCase
                     'extended_label' => 'label1',
                     'approved' => true
                 ],
-                $this->mockForm( true, null),
+                $this->mock_form_extension( true, null),
                 'label1',
                 true,
                 false
@@ -72,7 +78,7 @@ final class AgreementCheckboxTypeTest extends TestCase
                     'extended_label' => 'label2',
                     'approved' => true
                 ],
-                $this->mockForm( false, null),
+                $this->mock_form_extension( false, null),
                 'label2',
                 true,
                 true
@@ -80,9 +86,9 @@ final class AgreementCheckboxTypeTest extends TestCase
         ];
     }
 
-    private function mockForm(bool $submitted, $viewData = null): object
+    private function mock_form_extension(bool $submitted, $viewData = null): object
     {
-        $mock = $this->createMock(FormInterface::class);
+        $mock = $this->mock_form();
 
         $mock->method('getViewData')->willReturn($viewData);
         $mock->method('isSubmitted')->willReturn($submitted);
@@ -90,15 +96,32 @@ final class AgreementCheckboxTypeTest extends TestCase
         return $mock;
     }
 
-    public function testConfigureOptions()
+    public function test_it_configures_correctly()
     {
-        $resolver = $this
-            ->createMock(OptionsResolver::class);
+        $agreementCheckboxType = new AgreementCheckboxType();
+        $resolver = $this->mock_resolver();
+
         $resolver->expects(self::once())
             ->method('setRequired')
             ->with(['extended_label', 'approved']);
-        $agreementCheckboxType = new AgreementCheckboxType();
+
         $agreementCheckboxType->configureOptions($resolver);
 
+    }
+
+    /**
+     * @return FormInterface|MockObject
+     */
+    private function mock_form(): object
+    {
+        return $this->createMock(FormInterface::class);
+    }
+
+    /**
+     * @return OptionsResolver|MockObject
+     */
+    private function mock_resolver(): object
+    {
+        return $this->createMock(OptionsResolver::class);
     }
 }

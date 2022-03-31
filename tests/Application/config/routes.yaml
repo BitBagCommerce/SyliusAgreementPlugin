@@ -1,3 +1,2 @@
-bitbag_sylius_agreement_admin:
-    resource: "@SyliusAgreementPlugin/Resources/config/routing/admin.yaml"
-    prefix: /admin
+bitbag_sylius_agreement_plugin:
+  resource: "@BitBagSyliusAgreementPlugin/Resources/config/routing.yml"

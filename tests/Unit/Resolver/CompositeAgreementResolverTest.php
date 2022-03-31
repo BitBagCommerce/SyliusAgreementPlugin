@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * This file was created by developers working at BitBag
+ * Do you need more information about us and what we do? Visit our https://bitbag.io website!
+ * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
+*/
+
 declare(strict_types=1);
 
 namespace Tests\BitBag\SyliusAgreementPlugin\Unit\Resolver;
@@ -14,7 +20,7 @@ final class CompositeAgreementResolverTest extends TestCase
     /**
      * @dataProvider resolveDataProvider
      */
-    public function testResolve(
+    public function test_it_resolves_correct_context(
         array $resolvers,
         array $output
     ): void
@@ -22,6 +28,22 @@ final class CompositeAgreementResolverTest extends TestCase
         $subject = new CompositeAgreementResolver($resolvers);
 
         self::assertEquals($output, $subject->resolve('', []));
+    }
+
+    public function test_it_supports_correct_context(): void
+    {
+        $subject = new CompositeAgreementResolver([]);
+
+        self::assertTrue($subject->supports('', []));
+    }
+
+    private function mockResolver(bool $supports, array $resolved): object
+    {
+        $mock = $this->createMock(AgreementResolverInterface::class);
+        $mock->method('supports')->willReturn($supports);
+        $mock->method('resolve')->willReturn($resolved);
+
+        return $mock;
     }
 
     public function resolveDataProvider(): array
@@ -53,21 +75,5 @@ final class CompositeAgreementResolverTest extends TestCase
                 [$agreement1, $agreement3, $agreement2]
             ],
         ];
-    }
-
-    public function testSupports(): void
-    {
-        $subject = new CompositeAgreementResolver([]);
-
-        self::assertTrue($subject->supports('', []));
-    }
-
-    private function mockResolver(bool $supports, array $resolved): object
-    {
-        $mock = $this->createMock(AgreementResolverInterface::class);
-        $mock->method('supports')->willReturn($supports);
-        $mock->method('resolve')->willReturn($resolved);
-
-        return $mock;
     }
 }
