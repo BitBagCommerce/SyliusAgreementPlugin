@@ -11,11 +11,15 @@ declare(strict_types=1);
 namespace BitBag\SyliusAgreementPlugin\Form\Extension;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
+use BitBag\SyliusAgreementPlugin\Event\AgreementCheckedEvent;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCollectionType;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementApprovalResolverInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 final class AgreementsTypeExtension extends AbstractTypeExtension
 {
@@ -23,24 +27,39 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
 
     private AgreementApprovalResolverInterface $agreementApprovalResolver;
 
+    private array $contexts;
+
+    private EventDispatcherInterface $eventDispatcher;
+
     public function __construct(
         AgreementResolverInterface $agreementResolver,
-        AgreementApprovalResolverInterface $agreementApprovalResolver
+        AgreementApprovalResolverInterface $agreementApprovalResolver,
+        array $contexts,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->agreementResolver = $agreementResolver;
         $this->agreementApprovalResolver = $agreementApprovalResolver;
+        $this->contexts = $contexts;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $agreements = $this->getAgreements($builder->getName(), $options);
+        $context = $this->getFormClass($builder);
+
+        $agreements = $this->getAgreements($context, $options);
 
         $builder
             ->add('agreements', AgreementCollectionType::class, [
                 'entries' => $agreements,
                 'required' => false,
                 'label' => false,
-            ]);
+            ])
+            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $formEvent) use ($context, $agreements){
+                $event = new AgreementCheckedEvent($context, $formEvent);
+                $this->eventDispatcher->dispatch($event);
+            })
+        ;
     }
 
     /**
@@ -53,10 +72,7 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
 
     private function getAgreements(string $formName, array $options): array
     {
-        $agreements = [];
-        if ($this->agreementResolver->supports($formName, $options)) {
-            $agreements = $this->agreementResolver->resolve($formName, $options);
-        }
+        $agreements = $this->agreementResolver->resolve($formName, $options);
 
         /** @var AgreementInterface $agreement */
         foreach ($agreements as $agreement) {
@@ -64,5 +80,19 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
         }
 
         return $agreements;
+    }
+
+    private function getFormClass(FormBuilderInterface $builder)
+    {
+        $formName = get_class($builder->getType()->getInnerType());
+
+        foreach ($this->contexts as $context=>$val)
+        {
+            if(in_array($formName, $val))
+            {
+                return $context;
+            }
+        }
+        return null;
     }
 }

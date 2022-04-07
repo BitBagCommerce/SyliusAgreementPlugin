@@ -10,7 +10,9 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin;
 
+use BitBag\SyliusAgreementPlugin\DependencyInjection\AgreementFormExtension;
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -20,6 +22,7 @@ final class BitBagSyliusAgreementPlugin extends Bundle
 
     public function build(ContainerBuilder $container): void
     {
+        $container->addCompilerPass(new AgreementFormExtension(), PassConfig::TYPE_BEFORE_OPTIMIZATION, 64);
         parent::build($container);
     }
 }

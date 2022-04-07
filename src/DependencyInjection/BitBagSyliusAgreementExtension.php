@@ -32,8 +32,25 @@ final class BitBagSyliusAgreementExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
 
-        $container->setParameter('sylius_agreement_plugin.extended_form_types', $config['extended_form_types']);
+        $formTypes = $this->prepareExtendedFormTypes($config['contexts']);
+
+        $container->setParameter('sylius_agreement_plugin.extended_form_types', $formTypes);
         $container->setParameter('sylius_agreement_plugin.modes', $config['modes']);
         $container->setParameter('sylius_agreement_plugin.contexts', $config['contexts']);
+    }
+
+    private function prepareExtendedFormTypes($contexts): array
+    {
+        $extendedFormTypes = [];
+
+        foreach ($contexts as $formTypes)
+        {
+            foreach ($formTypes as $formType)
+            {
+                $extendedFormTypes[] = $formType;
+            }
+        }
+
+        return $extendedFormTypes;
     }
 }
