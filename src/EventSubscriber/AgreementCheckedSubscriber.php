@@ -1,11 +1,4 @@
 <?php
-
-/*
- * This file was created by developers working at BitBag
- * Do you need more information about us and what we do? Visit our https://bitbag.io website!
- * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
-*/
-
 declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\EventSubscriber;
@@ -13,6 +6,7 @@ namespace BitBag\SyliusAgreementPlugin\EventSubscriber;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryStates;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
+use BitBag\SyliusAgreementPlugin\Event\AgreementCheckedEvent;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepositoryInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
@@ -24,7 +18,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 use Webmozart\Assert\Assert;
 
-final class AgreementSubscriber implements EventSubscriberInterface
+class AgreementCheckedSubscriber implements EventSubscriberInterface
 {
     private AgreementHistoryRepositoryInterface $agreementHistoryRepository;
 
@@ -42,6 +36,50 @@ final class AgreementSubscriber implements EventSubscriberInterface
         $this->agreementResolver = $agreementResolver;
     }
 
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            AgreementCheckedEvent::class => [
+                ['processAgreementsFromAnywhere', 10],
+            ],
+            'sylius.customer.post_register' => [
+                ['processAgreementsFromUserRegister', 10],
+            ],
+        ];
+    }
+
+    public function processAgreementsFromAnywhere(AgreementCheckedEvent $agreementCheckedEvent): void
+    {
+        if(null === $agreementCheckedEvent->getEvent()->getData()->getUser()->getId())
+        {
+            return;
+        }
+
+        $data = $agreementCheckedEvent->getEvent()->getData();
+        Assert::notNull($data);
+
+        /** @var ?ShopUserInterface $shopUser */
+        $shopUser = $data->getUser();
+        Assert::isInstanceOf($shopUser, ShopUserInterface::class);
+
+        /** @var Collection $userAgreements */
+        $userAgreements = $data->getAgreements();
+
+        $order = null;
+
+        if(null !== $data->getId() && $data instanceof OrderInterface)
+        {
+            $order = $data;
+        }
+
+        $this->handleAgreements(
+            $userAgreements,
+            $agreementCheckedEvent->getContext(),
+            $order,
+            $shopUser
+        );
+    }
+
     public function processAgreementsFromUserRegister(ResourceControllerEvent $resourceControllerEvent): void
     {
         /** @var ?CustomerInterface $customer */
@@ -55,21 +93,14 @@ final class AgreementSubscriber implements EventSubscriberInterface
         /** @var Collection $userAgreements */
         $userAgreements = $customer->getAgreements();
 
+        $context = $userAgreements->first()->getContexts()[0];
+
         $this->handleAgreements(
             $userAgreements,
-            'sylius_customer_registration',
+            $context,
             null,
             $shopUser
         );
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            'sylius.customer.post_register' => [
-                ['processAgreementsFromUserRegister', -5],
-            ],
-        ];
     }
 
     private function handleAgreements(
