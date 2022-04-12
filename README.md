@@ -1,4 +1,4 @@
-# [![](https://bitbag.io/wp-content/uploads/2022/03/SyliusPocztaPolskaShippingExportPlugin.png)](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=plugins_pocztapolska)
+# [![](https://bitbag.io/wp-content/uploads/2022/03/SyliusAgreementPlugin.png)](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=plugins_agreement)
 
 # BitBagSyliusAgreementPlugin
 
@@ -6,7 +6,7 @@
 
 <p>
  <img align="left" src="https://sylius.com/assets/badge-approved-by-sylius.png" width="85">
-</p> 
+</p>
 
 At BitBag we do believe in open source. However, we are able to do it just because of our awesome clients, who are kind enough to share some parts of our work with the community. Therefore, if you feel like there is a possibility for us to work  together, feel free to reach out. You will find out more about our professional services, technologies, and contact details at [https://bitbag.io/](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=plugins_cms).
 
