@@ -18,14 +18,13 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class AgreementFormExtension implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
+        /** @var array $contexts */
         $contexts = $container->getParameter('sylius_agreement_plugin.contexts');
 
-        foreach ($contexts as $types)
-        {
-            foreach($types as $type)
-            {
+        foreach ($contexts as $types) {
+            foreach ($types as $type) {
                 $service = new Definition(AgreementsTypeExtension::class);
                 $id = sprintf('bitbag_sylius_agreement_plugin.form.extension.agreements_type_extension_%s', rand(0, 100000));
 

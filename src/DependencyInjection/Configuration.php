@@ -29,8 +29,8 @@ final class Configuration implements ConfigurationInterface
             ->arrayNode('contexts')
             ->ignoreExtraKeys(false)
             ->beforeNormalization()
-            ->always(static function ($arg) {
-                return (array) $arg;
+            ->always(static function ($arg): array {
+                return $arg;
             })
             ->end()
             ->end();

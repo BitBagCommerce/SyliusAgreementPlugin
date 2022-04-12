@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\EventSubscriber;
@@ -50,8 +51,7 @@ class AgreementCheckedSubscriber implements EventSubscriberInterface
 
     public function processAgreementsFromAnywhere(AgreementCheckedEvent $agreementCheckedEvent): void
     {
-        if(null === $agreementCheckedEvent->getEvent()->getData()->getUser()->getId())
-        {
+        if (null === $agreementCheckedEvent->getEvent()->getData()->getUser()->getId()) {
             return;
         }
 
@@ -67,8 +67,7 @@ class AgreementCheckedSubscriber implements EventSubscriberInterface
 
         $order = null;
 
-        if(null !== $data->getId() && $data instanceof OrderInterface)
-        {
+        if (null !== $data->getId() && $data instanceof OrderInterface) {
             $order = $data;
         }
 

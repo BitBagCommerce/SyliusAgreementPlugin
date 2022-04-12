@@ -15,11 +15,12 @@ use BitBag\SyliusAgreementPlugin\Event\AgreementCheckedEvent;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCollectionType;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementApprovalResolverInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Webmozart\Assert\Assert;
 
 final class AgreementsTypeExtension extends AbstractTypeExtension
 {
@@ -46,6 +47,7 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $context = $this->getFormClass($builder);
+        Assert::notNull($context);
 
         $agreements = $this->getAgreements($context, $options);
 
@@ -55,7 +57,7 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
                 'required' => false,
                 'label' => false,
             ])
-            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $formEvent) use ($context, $agreements){
+            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $formEvent) use ($context): void {
                 $event = new AgreementCheckedEvent($context, $formEvent);
                 $this->eventDispatcher->dispatch($event);
             })
@@ -70,8 +72,12 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
         return [];
     }
 
-    private function getAgreements(string $formName, array $options): array
+    private function getAgreements(?string $formName, array $options): ?array
     {
+        if (null === $formName) {
+            return null;
+        }
+
         $agreements = $this->agreementResolver->resolve($formName, $options);
 
         /** @var AgreementInterface $agreement */
@@ -82,17 +88,16 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
         return $agreements;
     }
 
-    private function getFormClass(FormBuilderInterface $builder)
+    private function getFormClass(FormBuilderInterface $builder): ?string
     {
         $formName = get_class($builder->getType()->getInnerType());
 
-        foreach ($this->contexts as $context=>$val)
-        {
-            if(in_array($formName, $val))
-            {
+        foreach ($this->contexts as $context => $val) {
+            if (in_array($formName, $val, true)) {
                 return $context;
             }
         }
+
         return null;
     }
 }

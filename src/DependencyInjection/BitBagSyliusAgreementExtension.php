@@ -39,14 +39,12 @@ final class BitBagSyliusAgreementExtension extends Extension
         $container->setParameter('sylius_agreement_plugin.contexts', $config['contexts']);
     }
 
-    private function prepareExtendedFormTypes($contexts): array
+    private function prepareExtendedFormTypes(array $contexts): array
     {
         $extendedFormTypes = [];
 
-        foreach ($contexts as $formTypes)
-        {
-            foreach ($formTypes as $formType)
-            {
+        foreach ($contexts as $formTypes) {
+            foreach ($formTypes as $formType) {
                 $extendedFormTypes[] = $formType;
             }
         }
