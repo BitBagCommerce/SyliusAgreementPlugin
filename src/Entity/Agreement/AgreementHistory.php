@@ -33,7 +33,7 @@ class AgreementHistory implements AgreementHistoryInterface
     protected $state = AgreementHistoryStates::STATE_ASSIGNED;
 
     /** @var string */
-    protected $context = AgreementContexts::CONTEXT_UNKNOWN;
+    protected $context = 'unknown';
 
     /** @var \DateTime|null */
     protected $updatedAt;
