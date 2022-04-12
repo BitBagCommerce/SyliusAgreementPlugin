@@ -10,31 +10,19 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Resolver;
 
+use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
+
 final class CompositeAgreementResolver implements AgreementResolverInterface
 {
-    /** @var AgreementResolverInterface[] */
-    private iterable $agreementResolvers;
+    private AgreementRepositoryInterface $agreementRepository;
 
-    public function __construct(iterable $agreementResolvers)
+    public function __construct(AgreementRepositoryInterface $agreementRepository)
     {
-        $this->agreementResolvers = $agreementResolvers;
+        $this->agreementRepository = $agreementRepository;
     }
 
     public function resolve(string $context, array $options): array
     {
-        $agreements = [];
-
-        foreach ($this->agreementResolvers as $resolver) {
-            if ($resolver->supports($context, $options)) {
-                $agreements = array_merge($resolver->resolve($context, $options), $agreements);
-            }
-        }
-
-        return $agreements;
-    }
-
-    public function supports(string $context, array $options): bool
-    {
-        return true;
+        return $this->agreementRepository->findAgreementsByContext($context);
     }
 }

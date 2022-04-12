@@ -11,7 +11,7 @@
 
         <service id="bitbag_sylius_agreement_plugin.resolver.agreement"
                  class="\BitBag\SyliusAgreementPlugin\Resolver\CompositeAgreementResolver">
-            <argument type="tagged_iterator" tag="bitbag_sylius_agreement_plugin.agreement_resolver"/>
+            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
             <argument type="collection"/>
             <argument type="iterator"/>
             <argument>%sylius_agreement_plugin.extended_form_types%</argument>
@@ -37,13 +37,6 @@
                  class="BitBag\SyliusAgreementPlugin\Resolver\CompositeAgreementApprovalResolver">
             <argument type="tagged_iterator" tag="bitbag_sylius_agreement_plugin.agreement_approval_resolver"/>
         </service>
-
-        <service id="bitbag_sylius_agreement_plugin.resolver.registration_agreement_resolver"
-                 class="BitBag\SyliusAgreementPlugin\Resolver\Agreement\RegistrationFormAgreementResolver">
-            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
-            <tag name="bitbag_sylius_agreement_plugin.agreement_resolver"/>
-        </service>
-
 
     </services>
 </container>
