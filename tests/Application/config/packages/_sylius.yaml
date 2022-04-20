@@ -22,3 +22,8 @@ sylius_customer:
             classes:
                 model: Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\Customer
 
+sylius_order:
+    resources:
+        order:
+            classes:
+                model: Tests\BitBag\SyliusAgreementPlugin\Entity\Order\Order
