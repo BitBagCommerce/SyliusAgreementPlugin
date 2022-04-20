@@ -16,7 +16,6 @@ use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Webmozart\Assert\Assert;
 
 class AgreementSubscriber implements EventSubscriberInterface
 {
@@ -43,11 +42,9 @@ class AgreementSubscriber implements EventSubscriberInterface
         }
 
         $data = $agreementCheckedEvent->getEvent()->getData();
-        Assert::notNull($data);
 
         /** @var ?ShopUserInterface $shopUser */
         $shopUser = $data->getUser();
-        Assert::isInstanceOf($shopUser, ShopUserInterface::class);
 
         /** @var Collection $userAgreements */
         $userAgreements = $data->getAgreements();
