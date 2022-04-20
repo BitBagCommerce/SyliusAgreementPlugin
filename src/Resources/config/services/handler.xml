@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+
+        <service id="bitbag_sylius_agreement_plugin.handler.agreement_handler"
+                 class="BitBag\SyliusAgreementPlugin\Handler\AgreementHandler">
+            <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement_history"/>
+            <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.agreement"/>
+            <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.composite_agreement_history"/>
+        </service>
+
+    </services>
+</container>

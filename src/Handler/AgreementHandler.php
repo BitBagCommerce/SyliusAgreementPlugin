@@ -1,25 +1,20 @@
 <?php
-
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\EventSubscriber;
+namespace BitBag\SyliusAgreementPlugin\Handler;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryStates;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
-use BitBag\SyliusAgreementPlugin\Event\AgreementCheckedEvent;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepositoryInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
 use Doctrine\Common\Collections\Collection;
-use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 use Webmozart\Assert\Assert;
 
-class AgreementCheckedSubscriber implements EventSubscriberInterface
+class AgreementHandler
 {
     private AgreementHistoryRepositoryInterface $agreementHistoryRepository;
 
@@ -37,72 +32,7 @@ class AgreementCheckedSubscriber implements EventSubscriberInterface
         $this->agreementResolver = $agreementResolver;
     }
 
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            AgreementCheckedEvent::class => [
-                ['processAgreementsFromAnywhere', 10],
-            ],
-            'sylius.customer.post_register' => [
-                ['processAgreementsFromUserRegister', 10],
-            ],
-        ];
-    }
-
-    public function processAgreementsFromAnywhere(AgreementCheckedEvent $agreementCheckedEvent): void
-    {
-        if (null === $agreementCheckedEvent->getEvent()->getData()->getUser()->getId()) {
-            return;
-        }
-
-        $data = $agreementCheckedEvent->getEvent()->getData();
-        Assert::notNull($data);
-
-        /** @var ?ShopUserInterface $shopUser */
-        $shopUser = $data->getUser();
-        Assert::isInstanceOf($shopUser, ShopUserInterface::class);
-
-        /** @var Collection $userAgreements */
-        $userAgreements = $data->getAgreements();
-
-        $order = null;
-
-        if (null !== $data->getId() && $data instanceof OrderInterface) {
-            $order = $data;
-        }
-
-        $this->handleAgreements(
-            $userAgreements,
-            $agreementCheckedEvent->getContext(),
-            $order,
-            $shopUser
-        );
-    }
-
-    public function processAgreementsFromUserRegister(ResourceControllerEvent $resourceControllerEvent): void
-    {
-        /** @var ?CustomerInterface $customer */
-        $customer = $resourceControllerEvent->getSubject();
-        Assert::isInstanceOf($customer, CustomerInterface::class);
-
-        /** @var ?ShopUserInterface $shopUser */
-        $shopUser = $customer->getUser();
-        Assert::isInstanceOf($shopUser, ShopUserInterface::class);
-
-        /** @var Collection $userAgreements */
-        $userAgreements = $customer->getAgreements();
-
-        $context = $userAgreements->first()->getContexts()[0];
-
-        $this->handleAgreements(
-            $userAgreements,
-            $context,
-            null,
-            $shopUser
-        );
-    }
-
-    private function handleAgreements(
+    public function handleAgreements(
         Collection $submittedAgreements,
         string $context,
         ?OrderInterface $order,
