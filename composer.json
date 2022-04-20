@@ -38,7 +38,8 @@
     "polishsymfonycommunity/symfony-mocker-container": "^1.0",
     "symfony/security-bundle": "^5.2 | ^4.4",
     "symfony/dependency-injection": "^5.2 | ^4.4",
-    "symfony/event-dispatcher": "^5.2 | ^4.4"
+    "symfony/event-dispatcher": "^5.2 | ^4.4",
+    "phpspec/phpspec": "^7.0"
   },
   "scripts": {
     "check:code":
