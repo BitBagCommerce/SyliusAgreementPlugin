@@ -19,7 +19,7 @@ use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\Form\FormEvent;
 use Tests\BitBag\SyliusAgreementPlugin\Entity\Order\OrderInterface;
 
-class AgreementSubscriberSpec extends ObjectBehavior
+final class AgreementSubscriberSpec extends ObjectBehavior
 {
     function let(
         AgreementHandler $agreementHandler
@@ -29,7 +29,7 @@ class AgreementSubscriberSpec extends ObjectBehavior
         );
     }
 
-    function it_is_initializable()
+    function it_is_initializable(): void
     {
         $this->shouldHaveType(AgreementSubscriber::class);
     }
