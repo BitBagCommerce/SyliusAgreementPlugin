@@ -92,7 +92,7 @@ class AgreementHandler
         return $agreementHistoryState;
     }
 
-    public function getSubmittedAgreement(Collection $submittedAgreements, AgreementInterface $resolvedAgreement): AgreementInterface
+    private function getSubmittedAgreement(Collection $submittedAgreements, AgreementInterface $resolvedAgreement): AgreementInterface
     {
         return $submittedAgreements->filter(
             static function (AgreementInterface $agreement) use ($resolvedAgreement): bool {
@@ -101,7 +101,7 @@ class AgreementHandler
         )->first();
     }
 
-    public function setAgreementHistoryProperties(
+    private function setAgreementHistoryProperties(
         string $context,
         ?OrderInterface $order,
         ?ShopUserInterface $shopUser,

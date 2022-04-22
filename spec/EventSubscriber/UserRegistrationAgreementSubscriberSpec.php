@@ -14,12 +14,13 @@ use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\EventSubscriber\UserRegistrationAgreementSubscriber;
 use BitBag\SyliusAgreementPlugin\Handler\AgreementHandler;
 use Doctrine\Common\Collections\Collection;
+use InvalidArgumentException;
 use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 
-class UserRegistrationAgreementSubscriberSpec extends ObjectBehavior
+final class UserRegistrationAgreementSubscriberSpec extends ObjectBehavior
 {
     function let(
         AgreementHandler $agreementHandler
@@ -29,7 +30,7 @@ class UserRegistrationAgreementSubscriberSpec extends ObjectBehavior
         );
     }
 
-    function it_is_initializable()
+    function it_is_initializable(): void
     {
         $this->shouldHaveType(UserRegistrationAgreementSubscriber::class);
     }
@@ -39,7 +40,7 @@ class UserRegistrationAgreementSubscriberSpec extends ObjectBehavior
     ): void {
         $resourceControllerEvent->getSubject()->willReturn(null);
 
-        $this->shouldThrow(\InvalidArgumentException::class)
+        $this->shouldThrow(InvalidArgumentException::class)
             ->during('processAgreementsFromUserRegister', [$resourceControllerEvent]);
     }
 
@@ -50,7 +51,7 @@ class UserRegistrationAgreementSubscriberSpec extends ObjectBehavior
         $resourceControllerEvent->getSubject()->willReturn($customer);
         $customer->getUser()->willReturn(null);
 
-        $this->shouldThrow(\InvalidArgumentException::class)
+        $this->shouldThrow(InvalidArgumentException::class)
             ->during('processAgreementsFromUserRegister', [$resourceControllerEvent]);
     }
 
