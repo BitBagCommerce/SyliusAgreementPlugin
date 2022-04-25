@@ -26,7 +26,7 @@ class AgreementFormExtension implements CompilerPassInterface
         foreach ($contexts as $types) {
             foreach ($types as $type) {
                 $service = new Definition(AgreementsTypeExtension::class);
-                $id = sprintf('bitbag_sylius_agreement_plugin.form.extension.agreements_type_extension_%s', rand(0, 100000));
+                $id = sprintf('bitbag_sylius_agreement_plugin.form.extension.agreements_type_extension_%s', str_replace(['/', '\\'], '_', $type));
 
                 $service->addArgument(new Reference('bitbag_sylius_agreement_plugin.resolver.agreement'));
                 $service->addArgument(new Reference('bitbag_sylius_agreement_plugin.resolver.agreement_approval'));
