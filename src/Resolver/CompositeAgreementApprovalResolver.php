@@ -10,32 +10,32 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Resolver;
 
+use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
+use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryStates;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
-use BitBag\SyliusAgreementPlugin\Exception\AgreementNotSupportedException;
 
 final class CompositeAgreementApprovalResolver implements AgreementApprovalResolverInterface
 {
-    /** @var AgreementApprovalResolverInterface[] */
-    private iterable $agreementApprovalResolvers;
+    private AgreementHistoryResolverInterface $agreementHistoryResolver;
 
-    public function __construct(iterable $agreementApprovalResolvers)
+    public function __construct(AgreementHistoryResolverInterface $agreementHistoryResolver)
     {
-        $this->agreementApprovalResolvers = $agreementApprovalResolvers;
+        $this->agreementHistoryResolver = $agreementHistoryResolver;
     }
 
     public function resolve(AgreementInterface $agreement): bool
     {
-        foreach ($this->agreementApprovalResolvers as $agreementApprovalResolver) {
-            if ($agreementApprovalResolver->supports($agreement)) {
-                return $agreementApprovalResolver->resolve($agreement);
-            }
+        $agreementHistory = $this->agreementHistoryResolver->resolveHistory($agreement);
+
+        if ($agreementHistory instanceof AgreementHistoryInterface) {
+            return AgreementHistoryStates::STATE_ACCEPTED === $agreementHistory->getState();
         }
 
-        throw new AgreementNotSupportedException($agreement);
+        return false;
     }
 
     public function supports(AgreementInterface $agreement): bool
     {
-        return true;
+        return $this->agreementHistoryResolver->supports($agreement);
     }
 }

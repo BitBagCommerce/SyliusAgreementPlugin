@@ -8,16 +8,15 @@
 
 declare(strict_types=1);
 
-namespace spec\BitBag\SyliusAgreementPlugin\Resolver\AgreementApproval;
+namespace spec\BitBag\SyliusAgreementPlugin\Resolver;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
-use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryStates;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
-use BitBag\SyliusAgreementPlugin\Resolver\AgreementApproval\AgreementApprovalResolver;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
+use BitBag\SyliusAgreementPlugin\Resolver\CompositeAgreementApprovalResolver;
 use PhpSpec\ObjectBehavior;
 
-final class AgreementApprovalResolverSpec extends ObjectBehavior
+final class CompositeAgreementApprovalResolverSpec extends ObjectBehavior
 {
     function let(
         AgreementHistoryResolverInterface $agreementHistoryResolver
@@ -29,7 +28,7 @@ final class AgreementApprovalResolverSpec extends ObjectBehavior
 
     function it_is_initializable(): void
     {
-        $this->shouldHaveType(AgreementApprovalResolver::class);
+        $this->shouldHaveType(CompositeAgreementApprovalResolver::class);
     }
 
     function it_resolves_agreement_correctly(

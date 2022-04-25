@@ -17,11 +17,6 @@
             <argument>%sylius_agreement_plugin.extended_form_types%</argument>
         </service>
 
-        <service id="BitBag\SyliusAgreementPlugin\Resolver\AgreementApproval\AgreementApprovalResolver">
-            <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.composite_agreement_history"/>
-            <tag name="bitbag_sylius_agreement_plugin.agreement_approval_resolver" priority="0"/>
-        </service>
-
         <service id="BitBag\SyliusAgreementPlugin\Resolver\AgreementHistory\OrderAgreementHistoryResolver">
             <argument type="service" id="sylius.context.cart"/>
             <tag name="bitbag_sylius_agreement_plugin.agreement_history_resolver" priority="0"/>
@@ -35,7 +30,7 @@
 
         <service id="bitbag_sylius_agreement_plugin.resolver.agreement_approval"
                  class="BitBag\SyliusAgreementPlugin\Resolver\CompositeAgreementApprovalResolver">
-            <argument type="tagged_iterator" tag="bitbag_sylius_agreement_plugin.agreement_approval_resolver"/>
+            <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.composite_agreement_history"/>
         </service>
 
     </services>
