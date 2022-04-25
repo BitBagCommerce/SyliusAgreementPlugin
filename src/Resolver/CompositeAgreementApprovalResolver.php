@@ -33,9 +33,4 @@ final class CompositeAgreementApprovalResolver implements AgreementApprovalResol
 
         return false;
     }
-
-    public function supports(AgreementInterface $agreement): bool
-    {
-        return $this->agreementHistoryResolver->supports($agreement);
-    }
 }
