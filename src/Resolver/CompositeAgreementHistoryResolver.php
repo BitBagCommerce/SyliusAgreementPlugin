@@ -46,20 +46,17 @@ final class CompositeAgreementHistoryResolver implements AgreementHistoryResolve
         /** @var OrderInterface|null $order */
         $order = $this->cartContext->getCart();
 
-        /** @var ShopUserInterface $shopUser */
+        /** @var ShopUserInterface|null $shopUser */
         $shopUser = $this->security->getUser();
 
-        $agreementHistory = null;
-
-        if ($shopUser) {
+        if (null !== $shopUser) {
             /** @var AgreementHistoryInterface|null $agreementHistory */
             $agreementHistory = $this->agreementHistoryRepository->findOneForShopUser($agreement, $shopUser);
-        } elseif (null !== $order->getId()) {
+        } elseif (isset($order) && null !== $order->getId()) {
             /** @var AgreementHistoryInterface|null $agreementHistory */
             $agreementHistory = $this->agreementHistoryRepository->findOneForOrder($agreement, $order);
-        }
-
-        if (null === $agreementHistory) {
+        } else {
+            /** @var AgreementHistoryInterface $agreementHistory */
             $agreementHistory = $this->agreementHistoryFactory->createNew();
         }
 
