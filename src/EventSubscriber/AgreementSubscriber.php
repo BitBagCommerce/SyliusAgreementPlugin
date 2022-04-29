@@ -37,7 +37,7 @@ class AgreementSubscriber implements EventSubscriberInterface
 
     public function processAgreementsFromAnywhere(AgreementCheckedEvent $agreementCheckedEvent): void
     {
-        if (null === $agreementCheckedEvent->getEvent()->getData()->getUser()->getId()) {
+        if (null === $agreementCheckedEvent->getEventDataUserId()) {
             return;
         }
 
