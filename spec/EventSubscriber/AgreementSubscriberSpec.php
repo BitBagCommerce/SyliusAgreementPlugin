@@ -35,10 +35,7 @@ final class AgreementSubscriberSpec extends ObjectBehavior
     }
 
     function it_quit_function_when_user_is_null(
-        AgreementCheckedEvent $agreementCheckedEvent,
-        FormEvent $formEvent,
-        OrderInterface $order,
-        ShopUserInterface $shopUser
+        AgreementCheckedEvent $agreementCheckedEvent
     ): void {
         $agreementCheckedEvent->getEventDataUserId()->willReturn(null);
 
