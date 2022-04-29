@@ -40,10 +40,7 @@ final class AgreementSubscriberSpec extends ObjectBehavior
         OrderInterface $order,
         ShopUserInterface $shopUser
     ): void {
-        $agreementCheckedEvent->getEvent()->willReturn($formEvent);
-        $formEvent->getData()->willReturn($order);
-        $order->getUser()->willReturn($shopUser);
-        $shopUser->getId()->willReturn(null);
+        $agreementCheckedEvent->getEventDataUserId()->willReturn(null);
 
         $this->processAgreementsFromAnywhere($agreementCheckedEvent)
             ->shouldReturn(null);
@@ -58,6 +55,7 @@ final class AgreementSubscriberSpec extends ObjectBehavior
         AgreementHandler $agreementHandler
     ): void {
         $agreementCheckedEvent->getEvent()->willReturn($formEvent);
+        $agreementCheckedEvent->getEventDataUserId()->willReturn('1');
         $formEvent->getData()->willReturn($order);
         $order->getUser()->willReturn($shopUser);
         $shopUser->getId()->willReturn('1');
