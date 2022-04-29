@@ -8,13 +8,14 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\Resolver;
+namespace BitBag\SyliusAgreementPlugin\Checker;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryStates;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
+use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
 
-final class CompositeAgreementApprovalResolver implements AgreementApprovalResolverInterface
+class AgreementHistoryChecker implements AgreementHistoryCheckerInterface
 {
     private AgreementHistoryResolverInterface $agreementHistoryResolver;
 
@@ -23,7 +24,7 @@ final class CompositeAgreementApprovalResolver implements AgreementApprovalResol
         $this->agreementHistoryResolver = $agreementHistoryResolver;
     }
 
-    public function resolve(AgreementInterface $agreement): bool
+    public function isAgreementAccepted(AgreementInterface $agreement): bool
     {
         $agreementHistory = $this->agreementHistoryResolver->resolveHistory($agreement);
 

@@ -31,7 +31,7 @@ class AgreementFormExtension implements CompilerPassInterface
                 $id = sprintf(self::TYPE_EXTENSION . '_%s', str_replace(['/', '\\'], '_', $type));
 
                 $service->addArgument(new Reference('bitbag_sylius_agreement_plugin.repository.agreement'));
-                $service->addArgument(new Reference('bitbag_sylius_agreement_plugin.resolver.agreement_approval'));
+                $service->addArgument(new Reference('bitbag_sylius_agreement_plugin.checker.agreement_history'));
                 $service->addArgument('%sylius_agreement_plugin.contexts%');
                 $service->addArgument(new Reference('event_dispatcher'));
                 $service->addTag('form.type_extension', ['extended_type' => $type]);

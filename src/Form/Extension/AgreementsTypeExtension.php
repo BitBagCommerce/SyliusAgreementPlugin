@@ -10,11 +10,11 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Form\Extension;
 
+use BitBag\SyliusAgreementPlugin\Checker\AgreementHistoryCheckerInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Event\AgreementCheckedEvent;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCollectionType;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
-use BitBag\SyliusAgreementPlugin\Resolver\AgreementApprovalResolverInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -26,7 +26,7 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
 {
     private AgreementRepositoryInterface $agreementRepository;
 
-    private AgreementApprovalResolverInterface $agreementApprovalResolver;
+    private AgreementHistoryCheckerInterface $agreementHistoryChecker;
 
     private array $contexts;
 
@@ -34,12 +34,12 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
 
     public function __construct(
         AgreementRepositoryInterface $agreementRepository,
-        AgreementApprovalResolverInterface $agreementApprovalResolver,
+        AgreementHistoryCheckerInterface $agreementHistoryChecker,
         array $contexts,
         EventDispatcherInterface $eventDispatcher
     ) {
         $this->agreementRepository = $agreementRepository;
-        $this->agreementApprovalResolver = $agreementApprovalResolver;
+        $this->agreementHistoryChecker = $agreementHistoryChecker;
         $this->contexts = $contexts;
         $this->eventDispatcher = $eventDispatcher;
     }
@@ -82,7 +82,7 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
 
         /** @var AgreementInterface $agreement */
         foreach ($agreements as $agreement) {
-            $agreement->setApproved($this->agreementApprovalResolver->resolve($agreement));
+            $agreement->setApproved($this->agreementHistoryChecker->isAgreementAccepted($agreement));
         }
 
         return $agreements;

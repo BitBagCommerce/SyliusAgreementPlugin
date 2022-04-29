@@ -11,10 +11,5 @@
             <argument type="service" id="security.helper"/>
         </service>
 
-        <service id="bitbag_sylius_agreement_plugin.resolver.agreement_approval"
-                 class="BitBag\SyliusAgreementPlugin\Resolver\CompositeAgreementApprovalResolver">
-            <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.composite_agreement_history"/>
-        </service>
-
     </services>
 </container>

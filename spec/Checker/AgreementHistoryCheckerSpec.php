@@ -8,15 +8,15 @@
 
 declare(strict_types=1);
 
-namespace spec\BitBag\SyliusAgreementPlugin\Resolver;
+namespace spec\BitBag\SyliusAgreementPlugin\Checker;
 
+use BitBag\SyliusAgreementPlugin\Checker\AgreementHistoryChecker;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
-use BitBag\SyliusAgreementPlugin\Resolver\CompositeAgreementApprovalResolver;
 use PhpSpec\ObjectBehavior;
 
-final class CompositeAgreementApprovalResolverSpec extends ObjectBehavior
+final class AgreementHistoryCheckerSpec extends ObjectBehavior
 {
     function let(
         AgreementHistoryResolverInterface $agreementHistoryResolver
@@ -28,7 +28,7 @@ final class CompositeAgreementApprovalResolverSpec extends ObjectBehavior
 
     function it_is_initializable(): void
     {
-        $this->shouldHaveType(CompositeAgreementApprovalResolver::class);
+        $this->shouldHaveType(AgreementHistoryChecker::class);
     }
 
     function it_resolves_agreement_correctly(
@@ -39,7 +39,7 @@ final class CompositeAgreementApprovalResolverSpec extends ObjectBehavior
         $agreementHistoryResolver->resolveHistory($agreement)->willReturn($agreementHistory);
         $agreementHistory->getState()->willReturn('accepted');
 
-        $this->resolve($agreement)->shouldReturn(true);
+        $this->isAgreementAccepted($agreement)->shouldReturn(true);
     }
 
     function it_not_resolves_agreement_when_not_instance_of_interface(
@@ -48,7 +48,7 @@ final class CompositeAgreementApprovalResolverSpec extends ObjectBehavior
     ): void {
         $agreementHistoryResolver->resolveHistory($agreement)->willReturn(null);
 
-        $this->resolve($agreement)->shouldReturn(false);
+        $this->isAgreementAccepted($agreement)->shouldReturn(false);
     }
 
 }
