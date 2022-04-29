@@ -13,8 +13,8 @@ namespace BitBag\SyliusAgreementPlugin\Form\Extension;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Event\AgreementCheckedEvent;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCollectionType;
+use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementApprovalResolverInterface;
-use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -24,7 +24,7 @@ use Webmozart\Assert\Assert;
 
 final class AgreementsTypeExtension extends AbstractTypeExtension
 {
-    private AgreementResolverInterface $agreementResolver;
+    private AgreementRepositoryInterface $agreementRepository;
 
     private AgreementApprovalResolverInterface $agreementApprovalResolver;
 
@@ -33,12 +33,12 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
     private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
-        AgreementResolverInterface $agreementResolver,
+        AgreementRepositoryInterface $agreementRepository,
         AgreementApprovalResolverInterface $agreementApprovalResolver,
         array $contexts,
         EventDispatcherInterface $eventDispatcher
     ) {
-        $this->agreementResolver = $agreementResolver;
+        $this->agreementRepository = $agreementRepository;
         $this->agreementApprovalResolver = $agreementApprovalResolver;
         $this->contexts = $contexts;
         $this->eventDispatcher = $eventDispatcher;
@@ -49,7 +49,7 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
         $context = $this->getFormClass($builder);
         Assert::notNull($context);
 
-        $agreements = $this->getAgreements($context, $options);
+        $agreements = $this->getAgreements($context);
 
         $builder
             ->add('agreements', AgreementCollectionType::class, [
@@ -72,13 +72,13 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
         return [];
     }
 
-    private function getAgreements(?string $formName, array $options): ?array
+    private function getAgreements(?string $formName): ?array
     {
         if (null === $formName) {
             return null;
         }
 
-        $agreements = $this->agreementResolver->resolve($formName, $options);
+        $agreements = $this->agreementRepository->findAgreementsByContext($formName);
 
         /** @var AgreementInterface $agreement */
         foreach ($agreements as $agreement) {

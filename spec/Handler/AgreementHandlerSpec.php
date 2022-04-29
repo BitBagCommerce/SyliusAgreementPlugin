@@ -14,8 +14,8 @@ use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Handler\AgreementHandler;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepositoryInterface;
+use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
-use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -26,13 +26,13 @@ final class AgreementHandlerSpec extends ObjectBehavior
 {
     function let(
         AgreementHistoryRepositoryInterface $agreementHistoryRepository,
-        AgreementResolverInterface $agreementResolver,
-        AgreementHistoryResolverInterface $agreementHistoryResolver
+        AgreementHistoryResolverInterface $agreementHistoryResolver,
+        AgreementRepositoryInterface $agreementRepository
     ): void {
         $this->beConstructedWith(
             $agreementHistoryRepository,
-            $agreementResolver,
-            $agreementHistoryResolver
+            $agreementHistoryResolver,
+            $agreementRepository
         );
     }
 
@@ -45,12 +45,12 @@ final class AgreementHandlerSpec extends ObjectBehavior
         Collection $collection,
         OrderInterface $order,
         ShopUserInterface $shopUser,
-        AgreementResolverInterface $agreementResolver,
+        AgreementRepositoryInterface $agreementRepository,
         AgreementInterface $agreement,
         AgreementHistoryResolverInterface $agreementHistoryResolver,
         AgreementHistoryInterface $agreementHistory
     ): void {
-        $agreementResolver->resolve('checkout_form', [])->willReturn([$agreement]);
+        $agreementRepository->findAgreementsByContext('checkout_form')->willReturn([$agreement]);
         $agreementHistoryResolver->resolveHistory($agreement)->willReturn($agreementHistory);
         $agreement->isApproved()->willReturn(true);
         $collection->filter(Argument::any())->willReturn($collection);
@@ -67,11 +67,11 @@ final class AgreementHandlerSpec extends ObjectBehavior
         Collection $collection,
         OrderInterface $order,
         ShopUserInterface $shopUser,
-        AgreementResolverInterface $agreementResolver,
+        AgreementRepositoryInterface $agreementRepository,
         AgreementInterface $agreement,
         AgreementHistoryResolverInterface $agreementHistoryResolver
     ): void {
-        $agreementResolver->resolve('checkout_form', [])->willReturn([$agreement]);
+        $agreementRepository->findAgreementsByContext('checkout_form')->willReturn([$agreement]);
         $agreementHistoryResolver->resolveHistory($agreement)->willReturn(null);
         $agreement->isApproved()->willReturn(true);
         $collection->filter(Argument::any())->willReturn($collection);

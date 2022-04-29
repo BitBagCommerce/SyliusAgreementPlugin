@@ -14,8 +14,8 @@ use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryStates;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepositoryInterface;
+use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
-use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
@@ -25,18 +25,18 @@ class AgreementHandler
 {
     private AgreementHistoryRepositoryInterface $agreementHistoryRepository;
 
-    private AgreementResolverInterface $agreementResolver;
-
     private AgreementHistoryResolverInterface $agreementHistoryResolver;
+
+    private AgreementRepositoryInterface $agreementRepository;
 
     public function __construct(
         AgreementHistoryRepositoryInterface $agreementHistoryRepository,
-        AgreementResolverInterface $agreementResolver,
-        AgreementHistoryResolverInterface $agreementHistoryResolver
+        AgreementHistoryResolverInterface $agreementHistoryResolver,
+        AgreementRepositoryInterface $agreementRepository
     ) {
         $this->agreementHistoryRepository = $agreementHistoryRepository;
         $this->agreementHistoryResolver = $agreementHistoryResolver;
-        $this->agreementResolver = $agreementResolver;
+        $this->agreementRepository = $agreementRepository;
     }
 
     public function handleAgreements(
@@ -45,7 +45,7 @@ class AgreementHandler
         ?OrderInterface $order,
         ?ShopUserInterface $shopUser
     ): void {
-        $resolvedAgreements = $this->agreementResolver->resolve($context, []);
+        $resolvedAgreements = $this->agreementRepository->findAgreementsByContext($context);
 
         /** @var AgreementInterface $resolvedAgreement */
         foreach ($resolvedAgreements as $resolvedAgreement) {
