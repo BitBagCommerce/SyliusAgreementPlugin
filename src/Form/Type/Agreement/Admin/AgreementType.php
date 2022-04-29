@@ -25,6 +25,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AgreementType extends AbstractResourceType
 {
+    public const AGREEMENT_MODE = 'bitbag_sylius_agreement_plugin.ui.agreement.modes';
+
+    public const AGREEMENT_CONTEXT = 'bitbag_sylius_agreement_plugin.ui.agreement.contexts';
+
     private AgreementRepositoryInterface $agreementRepository;
 
     private array $modes;
@@ -50,7 +54,7 @@ final class AgreementType extends AbstractResourceType
         $modes = [];
 
         foreach ($this->modes as $mode) {
-            $modes[\sprintf('bitbag_sylius_agreement_plugin.ui.agreement.modes.%s', $mode)] = $mode;
+            $modes[\sprintf(self::AGREEMENT_MODE . '.%s', $mode)] = $mode;
         }
 
         return $modes;
@@ -61,7 +65,7 @@ final class AgreementType extends AbstractResourceType
         $contexts = [];
 
         foreach ($this->contexts as $key => $val) {
-            $contexts[\sprintf('bitbag_sylius_agreement_plugin.ui.agreement.contexts.%s', $key)] = $key;
+            $contexts[\sprintf(self::AGREEMENT_CONTEXT . '.%s', $key)] = $key;
         }
 
         return $contexts;

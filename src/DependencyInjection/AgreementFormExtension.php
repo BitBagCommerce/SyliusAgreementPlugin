@@ -18,6 +18,8 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class AgreementFormExtension implements CompilerPassInterface
 {
+    public const TYPE_EXTENSION = 'bitbag_sylius_agreement_plugin.form.extension.agreements_type_extension';
+
     public function process(ContainerBuilder $container): void
     {
         /** @var array $contexts */
@@ -26,7 +28,7 @@ class AgreementFormExtension implements CompilerPassInterface
         foreach ($contexts as $types) {
             foreach ($types as $type) {
                 $service = new Definition(AgreementsTypeExtension::class);
-                $id = sprintf('bitbag_sylius_agreement_plugin.form.extension.agreements_type_extension_%s', str_replace(['/', '\\'], '_', $type));
+                $id = sprintf(self::TYPE_EXTENSION . '_%s', str_replace(['/', '\\'], '_', $type));
 
                 $service->addArgument(new Reference('bitbag_sylius_agreement_plugin.repository.agreement'));
                 $service->addArgument(new Reference('bitbag_sylius_agreement_plugin.resolver.agreement_approval'));
