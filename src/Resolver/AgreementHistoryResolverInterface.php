@@ -15,5 +15,5 @@ use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 
 interface AgreementHistoryResolverInterface
 {
-    public function resolveHistory(AgreementInterface $agreement): ?AgreementHistoryInterface;
+    public function resolveHistory(AgreementInterface $agreement): AgreementHistoryInterface;
 }
