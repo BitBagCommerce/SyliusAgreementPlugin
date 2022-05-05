@@ -42,15 +42,6 @@ final class AgreementHistoryCheckerSpec extends ObjectBehavior
         $this->isAgreementAccepted($agreement)->shouldReturn(true);
     }
 
-    function it_not_resolves_agreement_when_not_instance_of_interface(
-        AgreementInterface $agreement,
-        AgreementHistoryResolverInterface $agreementHistoryResolver
-    ): void {
-        $agreementHistoryResolver->resolveHistory($agreement)->willReturn(null);
-
-        $this->isAgreementAccepted($agreement)->shouldReturn(false);
-    }
-
     function it_not_resolves_agreement_when_state_is_other(
         AgreementInterface $agreement,
         AgreementHistoryInterface $agreementHistory,

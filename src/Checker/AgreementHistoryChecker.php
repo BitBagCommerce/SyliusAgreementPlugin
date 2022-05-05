@@ -28,10 +28,6 @@ class AgreementHistoryChecker implements AgreementHistoryCheckerInterface
     {
         $agreementHistory = $this->agreementHistoryResolver->resolveHistory($agreement);
 
-        if ($agreementHistory instanceof AgreementHistoryInterface) {
-            return AgreementHistoryStates::STATE_ACCEPTED === $agreementHistory->getState();
-        }
-
-        return false;
+        return AgreementHistoryStates::STATE_ACCEPTED === $agreementHistory->getState();
     }
 }
