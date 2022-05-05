@@ -10,33 +10,35 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Handler;
 
-use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
-use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryStates;
+use BitBag\SyliusAgreementPlugin\DataModifier\AgreementHistoryModifierInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepositoryInterface;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
-use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
+use BitBag\SyliusAgreementPlugin\Resolver\AgreementStateResolverInterface;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
-use Webmozart\Assert\Assert;
 
 class AgreementHandler
 {
     private AgreementHistoryRepositoryInterface $agreementHistoryRepository;
 
-    private AgreementHistoryResolverInterface $agreementHistoryResolver;
-
     private AgreementRepositoryInterface $agreementRepository;
+
+    private AgreementStateResolverInterface $agreementStateResolver;
+
+    private AgreementHistoryModifierInterface $agreementHistoryModifier;
 
     public function __construct(
         AgreementHistoryRepositoryInterface $agreementHistoryRepository,
-        AgreementHistoryResolverInterface $agreementHistoryResolver,
-        AgreementRepositoryInterface $agreementRepository
+        AgreementRepositoryInterface $agreementRepository,
+        AgreementStateResolverInterface $agreementStateResolver,
+        AgreementHistoryModifierInterface $agreementHistoryModifier
     ) {
         $this->agreementHistoryRepository = $agreementHistoryRepository;
-        $this->agreementHistoryResolver = $agreementHistoryResolver;
         $this->agreementRepository = $agreementRepository;
+        $this->agreementStateResolver = $agreementStateResolver;
+        $this->agreementHistoryModifier = $agreementHistoryModifier;
     }
 
     public function handleAgreements(
@@ -51,11 +53,11 @@ class AgreementHandler
         foreach ($resolvedAgreements as $resolvedAgreement) {
             $submittedAgreement = $this->getSubmittedAgreement($submittedAgreements, $resolvedAgreement);
 
-            $agreementHistory = $this->setAgreementHistoryProperties($context, $order, $shopUser, $resolvedAgreement);
+            $agreementHistory = $this->agreementHistoryModifier->setAgreementHistoryProperties($context, $order, $shopUser, $resolvedAgreement);
 
             $resolvedAgreementHistoryState = $agreementHistory->getState();
 
-            $agreementHistoryState = $this->determineState(
+            $agreementHistoryState = $this->agreementStateResolver->resolve(
                 $agreementHistory,
                 $submittedAgreement,
                 $resolvedAgreementHistoryState
@@ -73,25 +75,6 @@ class AgreementHandler
         }
     }
 
-    private function determineState(
-        AgreementHistoryInterface $agreementHistory,
-        AgreementInterface $submittedAgreement,
-        string $resolvedAgreementHistoryState
-    ): string {
-        $agreementHistoryState = AgreementHistoryStates::STATE_SHOWN;
-
-        if (true === $submittedAgreement->isApproved()) {
-            $agreementHistoryState = AgreementHistoryStates::STATE_ACCEPTED;
-        } elseif (
-            AgreementHistoryStates::STATE_SHOWN !== $resolvedAgreementHistoryState
-            && null !== $agreementHistory->getId()
-        ) {
-            $agreementHistoryState = AgreementHistoryStates::STATE_WITHDRAWN;
-        }
-
-        return $agreementHistoryState;
-    }
-
     private function getSubmittedAgreement(Collection $submittedAgreements, AgreementInterface $resolvedAgreement): AgreementInterface
     {
         return $submittedAgreements->filter(
@@ -99,24 +82,5 @@ class AgreementHandler
                 return $agreement->getId() === $resolvedAgreement->getId();
             }
         )->first();
-    }
-
-    private function setAgreementHistoryProperties(
-        string $context,
-        ?OrderInterface $order,
-        ?ShopUserInterface $shopUser,
-        AgreementInterface $resolvedAgreement
-    ): AgreementHistoryInterface {
-        $agreementHistory = $this->agreementHistoryResolver->resolveHistory($resolvedAgreement);
-        Assert::isInstanceOf($agreementHistory, AgreementHistoryInterface::class);
-
-        if (null === $agreementHistory->getId()) {
-            $agreementHistory->setContext($context);
-            $agreementHistory->setShopUser($shopUser);
-            $agreementHistory->setOrder($order);
-            $agreementHistory->setAgreement($resolvedAgreement);
-        }
-
-        return $agreementHistory;
     }
 }

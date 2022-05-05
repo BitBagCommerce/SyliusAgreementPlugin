@@ -7,8 +7,9 @@
         <service id="bitbag_sylius_agreement_plugin.handler.agreement_handler"
                  class="BitBag\SyliusAgreementPlugin\Handler\AgreementHandler">
             <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement_history"/>
-            <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.composite_agreement_history"/>
             <argument type="service" id="bitbag_sylius_agreement_plugin.repository.agreement"/>
+            <argument type="service" id="bitbag_sylius_agreement_plugin.resolver.agreement_state"/>
+            <argument type="service" id="bitbag_sylius_agreement_plugin.data_modifier.agreement_history"/>
         </service>
 
     </services>

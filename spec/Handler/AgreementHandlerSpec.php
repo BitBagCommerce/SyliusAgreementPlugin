@@ -10,12 +10,15 @@ declare(strict_types=1);
 
 namespace spec\BitBag\SyliusAgreementPlugin\Handler;
 
+use BitBag\SyliusAgreementPlugin\DataModifier\AgreementHistoryModifierInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
+use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryStates;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Handler\AgreementHandler;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepositoryInterface;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
+use BitBag\SyliusAgreementPlugin\Resolver\AgreementStateResolverInterface;
 use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -26,13 +29,15 @@ final class AgreementHandlerSpec extends ObjectBehavior
 {
     function let(
         AgreementHistoryRepositoryInterface $agreementHistoryRepository,
-        AgreementHistoryResolverInterface $agreementHistoryResolver,
-        AgreementRepositoryInterface $agreementRepository
+        AgreementRepositoryInterface $agreementRepository,
+        AgreementStateResolverInterface $agreementStateResolver,
+        AgreementHistoryModifierInterface $agreementHistoryModifier
     ): void {
         $this->beConstructedWith(
             $agreementHistoryRepository,
-            $agreementHistoryResolver,
-            $agreementRepository
+            $agreementRepository,
+            $agreementStateResolver,
+            $agreementHistoryModifier
         );
     }
 
@@ -41,43 +46,38 @@ final class AgreementHandlerSpec extends ObjectBehavior
         $this->shouldHaveType(AgreementHandler::class);
     }
 
-    function it_handle_agreements(
+    function it_handle_agreements_correctly(
         Collection $collection,
         OrderInterface $order,
         ShopUserInterface $shopUser,
         AgreementRepositoryInterface $agreementRepository,
         AgreementInterface $agreement,
         AgreementHistoryResolverInterface $agreementHistoryResolver,
-        AgreementHistoryInterface $agreementHistory
+        AgreementHistoryInterface $agreementHistory,
+        AgreementStateResolverInterface $agreementStateResolver,
+        AgreementHistoryModifierInterface $agreementHistoryModifier
     ): void {
         $agreementRepository->findAgreementsByContext('checkout_form')->willReturn([$agreement]);
         $agreementHistoryResolver->resolveHistory($agreement)->willReturn($agreementHistory);
         $agreement->isApproved()->willReturn(true);
         $collection->filter(Argument::any())->willReturn($collection);
         $collection->first()->willReturn($agreement);
-        $agreementHistory->getState()->willReturn('assigned');
+        $agreementHistoryModifier->setAgreementHistoryProperties(
+            'checkout_form',
+            $order,
+            $shopUser,
+            $agreement
+        )->willReturn($agreementHistory);
+        $agreementStateResolver->resolve(
+            $agreementHistory,
+            $agreement,
+            AgreementHistoryStates::STATE_ASSIGNED
+        )->willReturn(AgreementHistoryStates::STATE_ACCEPTED);
+        $agreementHistory->getState()->willReturn(AgreementHistoryStates::STATE_ASSIGNED);
         $agreementHistory->getId()->willReturn('1');
 
         $agreementHistory->setState('accepted')->shouldBeCalled();
 
         $this->handleAgreements($collection, 'checkout_form', $order, $shopUser);
-    }
-
-    function it_throws_exception_when_agreement_history_is_not_istance_of_interface(
-        Collection $collection,
-        OrderInterface $order,
-        ShopUserInterface $shopUser,
-        AgreementRepositoryInterface $agreementRepository,
-        AgreementInterface $agreement,
-        AgreementHistoryResolverInterface $agreementHistoryResolver
-    ): void {
-        $agreementRepository->findAgreementsByContext('checkout_form')->willReturn([$agreement]);
-        $agreementHistoryResolver->resolveHistory($agreement)->willReturn(null);
-        $agreement->isApproved()->willReturn(true);
-        $collection->filter(Argument::any())->willReturn($collection);
-        $collection->first()->willReturn($agreement);
-
-        $this->shouldThrow(\InvalidArgumentException::class)
-            ->during('handleAgreements', [$collection, 'checkout_form', $order, $shopUser]);
     }
 }
