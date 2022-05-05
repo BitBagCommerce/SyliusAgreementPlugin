@@ -34,7 +34,6 @@ class AgreementHistoryModifier implements AgreementHistoryModifierInterface
         AgreementInterface $resolvedAgreement
     ): AgreementHistoryInterface {
         $agreementHistory = $this->agreementHistoryResolver->resolveHistory($resolvedAgreement);
-        Assert::isInstanceOf($agreementHistory, AgreementHistoryInterface::class);
 
         if (null === $agreementHistory->getId()) {
             $agreementHistory->setContext($context);
