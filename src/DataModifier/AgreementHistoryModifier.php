@@ -15,7 +15,6 @@ use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
-use Webmozart\Assert\Assert;
 
 class AgreementHistoryModifier implements AgreementHistoryModifierInterface
 {

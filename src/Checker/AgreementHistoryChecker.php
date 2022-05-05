@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Checker;
 
-use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryStates;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementHistoryResolverInterface;
