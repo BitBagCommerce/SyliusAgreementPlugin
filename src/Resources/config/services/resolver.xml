@@ -11,5 +11,9 @@
             <argument type="service" id="security.helper"/>
         </service>
 
+        <service id="bitbag_sylius_agreement_plugin.resolver.agreement_state"
+                 class="BitBag\SyliusAgreementPlugin\Resolver\AgreementStateResolver">
+        </service>
+
     </services>
 </container>
