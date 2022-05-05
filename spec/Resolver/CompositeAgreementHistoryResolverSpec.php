@@ -93,7 +93,7 @@ final class CompositeAgreementHistoryResolverSpec extends ObjectBehavior
 
     function it_creates_new_history_when_properties_are_null(
         Security $security,
-        FactoryInterface $factory,
+        FactoryInterface $agreementHistoryFactory,
         ShopUserInterface $shopUser,
         AgreementInterface $agreement,
         AgreementHistoryRepositoryInterface $agreementHistoryRepository,
@@ -104,12 +104,12 @@ final class CompositeAgreementHistoryResolverSpec extends ObjectBehavior
         $security->getUser()->willReturn(null);
         $cartContext->getCart()->willReturn($order);
         $order->getId()->willReturn(null);
-        $factory->createNew()->willReturn($agreementHistory);
+        $agreementHistoryFactory->createNew()->willReturn($agreementHistory);
 
         $agreementHistoryRepository->findOneForOrder($agreement, $order)->shouldNotBeCalled();
         $agreementHistoryRepository->findOneForShopUser($agreement, $shopUser)->shouldNotBeCalled();
 
-        $this->resolveHistory($agreement);
+        $this->resolveHistory($agreement)->shouldReturn($agreementHistory);
     }
 
 }

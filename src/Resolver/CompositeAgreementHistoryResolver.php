@@ -41,7 +41,7 @@ final class CompositeAgreementHistoryResolver implements AgreementHistoryResolve
         $this->security = $security;
     }
 
-    public function resolveHistory(AgreementInterface $agreement): ?AgreementHistoryInterface
+    public function resolveHistory(AgreementInterface $agreement): AgreementHistoryInterface
     {
         /** @var OrderInterface|null $order */
         $order = $this->cartContext->getCart();
@@ -49,13 +49,17 @@ final class CompositeAgreementHistoryResolver implements AgreementHistoryResolve
         /** @var ShopUserInterface|null $shopUser */
         $shopUser = $this->security->getUser();
 
+        $agreementHistory = null;
+
         if (null !== $shopUser) {
             /** @var AgreementHistoryInterface|null $agreementHistory */
             $agreementHistory = $this->agreementHistoryRepository->findOneForShopUser($agreement, $shopUser);
         } elseif (isset($order) && null !== $order->getId()) {
             /** @var AgreementHistoryInterface|null $agreementHistory */
             $agreementHistory = $this->agreementHistoryRepository->findOneForOrder($agreement, $order);
-        } else {
+        }
+
+        if (null === $agreementHistory) {
             /** @var AgreementHistoryInterface $agreementHistory */
             $agreementHistory = $this->agreementHistoryFactory->createNew();
         }
