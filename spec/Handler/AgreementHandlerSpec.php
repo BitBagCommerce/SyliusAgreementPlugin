@@ -24,6 +24,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class AgreementHandlerSpec extends ObjectBehavior
 {
@@ -77,6 +78,88 @@ final class AgreementHandlerSpec extends ObjectBehavior
         $agreementHistory->getId()->willReturn('1');
 
         $agreementHistory->setState('accepted')->shouldBeCalled();
+
+        $this->handleAgreements($collection, 'checkout_form', $order, $shopUser);
+    }
+
+    function it_should_throw_exception_when_no_agreements_returned(
+        Collection $collection,
+        OrderInterface $order,
+        ShopUserInterface $shopUser,
+        AgreementRepositoryInterface $agreementRepository
+    ): void {
+        $agreementRepository->findAgreementsByContext('checkout_form')->willReturn([]);
+
+        $this->shouldThrow(NotFoundHttpException::class)
+            ->during('handleAgreements', [$collection, 'checkout_form', $order, $shopUser]);
+    }
+
+    function it_handle_agreements_correctly_when_agreement_history_is_null(
+        Collection $collection,
+        OrderInterface $order,
+        ShopUserInterface $shopUser,
+        AgreementRepositoryInterface $agreementRepository,
+        AgreementInterface $agreement,
+        AgreementHistoryResolverInterface $agreementHistoryResolver,
+        AgreementHistoryInterface $agreementHistory,
+        AgreementStateResolverInterface $agreementStateResolver,
+        AgreementHistoryModifierInterface $agreementHistoryModifier
+    ): void {
+        $agreementRepository->findAgreementsByContext('checkout_form')->willReturn([$agreement]);
+        $agreementHistoryResolver->resolveHistory($agreement)->willReturn($agreementHistory);
+        $agreement->isApproved()->willReturn(true);
+        $collection->filter(Argument::any())->willReturn($collection);
+        $collection->first()->willReturn($agreement);
+        $agreementHistoryModifier->setAgreementHistoryProperties(
+            'checkout_form',
+            $order,
+            $shopUser,
+            $agreement
+        )->willReturn($agreementHistory);
+        $agreementStateResolver->resolve(
+            $agreementHistory,
+            $agreement,
+            AgreementHistoryStates::STATE_ASSIGNED
+        )->willReturn(AgreementHistoryStates::STATE_ACCEPTED);
+        $agreementHistory->getState()->willReturn(AgreementHistoryStates::STATE_ASSIGNED);
+        $agreementHistory->getId()->willReturn(null);
+
+        $agreementHistory->setState('accepted')->shouldBeCalled();
+
+        $this->handleAgreements($collection, 'checkout_form', $order, $shopUser);
+    }
+
+    function it_handle_agreements_correctly_when_state_is_other(
+        Collection $collection,
+        OrderInterface $order,
+        ShopUserInterface $shopUser,
+        AgreementRepositoryInterface $agreementRepository,
+        AgreementInterface $agreement,
+        AgreementHistoryResolverInterface $agreementHistoryResolver,
+        AgreementHistoryInterface $agreementHistory,
+        AgreementStateResolverInterface $agreementStateResolver,
+        AgreementHistoryModifierInterface $agreementHistoryModifier
+    ): void {
+        $agreementRepository->findAgreementsByContext('checkout_form')->willReturn([$agreement]);
+        $agreementHistoryResolver->resolveHistory($agreement)->willReturn($agreementHistory);
+        $agreement->isApproved()->willReturn(true);
+        $collection->filter(Argument::any())->willReturn($collection);
+        $collection->first()->willReturn($agreement);
+        $agreementHistoryModifier->setAgreementHistoryProperties(
+            'checkout_form',
+            $order,
+            $shopUser,
+            $agreement
+        )->willReturn($agreementHistory);
+        $agreementStateResolver->resolve(
+            $agreementHistory,
+            $agreement,
+            AgreementHistoryStates::STATE_ASSIGNED
+        )->willReturn(AgreementHistoryStates::STATE_SHOWN);
+        $agreementHistory->getState()->willReturn(AgreementHistoryStates::STATE_ASSIGNED);
+        $agreementHistory->getId()->willReturn('1');
+
+        $agreementHistory->setState('shown')->shouldBeCalled();
 
         $this->handleAgreements($collection, 'checkout_form', $order, $shopUser);
     }

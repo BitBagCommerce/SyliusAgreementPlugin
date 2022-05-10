@@ -51,6 +51,20 @@ final class AgreementStateResolverSpec extends ObjectBehavior
         )->shouldReturn(AgreementHistoryStates::STATE_WITHDRAWN);
     }
 
+    function it_returns_state_withdrawn_when_state_is_shown(
+        AgreementHistoryInterface $agreementHistory,
+        AgreementInterface $agreement
+    ): void {
+        $agreement->isApproved()->willReturn(false);
+        $agreementHistory->getId()->willReturn(null);
+
+        $this->resolve(
+            $agreementHistory,
+            $agreement,
+            AgreementHistoryStates::STATE_SHOWN
+        )->shouldReturn(AgreementHistoryStates::STATE_SHOWN);
+    }
+
     function it_returns_state_shown_when_properties_are_null(
         AgreementHistoryInterface $agreementHistory,
         AgreementInterface $agreement
