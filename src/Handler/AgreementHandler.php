@@ -18,6 +18,7 @@ use BitBag\SyliusAgreementPlugin\Resolver\AgreementStateResolverInterface;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AgreementHandler
 {
@@ -48,6 +49,10 @@ class AgreementHandler
         ?ShopUserInterface $shopUser
     ): void {
         $resolvedAgreements = $this->agreementRepository->findAgreementsByContext($context);
+
+        if (empty($resolvedAgreements)) {
+            throw new NotFoundHttpException(sprintf('No agreements found for context %s', $context));
+        }
 
         /** @var AgreementInterface $resolvedAgreement */
         foreach ($resolvedAgreements as $resolvedAgreement) {
