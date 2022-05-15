@@ -47,7 +47,7 @@ final class AgreementHandlerSpec extends ObjectBehavior
         $this->shouldHaveType(AgreementHandler::class);
     }
 
-    function it_handle_agreements_correctly(
+    function it_handles_agreements_correctly(
         Collection $collection,
         OrderInterface $order,
         ShopUserInterface $shopUser,
@@ -94,7 +94,7 @@ final class AgreementHandlerSpec extends ObjectBehavior
             ->during('handleAgreements', [$collection, 'checkout_form', $order, $shopUser]);
     }
 
-    function it_handle_agreements_correctly_when_agreement_history_is_null(
+    function it_handles_agreements_correctly_when_agreement_history_is_null(
         Collection $collection,
         OrderInterface $order,
         ShopUserInterface $shopUser,
@@ -129,7 +129,7 @@ final class AgreementHandlerSpec extends ObjectBehavior
         $this->handleAgreements($collection, 'checkout_form', $order, $shopUser);
     }
 
-    function it_handle_agreements_correctly_when_state_is_other(
+    function it_handles_agreements_correctly_when_state_is_other(
         Collection $collection,
         OrderInterface $order,
         ShopUserInterface $shopUser,

@@ -44,7 +44,7 @@ final class AgreementSubscriberSpec extends ObjectBehavior
             ->shouldReturn(null);
     }
 
-    function it_process_successfully(
+    function it_processes_successfully(
         AgreementCheckedEvent $agreementCheckedEvent,
         FormEvent $formEvent,
         OrderInterface $order,
@@ -71,7 +71,7 @@ final class AgreementSubscriberSpec extends ObjectBehavior
         $this->processAgreementsFromAnywhere($agreementCheckedEvent);
     }
 
-    function it_process_successfully_when_order_id_is_null(
+    function it_processes_successfully_when_order_id_is_null(
         AgreementCheckedEvent $agreementCheckedEvent,
         FormEvent $formEvent,
         OrderInterface $order,
@@ -98,7 +98,7 @@ final class AgreementSubscriberSpec extends ObjectBehavior
         $this->processAgreementsFromAnywhere($agreementCheckedEvent);
     }
 
-    function it_process_successfully_when_data_is_not_instance_of_order(
+    function it_processes_successfully_when_data_is_not_instance_of_order(
         AgreementCheckedEvent $agreementCheckedEvent,
         FormEvent $formEvent,
         OrderInterface $order,
