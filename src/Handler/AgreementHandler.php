@@ -50,7 +50,7 @@ class AgreementHandler
     ): void {
         $resolvedAgreements = $this->agreementRepository->findAgreementsByContext($context);
 
-        if (empty($resolvedAgreements)) {
+        if (0 === count($resolvedAgreements)) {
             throw new NotFoundHttpException(sprintf('No agreements found for context %s', $context));
         }
 
