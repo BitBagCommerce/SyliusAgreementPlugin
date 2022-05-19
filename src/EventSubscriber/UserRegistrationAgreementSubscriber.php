@@ -10,14 +10,15 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\EventSubscriber;
 
-use BitBag\SyliusAgreementPlugin\Event\AgreementCheckedEvent;
 use BitBag\SyliusAgreementPlugin\Handler\AgreementHandler;
 use Doctrine\Common\Collections\Collection;
-use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
+use Webmozart\Assert\Assert;
 
-class AgreementSubscriber implements EventSubscriberInterface
+class UserRegistrationAgreementSubscriber implements EventSubscriberInterface
 {
     private AgreementHandler $agreementHandler;
 
@@ -29,36 +30,31 @@ class AgreementSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            AgreementCheckedEvent::class => [
-                ['processAgreementsFromAnywhere', 10],
+            'sylius.customer.post_register' => [
+                ['processAgreementsFromUserRegister', 10],
             ],
         ];
     }
 
-    public function processAgreementsFromAnywhere(AgreementCheckedEvent $agreementCheckedEvent): void
+    public function processAgreementsFromUserRegister(ResourceControllerEvent $resourceControllerEvent): void
     {
-        if (null === $agreementCheckedEvent->getEventDataUserId()) {
-            return;
-        }
-
-        $data = $agreementCheckedEvent->getEvent()->getData();
+        /** @var ?CustomerInterface $customer */
+        $customer = $resourceControllerEvent->getSubject();
+        Assert::isInstanceOf($customer, CustomerInterface::class);
 
         /** @var ?ShopUserInterface $shopUser */
-        $shopUser = $data->getUser();
+        $shopUser = $customer->getUser();
+        Assert::isInstanceOf($shopUser, ShopUserInterface::class);
 
         /** @var Collection $userAgreements */
-        $userAgreements = $data->getAgreements();
+        $userAgreements = $customer->getAgreements();
 
-        $order = null;
-
-        if (null !== $data->getId() && $data instanceof OrderInterface) {
-            $order = $data;
-        }
+        $context = $userAgreements->first()->getContexts()[0];
 
         $this->agreementHandler->handleAgreements(
             $userAgreements,
-            $agreementCheckedEvent->getContext(),
-            $order,
+            $context,
+            null,
             $shopUser
         );
     }

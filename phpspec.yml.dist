@@ -1,0 +1,4 @@
+suites:
+    main:
+        namespace: BitBag\SyliusAgreementPlugin
+        psr4_prefix: BitBag\SyliusAgreementPlugin

@@ -25,6 +25,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AgreementType extends AbstractResourceType
 {
+    public const AGREEMENT_MODE = 'bitbag_sylius_agreement_plugin.ui.agreement.modes';
+
+    public const AGREEMENT_CONTEXT = 'bitbag_sylius_agreement_plugin.ui.agreement.contexts';
+
     private AgreementRepositoryInterface $agreementRepository;
 
     private array $modes;
@@ -50,7 +54,7 @@ final class AgreementType extends AbstractResourceType
         $modes = [];
 
         foreach ($this->modes as $mode) {
-            $modes[\sprintf('bitbag_sylius_agreement_plugin.ui.agreement.modes.%s', $mode)] = $mode;
+            $modes[\sprintf(self::AGREEMENT_MODE . '.%s', $mode)] = $mode;
         }
 
         return $modes;
@@ -60,8 +64,8 @@ final class AgreementType extends AbstractResourceType
     {
         $contexts = [];
 
-        foreach ($this->contexts as $context) {
-            $contexts[\sprintf('bitbag_sylius_agreement_plugin.ui.agreement.contexts.%s', $context)] = $context;
+        foreach ($this->contexts as $key => $val) {
+            $contexts[\sprintf(self::AGREEMENT_CONTEXT . '.%s', $key)] = $key;
         }
 
         return $contexts;
@@ -78,8 +82,8 @@ final class AgreementType extends AbstractResourceType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $modes = $this->prepareModesData();
         $contexts = $this->prepareContextsData();
+        $modes = $this->prepareModesData();
 
         $builder
             ->add('parent', AgreementAutocompleteChoiceType::class, [
@@ -104,7 +108,6 @@ final class AgreementType extends AbstractResourceType
                 'label' => 'bitbag_sylius_agreement_plugin.ui.contexts_label',
                 'multiple' => true,
                 'choices' => $contexts,
-                'data' => ['registration_form'],
             ])
             ->add('publishedAt', DateType::class, [
                 'label' => 'bitbag_sylius_agreement_plugin.ui.published_at',

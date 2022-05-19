@@ -8,12 +8,11 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\Resolver;
+namespace BitBag\SyliusAgreementPlugin\Checker;
 
-use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 
-interface AgreementHistoryResolverInterface
+interface AgreementHistoryCheckerInterface
 {
-    public function resolveHistory(AgreementInterface $agreement): AgreementHistoryInterface;
+    public function isAgreementAccepted(AgreementInterface $agreement): bool;
 }

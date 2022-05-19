@@ -13,7 +13,11 @@ namespace BitBag\SyliusAgreementPlugin\Resolver;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 
-interface AgreementHistoryResolverInterface
+interface AgreementStateResolverInterface
 {
-    public function resolveHistory(AgreementInterface $agreement): AgreementHistoryInterface;
+    public function resolve(
+        AgreementHistoryInterface $agreementHistory,
+        AgreementInterface $submittedAgreement,
+        string $resolvedAgreementHistoryState
+    ): string;
 }

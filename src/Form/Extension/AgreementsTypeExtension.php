@@ -10,37 +10,58 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Form\Extension;
 
+use BitBag\SyliusAgreementPlugin\Checker\AgreementHistoryCheckerInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
+use BitBag\SyliusAgreementPlugin\Event\AgreementCheckedEvent;
 use BitBag\SyliusAgreementPlugin\Form\Type\Agreement\Shop\AgreementCollectionType;
-use BitBag\SyliusAgreementPlugin\Resolver\AgreementApprovalResolverInterface;
-use BitBag\SyliusAgreementPlugin\Resolver\AgreementResolverInterface;
+use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Webmozart\Assert\Assert;
 
 final class AgreementsTypeExtension extends AbstractTypeExtension
 {
-    private AgreementResolverInterface $agreementResolver;
+    private AgreementRepositoryInterface $agreementRepository;
 
-    private AgreementApprovalResolverInterface $agreementApprovalResolver;
+    private AgreementHistoryCheckerInterface $agreementHistoryChecker;
+
+    private array $contexts;
+
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(
-        AgreementResolverInterface $agreementResolver,
-        AgreementApprovalResolverInterface $agreementApprovalResolver
+        AgreementRepositoryInterface $agreementRepository,
+        AgreementHistoryCheckerInterface $agreementHistoryChecker,
+        array $contexts,
+        EventDispatcherInterface $eventDispatcher
     ) {
-        $this->agreementResolver = $agreementResolver;
-        $this->agreementApprovalResolver = $agreementApprovalResolver;
+        $this->agreementRepository = $agreementRepository;
+        $this->agreementHistoryChecker = $agreementHistoryChecker;
+        $this->contexts = $contexts;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $agreements = $this->getAgreements($builder->getName(), $options);
+        $context = $this->getFormClass($builder);
+        Assert::notNull($context);
+
+        $agreements = $this->getAgreements($context);
 
         $builder
             ->add('agreements', AgreementCollectionType::class, [
                 'entries' => $agreements,
                 'required' => false,
                 'label' => false,
-            ]);
+            ])
+            ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $formEvent) use ($context): void {
+                $event = new AgreementCheckedEvent($context, $formEvent);
+                $this->eventDispatcher->dispatch($event);
+            })
+        ;
     }
 
     /**
@@ -51,18 +72,32 @@ final class AgreementsTypeExtension extends AbstractTypeExtension
         return [];
     }
 
-    private function getAgreements(string $formName, array $options): array
+    private function getAgreements(?string $formName): ?array
     {
-        $agreements = [];
-        if ($this->agreementResolver->supports($formName, $options)) {
-            $agreements = $this->agreementResolver->resolve($formName, $options);
+        if (null === $formName) {
+            return null;
         }
+
+        $agreements = $this->agreementRepository->findAgreementsByContext($formName);
 
         /** @var AgreementInterface $agreement */
         foreach ($agreements as $agreement) {
-            $agreement->setApproved($this->agreementApprovalResolver->resolve($agreement));
+            $agreement->setApproved($this->agreementHistoryChecker->isAgreementAccepted($agreement));
         }
 
         return $agreements;
+    }
+
+    private function getFormClass(FormBuilderInterface $builder): ?string
+    {
+        $formName = get_class($builder->getType()->getInnerType());
+
+        foreach ($this->contexts as $context => $val) {
+            if (in_array($formName, $val, true)) {
+                return $context;
+            }
+        }
+
+        return null;
     }
 }

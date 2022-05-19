@@ -6,7 +6,7 @@
 
 <p>
  <img align="left" src="https://sylius.com/assets/badge-approved-by-sylius.png" width="85">
-</p> 
+</p>
 
 At BitBag we do believe in open source. However, we are able to do it just because of our awesome clients, who are kind enough to share some parts of our work with the community. Therefore, if you feel like there is a possibility for us to work  together, feel free to reach out. You will find out more about our professional services, technologies, and contact details at [https://bitbag.io/](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=plugins_cms).
 
@@ -19,7 +19,8 @@ Like what we do? Want to join us? Check out our job listings on our [career page
 * [Overview](#overview)
 * [Support](#we-are-here-to-help)
 * [Installation](#installation)
-    * [Testing](#testing)
+* [Usage](#usage)
+* [Testing](#testing)
 * [About us](#about-us)
     * [Community](#community)
 * [Demo](#demo)
@@ -63,14 +64,34 @@ bitbag_sylius_agreement_plugin:
   resource: "@BitBagSyliusAgreementPlugin/Resources/config/routing.yml"
 ```
 
-4.Add trait to your Customer class:
+## Usage
+
+***
+
+1.Find a form/forms where you want to add agreements and set it in your config.yaml file, for example:
+```yaml
+bit_bag_sylius_agreement:
+    contexts:
+        registration_form:
+            - Sylius\Bundle\CoreBundle\Form\Type\Customer\CustomerRegistrationType
+        checkout_form:
+            - Sylius\Bundle\CoreBundle\Form\Type\Checkout\AddressType
+```
+
+2.Find an entity which is used in your form and add trait to that class:
 ```php
 use AgreementsRequiredTrait;
 ```
 
-5.[Overwrite](https://symfony.com/doc/3.4/templating/overriding.html) following templates:
+3.In the admin panel, create a new agreement and select context to it according to the configuration in the config.yaml file.
 
-- [@SyliusShopBundle/Register/_form.html.twig](/tests/Application/templates/bundles/SyliusShopBundle/Register/_form.html.twig)
+4.[Overwrite](https://symfony.com/doc/3.4/templating/overriding.html) templates used by yours extended form by adding:
+
+````twig
+{% for agreement in form.agreements %}
+    {{ form_row(agreement.approved) }}
+{% endfor %}
+````
 
 Examples are in the package you have downloaded under the path [tests/Application/templates/bundles/*](/tests/Application/templates/bundles/)
 
@@ -89,7 +110,6 @@ $ bin/console sylius:fixtures:load --env=test
 $ APP_ENV=test symfony server:start --dir=public/
 $ cd ../..
 $ vendor/bin/behat
-$ vendor/bin/phpunit
 ```
 
 # About us

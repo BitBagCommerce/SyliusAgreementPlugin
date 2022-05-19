@@ -22,16 +22,16 @@ final class Configuration implements ConfigurationInterface
         /** @phpstan-ignore-next-line  */
         $rootNode
             ->children()
-            ->arrayNode('extended_form_types')
-            ->scalarPrototype()
-            ->end()
-            ->end()
             ->arrayNode('modes')
             ->scalarPrototype()
             ->end()
             ->end()
             ->arrayNode('contexts')
-            ->scalarPrototype()
+            ->ignoreExtraKeys(false)
+            ->beforeNormalization()
+            ->always(static function ($arg): array {
+                return $arg;
+            })
             ->end()
             ->end();
 

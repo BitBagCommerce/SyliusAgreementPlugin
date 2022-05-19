@@ -8,12 +8,19 @@
 
 declare(strict_types=1);
 
-namespace BitBag\SyliusAgreementPlugin\Resolver;
+namespace BitBag\SyliusAgreementPlugin\DataModifier;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\ShopUserInterface;
 
-interface AgreementHistoryResolverInterface
+interface AgreementHistoryModifierInterface
 {
-    public function resolveHistory(AgreementInterface $agreement): AgreementHistoryInterface;
+    public function setAgreementHistoryProperties(
+        string $context,
+        ?OrderInterface $order,
+        ?ShopUserInterface $shopUser,
+        AgreementInterface $resolvedAgreement
+    ): AgreementHistoryInterface;
 }

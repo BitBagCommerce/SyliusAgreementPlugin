@@ -18,6 +18,8 @@ class AgreementHistory implements AgreementHistoryInterface
 {
     use TimestampableTrait;
 
+    public const CONTEXT_UNKNOWN = 'unknown';
+
     protected ?int $id = null;
 
     /** @var AgreementInterface|null */
@@ -33,7 +35,7 @@ class AgreementHistory implements AgreementHistoryInterface
     protected $state = AgreementHistoryStates::STATE_ASSIGNED;
 
     /** @var string */
-    protected $context = AgreementContexts::CONTEXT_UNKNOWN;
+    protected $context = self::CONTEXT_UNKNOWN;
 
     /** @var \DateTime|null */
     protected $updatedAt;

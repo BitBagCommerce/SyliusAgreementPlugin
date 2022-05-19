@@ -12,45 +12,58 @@ namespace BitBag\SyliusAgreementPlugin\Resolver;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementHistoryInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
+use BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepositoryInterface;
+use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Model\ShopUserInterface;
+use Sylius\Component\Order\Context\CartContextInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
+use Symfony\Component\Security\Core\Security;
 
 final class CompositeAgreementHistoryResolver implements AgreementHistoryResolverInterface
 {
-    /** @var AgreementHistoryResolverInterface[] */
-    private iterable $agreementHistoryResolvers;
-
     private FactoryInterface $agreementHistoryFactory;
 
+    private AgreementHistoryRepositoryInterface $agreementHistoryRepository;
+
+    private CartContextInterface $cartContext;
+
+    private Security $security;
+
     public function __construct(
-        iterable $agreementHistoryResolvers,
-        FactoryInterface $agreementHistoryFactory
+        FactoryInterface $agreementHistoryFactory,
+        AgreementHistoryRepositoryInterface $agreementHistoryRepository,
+        CartContextInterface $cartContext,
+        Security $security
     ) {
-        $this->agreementHistoryResolvers = $agreementHistoryResolvers;
         $this->agreementHistoryFactory = $agreementHistoryFactory;
+        $this->agreementHistoryRepository = $agreementHistoryRepository;
+        $this->cartContext = $cartContext;
+        $this->security = $security;
     }
 
-    public function resolveHistory(AgreementInterface $agreement): ?AgreementHistoryInterface
+    public function resolveHistory(AgreementInterface $agreement): AgreementHistoryInterface
     {
-        $agreementHistory = null;
-        foreach ($this->agreementHistoryResolvers as $agreementHistoryIterator) {
-            if ($agreementHistoryIterator->supports($agreement)) {
-                $agreementHistory = $agreementHistoryIterator->resolveHistory($agreement);
-            }
+        /** @var OrderInterface|null $order */
+        $order = $this->cartContext->getCart();
 
-            if ($agreementHistory instanceof AgreementHistoryInterface) {
-                break;
-            }
+        /** @var ShopUserInterface|null $shopUser */
+        $shopUser = $this->security->getUser();
+
+        $agreementHistory = null;
+
+        if (null !== $shopUser) {
+            /** @var AgreementHistoryInterface|null $agreementHistory */
+            $agreementHistory = $this->agreementHistoryRepository->findOneForShopUser($agreement, $shopUser);
+        } elseif (isset($order) && null !== $order->getId()) {
+            /** @var AgreementHistoryInterface|null $agreementHistory */
+            $agreementHistory = $this->agreementHistoryRepository->findOneForOrder($agreement, $order);
         }
-        if (!$agreementHistory instanceof AgreementHistoryInterface) {
+
+        if (null === $agreementHistory) {
             /** @var AgreementHistoryInterface $agreementHistory */
             $agreementHistory = $this->agreementHistoryFactory->createNew();
         }
 
         return $agreementHistory;
-    }
-
-    public function supports(AgreementInterface $agreement): bool
-    {
-        return true;
     }
 }
