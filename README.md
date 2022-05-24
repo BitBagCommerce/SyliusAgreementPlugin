@@ -45,7 +45,7 @@ This **open-source plugin was developed to help the Sylius community**. If you h
 1. Add the plugin to your project using:
 
 ```bash
-$ composer require bitbag/sylius-agreement-plugin
+$ composer require bitbag/agreement-plugin
 ```
 
 2. Add plugin dependencies to your config/bundles.php file:
