@@ -58,10 +58,24 @@ return [
 ];
 ```
 
-3.Add routes to your config/routes.yaml:
+3. Import routing in your `config/routes.yaml` file:
 ```yaml
+
+# config/routes.yaml
+...
+
 bitbag_sylius_agreement_plugin:
   resource: "@BitBagSyliusAgreementPlugin/Resources/config/routing.yml"
+```
+
+4. Import required config in your `config/packages/_sylius.yaml` file:
+```yaml
+# config/packages/_sylius.yaml
+
+imports:
+    ...
+    
+    - { resource: "@BitBagSyliusAgreementPlugin/Resources/config/config.yaml" }
 ```
 
 ## Usage
