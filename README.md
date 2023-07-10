@@ -4,7 +4,7 @@
 
 ----
 
-[ ![](https://img.shields.io/github/actions/workflow/status/BitBagCommerce/SyliusAgreementPlugin/build.yml) ](https://github.com/BitBagCommerce/SyliusAgreementPlugin/actions "Build status")
+[ ![](https://img.shields.io/github/actions/workflow/status/BitBagCommerce/SyliusAgreementPlugin/build.yml?branch=master) ](https://github.com/BitBagCommerce/SyliusAgreementPlugin/actions "Build status")
 [![Support](https://img.shields.io/badge/support-contact%20author-blue])](https://bitbag.io/contact-us/?utm_source=github&utm_medium=referral&utm_campaign=plugins_braintree)
 
 ----
