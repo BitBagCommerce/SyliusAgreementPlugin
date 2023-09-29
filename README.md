@@ -36,7 +36,7 @@ Like what we do? Want to join us? Check out our job listings on our [career page
 
 ***
 
-Almost every eCommerce app has to present some content. Managing it is often done via third-party libraries like WordPress, eZ Platform, or a built-in content management system. As Sylius does not have a CMS in the standard platform, we decided to develop our own, which will be as flexible as Sylius. This plugin allows you to add dynamic blocks with images, text or HTML to your storefront, as well as pages and FAQs section.
+The SyliusAgreementPlugin adds the functionality of defining, managing and attaching the agreement clauses and checkboxes to forms in your Sylius store.
 
 ## We are here to help
 This **open-source plugin was developed to help the Sylius community**. If you have any additional questions, would like help with installing or configuring the plugin, or need any assistance with your Sylius project - let us know!
