@@ -9,8 +9,11 @@
 <h4 class="ui dividing header">{{ 'sylius.ui.account_credentials'|trans }}</h4>
 {{ form_row(form.user.plainPassword.first, sylius_test_form_attribute('password-first')) }}
 {{ form_row(form.user.plainPassword.second, sylius_test_form_attribute('password-second')) }}
-<h4 class="ui dividing header">{{ 'bitbag_sylius_agreement_plugin.ui.agreements'|trans }}</h4>
 
-{% for agreement in form.agreements %}
-    {{ form_row(agreement.approved) }}
-{% endfor %}
+{% if form.agreements is defined %}
+    <h4 class="ui dividing header">{{ 'bitbag_sylius_agreement_plugin.ui.agreements'|trans }}</h4>
+
+    {% for agreement in form.agreements %}
+        {{ form_row(agreement.approved) }}
+    {% endfor %}
+{% endif %}
