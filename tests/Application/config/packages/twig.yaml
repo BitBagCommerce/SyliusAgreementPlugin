@@ -6,7 +6,7 @@ twig:
 services:
     _defaults:
         public: false
-        autowire: true
-        autoconfigure: true
+        autowire: false
+        autoconfigure: false
 
     Twig\Extra\Intl\IntlExtension: ~

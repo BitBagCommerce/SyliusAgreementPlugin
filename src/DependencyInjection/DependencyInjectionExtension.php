@@ -67,7 +67,7 @@ class DependencyInjectionExtension implements FormExtensionInterface
     /**
      * @inheritdoc
      */
-    public function hasType($name)
+    public function hasType(string $name): bool
     {
         return $this->typeContainer->has($name);
     }
@@ -77,7 +77,7 @@ class DependencyInjectionExtension implements FormExtensionInterface
      *
      * @return FormTypeExtensionInterface[]
      */
-    public function getTypeExtensions($name)
+    public function getTypeExtensions(string $name): array
     {
         /** @var FormTypeExtensionInterface[] $extensions */
         $extensions = [];
@@ -113,7 +113,7 @@ class DependencyInjectionExtension implements FormExtensionInterface
     /**
      * @inheritdoc
      */
-    public function hasTypeExtensions($name)
+    public function hasTypeExtensions(string $name):bool
     {
         return isset($this->typeExtensionServices[$name]);
     }
@@ -121,7 +121,7 @@ class DependencyInjectionExtension implements FormExtensionInterface
     /**
      * @inheritdoc
      */
-    public function getTypeGuesser()
+    public function getTypeGuesser(): ?FormTypeGuesserInterface
     {
         if (!$this->guesserLoaded) {
             $this->guesserLoaded = true;
