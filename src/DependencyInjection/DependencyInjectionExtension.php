@@ -113,7 +113,7 @@ class DependencyInjectionExtension implements FormExtensionInterface
     /**
      * @inheritdoc
      */
-    public function hasTypeExtensions(string $name):bool
+    public function hasTypeExtensions(string $name): bool
     {
         return isset($this->typeExtensionServices[$name]);
     }
