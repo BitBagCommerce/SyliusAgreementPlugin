@@ -19,7 +19,7 @@ bitbag_sylius_agreement_plugin_admin_agreement_archive:
   path: /agreements/{id}/archive
   methods: [PATCH]
   defaults:
-    _controller: bitbag_sylius_agreement_plugin.controller.agreement:updateAction
+    _controller: bitbag_sylius_agreement_plugin.controller.agreement::updateAction
     _sylius:
       section: admin
       permission: true
@@ -33,7 +33,7 @@ bitbag_sylius_agreement_plugin_ajax_by_name_phrase:
   path: /agreement/search
   methods: [GET]
   defaults:
-    _controller: bitbag_sylius_agreement_plugin.controller.agreement:indexAction
+    _controller: bitbag_sylius_agreement_plugin.controller.agreement::indexAction
     _format: json
     _sylius:
       serialization_groups: [Default]
