@@ -1,0 +1,9 @@
+{
+  "entrypoints": {
+    "bitbag-imoje-admin": {
+      "js": [
+        "/build/bitbag/imoje/admin/bitbag-imoje-admin.js"
+      ]
+    }
+  }
+}
