@@ -128,7 +128,7 @@ jobs:
                 run: vendor/bin/phpstan analyse -c vendor/bitbag/coding-standard/phpstan.neon -l 8 src/
 
             -   name: Run ECS
-                run: vendor/bin/ecs check src
+                run: vendor/bin/ecs check
 
             -   name: Run PHPSpec
                 run: vendor/bin/phpspec run --ansi -f progress --no-interaction
