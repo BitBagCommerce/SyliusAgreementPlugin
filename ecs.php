@@ -9,5 +9,5 @@ return static function (ECSConfig $config): void {
     putenv('ALLOW_BITBAG_OS_HEADER=1');
 
     $config->import('vendor/bitbag/coding-standard/ecs.php');
-    $config->paths(['src', 'spec', 'tests/Repository', 'tests/Behat']);
+    $config->paths(['src', 'spec', 'tests/Behat']);
 };

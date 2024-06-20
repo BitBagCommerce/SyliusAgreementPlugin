@@ -1,10 +1,11 @@
 <?php
 
 /*
- * This file was created by developers working at BitBag
- * Do you need more information about us and what we do? Visit our https://bitbag.io website!
- * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
-*/
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
 
 declare(strict_types=1);
 
@@ -19,10 +20,10 @@ use PhpSpec\ObjectBehavior;
 final class AgreementHistoryCheckerSpec extends ObjectBehavior
 {
     function let(
-        AgreementHistoryResolverInterface $agreementHistoryResolver
+        AgreementHistoryResolverInterface $agreementHistoryResolver,
     ): void {
         $this->beConstructedWith(
-            $agreementHistoryResolver
+            $agreementHistoryResolver,
         );
     }
 
@@ -34,7 +35,7 @@ final class AgreementHistoryCheckerSpec extends ObjectBehavior
     function it_resolves_agreement_correctly(
         AgreementInterface $agreement,
         AgreementHistoryInterface $agreementHistory,
-        AgreementHistoryResolverInterface $agreementHistoryResolver
+        AgreementHistoryResolverInterface $agreementHistoryResolver,
     ): void {
         $agreementHistoryResolver->resolveHistory($agreement)->willReturn($agreementHistory);
         $agreementHistory->getState()->willReturn('accepted');
@@ -45,12 +46,11 @@ final class AgreementHistoryCheckerSpec extends ObjectBehavior
     function it_not_resolves_agreement_when_state_is_other(
         AgreementInterface $agreement,
         AgreementHistoryInterface $agreementHistory,
-        AgreementHistoryResolverInterface $agreementHistoryResolver
+        AgreementHistoryResolverInterface $agreementHistoryResolver,
     ): void {
         $agreementHistoryResolver->resolveHistory($agreement)->willReturn($agreementHistory);
         $agreementHistory->getState()->willReturn('rejected');
 
         $this->isAgreementAccepted($agreement)->shouldReturn(false);
     }
-
 }

@@ -1,10 +1,11 @@
 <?php
 
 /*
- * This file was created by developers working at BitBag
- * Do you need more information about us and what we do? Visit our https://bitbag.io website!
- * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
-*/
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
 
 declare(strict_types=1);
 
@@ -16,7 +17,6 @@ use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Resolver\AgreementStateResolver;
 use PhpSpec\ObjectBehavior;
 
-
 final class AgreementStateResolverSpec extends ObjectBehavior
 {
     function it_is_initializable(): void
@@ -26,20 +26,20 @@ final class AgreementStateResolverSpec extends ObjectBehavior
 
     function it_returns_state_accepted_when_agreement_is_approved(
         AgreementHistoryInterface $agreementHistory,
-        AgreementInterface $agreement
+        AgreementInterface $agreement,
     ): void {
         $agreement->isApproved()->willReturn(true);
 
         $this->resolve(
             $agreementHistory,
             $agreement,
-            AgreementHistoryStates::STATE_ASSIGNED
+            AgreementHistoryStates::STATE_ASSIGNED,
         )->shouldReturn(AgreementHistoryStates::STATE_ACCEPTED);
     }
 
     function it_returns_state_withdrawn_when_history_has_id(
         AgreementHistoryInterface $agreementHistory,
-        AgreementInterface $agreement
+        AgreementInterface $agreement,
     ): void {
         $agreement->isApproved()->willReturn(false);
         $agreementHistory->getId()->willReturn('1');
@@ -47,13 +47,13 @@ final class AgreementStateResolverSpec extends ObjectBehavior
         $this->resolve(
             $agreementHistory,
             $agreement,
-            AgreementHistoryStates::STATE_ASSIGNED
+            AgreementHistoryStates::STATE_ASSIGNED,
         )->shouldReturn(AgreementHistoryStates::STATE_WITHDRAWN);
     }
 
     function it_returns_state_withdrawn_when_state_is_shown(
         AgreementHistoryInterface $agreementHistory,
-        AgreementInterface $agreement
+        AgreementInterface $agreement,
     ): void {
         $agreement->isApproved()->willReturn(false);
         $agreementHistory->getId()->willReturn(null);
@@ -61,13 +61,13 @@ final class AgreementStateResolverSpec extends ObjectBehavior
         $this->resolve(
             $agreementHistory,
             $agreement,
-            AgreementHistoryStates::STATE_SHOWN
+            AgreementHistoryStates::STATE_SHOWN,
         )->shouldReturn(AgreementHistoryStates::STATE_SHOWN);
     }
 
     function it_returns_state_shown_when_properties_are_null(
         AgreementHistoryInterface $agreementHistory,
-        AgreementInterface $agreement
+        AgreementInterface $agreement,
     ): void {
         $agreement->isApproved()->willReturn(false);
         $agreementHistory->getId()->willReturn(null);
@@ -75,8 +75,7 @@ final class AgreementStateResolverSpec extends ObjectBehavior
         $this->resolve(
             $agreementHistory,
             $agreement,
-            AgreementHistoryStates::STATE_ASSIGNED
+            AgreementHistoryStates::STATE_ASSIGNED,
         )->shouldReturn(AgreementHistoryStates::STATE_SHOWN);
     }
-
 }
