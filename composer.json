@@ -49,9 +49,9 @@
     "phpstan/phpstan-webmozart-assert": "^1.2.0"
   },
   "conflict": {
-        "doctrine/orm": ">=2.15.2",
-         "symfony/framework-bundle": "6.2.8"
-    },
+    "doctrine/orm": ">=2.15.2",
+    "symfony/framework-bundle": "6.2.8"
+  },
   "scripts": {
     "check:code":
     [
