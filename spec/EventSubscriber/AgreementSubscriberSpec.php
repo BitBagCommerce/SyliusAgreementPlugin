@@ -1,10 +1,11 @@
 <?php
 
 /*
- * This file was created by developers working at BitBag
- * Do you need more information about us and what we do? Visit our https://bitbag.io website!
- * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
-*/
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
 
 declare(strict_types=1);
 
@@ -23,10 +24,10 @@ use Tests\BitBag\SyliusAgreementPlugin\Entity\Order\OrderInterface;
 final class AgreementSubscriberSpec extends ObjectBehavior
 {
     function let(
-        AgreementHandler $agreementHandler
+        AgreementHandler $agreementHandler,
     ): void {
         $this->beConstructedWith(
-            $agreementHandler
+            $agreementHandler,
         );
     }
 
@@ -36,7 +37,7 @@ final class AgreementSubscriberSpec extends ObjectBehavior
     }
 
     function it_quit_function_when_user_is_null(
-        AgreementCheckedEvent $agreementCheckedEvent
+        AgreementCheckedEvent $agreementCheckedEvent,
     ): void {
         $agreementCheckedEvent->getEventDataUserId()->willReturn(null);
 
@@ -50,7 +51,7 @@ final class AgreementSubscriberSpec extends ObjectBehavior
         OrderInterface $order,
         ShopUserInterface $shopUser,
         Collection $userAgreements,
-        AgreementHandler $agreementHandler
+        AgreementHandler $agreementHandler,
     ): void {
         $agreementCheckedEvent->getEvent()->willReturn($formEvent);
         $agreementCheckedEvent->getEventDataUserId()->willReturn('1');
@@ -65,7 +66,8 @@ final class AgreementSubscriberSpec extends ObjectBehavior
             $userAgreements,
             'checkout_form',
             $order,
-            $shopUser)
+            $shopUser,
+        )
             ->shouldBeCalled();
 
         $this->processAgreementsFromAnywhere($agreementCheckedEvent);
@@ -77,7 +79,7 @@ final class AgreementSubscriberSpec extends ObjectBehavior
         OrderInterface $order,
         ShopUserInterface $shopUser,
         Collection $userAgreements,
-        AgreementHandler $agreementHandler
+        AgreementHandler $agreementHandler,
     ): void {
         $agreementCheckedEvent->getEvent()->willReturn($formEvent);
         $agreementCheckedEvent->getEventDataUserId()->willReturn('1');
@@ -92,7 +94,8 @@ final class AgreementSubscriberSpec extends ObjectBehavior
             $userAgreements,
             'checkout_form',
             null,
-            $shopUser)
+            $shopUser,
+        )
             ->shouldBeCalled();
 
         $this->processAgreementsFromAnywhere($agreementCheckedEvent);
@@ -106,7 +109,7 @@ final class AgreementSubscriberSpec extends ObjectBehavior
         Collection $userAgreements,
         AgreementHandler $agreementHandler,
         OrderInterface $order2,
-        CustomerInterface $customer
+        CustomerInterface $customer,
     ): void {
         $agreementCheckedEvent->getEvent()->willReturn($formEvent);
         $agreementCheckedEvent->getEventDataUserId()->willReturn('1');
@@ -121,7 +124,8 @@ final class AgreementSubscriberSpec extends ObjectBehavior
             $userAgreements,
             'checkout_form',
             null,
-            $shopUser)
+            $shopUser,
+        )
             ->shouldBeCalled();
 
         $this->processAgreementsFromAnywhere($agreementCheckedEvent);

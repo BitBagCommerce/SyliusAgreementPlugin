@@ -1,10 +1,11 @@
 <?php
 
 /*
- * This file was created by developers working at BitBag
- * Do you need more information about us and what we do? Visit our https://bitbag.io website!
- * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
-*/
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
 
 declare(strict_types=1);
 
@@ -27,13 +28,13 @@ final class CompositeAgreementHistoryResolverSpec extends ObjectBehavior
         FactoryInterface $agreementHistoryFactory,
         AgreementHistoryRepositoryInterface $agreementHistoryRepository,
         CartContextInterface $cartContext,
-        Security $security
+        Security $security,
     ): void {
         $this->beConstructedWith(
             $agreementHistoryFactory,
             $agreementHistoryRepository,
             $cartContext,
-            $security
+            $security,
         );
     }
 
@@ -49,7 +50,7 @@ final class CompositeAgreementHistoryResolverSpec extends ObjectBehavior
         ShopUserInterface $shopUser,
         AgreementHistoryInterface $agreementHistory,
         AgreementInterface $agreement,
-        AgreementHistoryRepositoryInterface $agreementHistoryRepository
+        AgreementHistoryRepositoryInterface $agreementHistoryRepository,
     ): void {
         $cartContext->getCart()->willReturn($order);
         $security->getUser()->willReturn($shopUser);
@@ -65,7 +66,7 @@ final class CompositeAgreementHistoryResolverSpec extends ObjectBehavior
         AgreementHistoryRepositoryInterface $agreementHistoryRepository,
         AgreementHistoryInterface $agreementHistory,
         CartContextInterface $cartContext,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $security->getUser()->willReturn($shopUser);
         $cartContext->getCart()->willReturn($order);
@@ -81,7 +82,7 @@ final class CompositeAgreementHistoryResolverSpec extends ObjectBehavior
         AgreementHistoryRepositoryInterface $agreementHistoryRepository,
         AgreementHistoryInterface $agreementHistory,
         CartContextInterface $cartContext,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $security->getUser()->willReturn(null);
         $cartContext->getCart()->willReturn($order);
@@ -99,7 +100,7 @@ final class CompositeAgreementHistoryResolverSpec extends ObjectBehavior
         AgreementHistoryRepositoryInterface $agreementHistoryRepository,
         AgreementHistoryInterface $agreementHistory,
         CartContextInterface $cartContext,
-        OrderInterface $order
+        OrderInterface $order,
     ): void {
         $security->getUser()->willReturn(null);
         $cartContext->getCart()->willReturn($order);
@@ -111,5 +112,4 @@ final class CompositeAgreementHistoryResolverSpec extends ObjectBehavior
 
         $this->resolveHistory($agreement)->shouldReturn($agreementHistory);
     }
-
 }
