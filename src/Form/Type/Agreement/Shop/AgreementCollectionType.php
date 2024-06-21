@@ -1,10 +1,11 @@
 <?php
 
 /*
- * This file was created by developers working at BitBag
- * Do you need more information about us and what we do? Visit our https://bitbag.io website!
- * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
-*/
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
 
 declare(strict_types=1);
 
@@ -36,7 +37,7 @@ final class AgreementCollectionType extends AbstractType
 
         $resolver
             ->setDefault('entry_type', AgreementType::class)
-            ->setDefault('entry_name', static fn (AgreementInterface $agreement) => $agreement->getId())
+            ->setDefault('entry_name', static fn (AgreementInterface $agreement) => (string) $agreement->getId())
             ->setDefault('entry_options', static function (AgreementInterface $agreement): array {
                 /** @var AgreementTranslationInterface $translation */
                 $translation = $agreement->getTranslation();
@@ -48,7 +49,7 @@ final class AgreementCollectionType extends AbstractType
                             AgreementInterface::MODE_REQUIRED,
                             AgreementInterface::MODE_REQUIRED_AND_NON_CANCELLABLE,
                         ],
-                        true
+                        true,
                     ),
                     'code' => $agreement->getCode(),
                     'approved' => $agreement->isApproved(),
@@ -56,7 +57,7 @@ final class AgreementCollectionType extends AbstractType
                     'read_only' => $agreement->isReadOnly(),
                     'body' => $translation->getBody(),
                     'extended_body' => $translation->getExtendedBody(),
-               ];
+                ];
             });
     }
 
