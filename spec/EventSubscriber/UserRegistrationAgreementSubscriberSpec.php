@@ -1,10 +1,11 @@
 <?php
 
 /*
- * This file was created by developers working at BitBag
- * Do you need more information about us and what we do? Visit our https://bitbag.io website!
- * We are hiring developers from all over the world. Join us and start your new, exciting adventure and become part of us: https://bitbag.io/career
-*/
+ * This file has been created by developers from BitBag.
+ * Feel free to contact us once you face any issues or want to start
+ * You can find more information about us on https://bitbag.io and write us
+ * an email on hello@bitbag.io.
+ */
 
 declare(strict_types=1);
 
@@ -23,10 +24,10 @@ use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 final class UserRegistrationAgreementSubscriberSpec extends ObjectBehavior
 {
     function let(
-        AgreementHandler $agreementHandler
+        AgreementHandler $agreementHandler,
     ): void {
         $this->beConstructedWith(
-            $agreementHandler
+            $agreementHandler,
         );
     }
 
@@ -36,7 +37,7 @@ final class UserRegistrationAgreementSubscriberSpec extends ObjectBehavior
     }
 
     function it_throws_exception_when_customer_is_not_instance_of_interface(
-        ResourceControllerEvent $resourceControllerEvent
+        ResourceControllerEvent $resourceControllerEvent,
     ): void {
         $resourceControllerEvent->getSubject()->willReturn(null);
 
@@ -46,7 +47,7 @@ final class UserRegistrationAgreementSubscriberSpec extends ObjectBehavior
 
     function it_throws_exception_when_shopuser_is_not_instance_of_interface(
         ResourceControllerEvent $resourceControllerEvent,
-        CustomerInterface $customer
+        CustomerInterface $customer,
     ): void {
         $resourceControllerEvent->getSubject()->willReturn($customer);
         $customer->getUser()->willReturn(null);
@@ -61,7 +62,7 @@ final class UserRegistrationAgreementSubscriberSpec extends ObjectBehavior
         ShopUserInterface $shopUser,
         Collection $userAgreements,
         AgreementInterface $agreement,
-        AgreementHandler $agreementHandler
+        AgreementHandler $agreementHandler,
     ): void {
         $resourceControllerEvent->getSubject()->willReturn($customer);
         $customer->getUser()->willReturn($shopUser);
@@ -73,7 +74,8 @@ final class UserRegistrationAgreementSubscriberSpec extends ObjectBehavior
             $userAgreements,
             'registration_form',
             null,
-            $shopUser)
+            $shopUser,
+        )
         ->shouldBeCalled();
 
         $this->processAgreementsFromUserRegister($resourceControllerEvent);
