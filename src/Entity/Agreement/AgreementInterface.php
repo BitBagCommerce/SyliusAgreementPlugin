@@ -15,6 +15,7 @@ use Sylius\Component\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\TimestampableInterface;
 use Sylius\Component\Resource\Model\ToggleableInterface;
 use Sylius\Component\Resource\Model\TranslatableInterface;
+use Sylius\Component\Resource\Model\TranslationInterface;
 
 interface AgreementInterface extends ResourceInterface, TranslatableInterface, ToggleableInterface, TimestampableInterface
 {
@@ -58,4 +59,6 @@ interface AgreementInterface extends ResourceInterface, TranslatableInterface, T
     public function setApproved(bool $approved): void;
 
     public function isReadOnly(): bool;
+
+    public function getTranslation(?string $locale = null): TranslationInterface;
 }

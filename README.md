@@ -50,7 +50,7 @@ This **open-source plugin was developed to help the Sylius community**. If you h
 1. Add the plugin to your project using:
 
 ```bash
-$ composer require bitbag/agreement-plugin
+$ composer require bitbag/agreement-plugin --no-scripts
 ```
 
 2. Add plugin dependencies to your config/bundles.php file:
@@ -83,6 +83,45 @@ imports:
     - { resource: "@BitBagSyliusAgreementPlugin/Resources/config/config.yaml" }
 ```
 
+5. Extend Customer entity:
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Entity\Customer;
+
+use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementsRequiredTrait;
+use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\Customer as BaseCustomer;
+
+class Customer extends BaseCustomer implements CustomerInterface
+{
+    use AgreementsRequiredTrait;
+}
+```
+
+```php
+<?php
+
+namespace App\Entity\Customer;
+
+use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface as BaseCustomerInterface;
+
+interface CustomerInterface extends BaseCustomerInterface
+{
+}
+```
+
+6. Update database schema:
+##### Check for queries to execute
+```
+bin/console doctrine:schema:update --dump-sql
+```
+##### Execute database update
+```
+bin/console doctrine:schema:update --force
+```
+
 ## Usage
 
 ***
@@ -111,7 +150,6 @@ use AgreementsRequiredTrait;
     {{ form_row(agreement.approved) }}
 {% endfor %}
 ````
-
 Examples are in the package you have downloaded under the path [tests/Application/templates/bundles/*](/tests/Application/templates/bundles/)
 
 ## Testing

@@ -17,9 +17,9 @@ class AgreementTranslation extends AbstractTranslation implements AgreementTrans
 {
     protected int $id;
 
-    protected string $name = '';
+    protected ?string $name = null;
 
-    protected string $body = '';
+    protected ?string $body = null;
 
     protected ?string $extendedBody = null;
 
@@ -28,22 +28,22 @@ class AgreementTranslation extends AbstractTranslation implements AgreementTrans
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
 
-    public function getBody(): string
+    public function getBody(): ?string
     {
         return $this->body;
     }
 
-    public function setBody(string $body): void
+    public function setBody(?string $body): void
     {
         $this->body = $body;
     }

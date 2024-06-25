@@ -1,0 +1,18 @@
+bitbag_sylius_agreement_plugin:
+    agreement:
+        code:
+            unique: Agreement code must be unique.
+            not_blank: Agreement code is required.
+            max_length: Agreement code must not be longer than {{ limit }} characters.
+        parent:
+            unique: Agreement parent must be unique.
+        mode:
+            not_blank: Agreement mode is required.
+        contexts:
+            not_blank: Please choose context.
+        translation:
+            name:
+                not_blank: Agreement name is required.
+                max_length: Agreement name must not be longer than {{ limit }} characters.
+            body:
+                not_blank: Agreement body is required.
