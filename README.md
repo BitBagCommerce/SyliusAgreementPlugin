@@ -50,7 +50,7 @@ This **open-source plugin was developed to help the Sylius community**. If you h
 1. Add the plugin to your project using:
 
 ```bash
-$ composer require bitbag/agreement-plugin
+$ composer require bitbag/agreement-plugin --no-scripts
 ```
 
 2. Add plugin dependencies to your config/bundles.php file:
@@ -83,6 +83,16 @@ imports:
     - { resource: "@BitBagSyliusAgreementPlugin/Resources/config/config.yaml" }
 ```
 
+5. Update database schema:
+##### Check for queries to execute
+```
+bin/console doctrine:schema:update --dump-sql
+```
+##### Execute database update
+```
+bin/console doctrine:schema:update --force
+```
+
 ## Usage
 
 ***
@@ -98,8 +108,34 @@ bit_bag_sylius_agreement:
 ```
 
 2.Find an entity which is used in your form and add trait to that class:
+##### For customer entity
 ```php
-use AgreementsRequiredTrait;
+<?php
+
+declare(strict_types=1);
+
+namespace App\Entity\Customer;
+
+use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementsRequiredTrait;
+use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\Customer as BaseCustomer;
+
+class Customer extends BaseCustomer implements CustomerInterface
+{
+    use AgreementsRequiredTrait;
+}
+```
+
+##### Customer interface
+```php
+<?php
+
+namespace App\Entity\Customer;
+
+use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface as BaseCustomerInterface;
+
+interface CustomerInterface extends BaseCustomerInterface
+{
+}
 ```
 
 3.In the admin panel, create a new agreement and select context to it according to the configuration in the config.yaml file.
@@ -111,7 +147,7 @@ use AgreementsRequiredTrait;
     {{ form_row(agreement.approved) }}
 {% endfor %}
 ````
-
+##### For example registration form use: templates/bundles/SyliusShopBundle/Register/_form.html.twig
 Examples are in the package you have downloaded under the path [tests/Application/templates/bundles/*](/tests/Application/templates/bundles/)
 
 ## Testing
