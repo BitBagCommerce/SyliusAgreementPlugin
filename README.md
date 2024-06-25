@@ -83,7 +83,36 @@ imports:
     - { resource: "@BitBagSyliusAgreementPlugin/Resources/config/config.yaml" }
 ```
 
-5. Update database schema:
+5. Extend Customer entity:
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Entity\Customer;
+
+use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementsRequiredTrait;
+use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\Customer as BaseCustomer;
+
+class Customer extends BaseCustomer implements CustomerInterface
+{
+    use AgreementsRequiredTrait;
+}
+```
+
+```php
+<?php
+
+namespace App\Entity\Customer;
+
+use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface as BaseCustomerInterface;
+
+interface CustomerInterface extends BaseCustomerInterface
+{
+}
+```
+
+6. Update database schema:
 ##### Check for queries to execute
 ```
 bin/console doctrine:schema:update --dump-sql
@@ -108,34 +137,8 @@ bit_bag_sylius_agreement:
 ```
 
 2.Find an entity which is used in your form and add trait to that class:
-##### For customer entity
 ```php
-<?php
-
-declare(strict_types=1);
-
-namespace App\Entity\Customer;
-
-use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementsRequiredTrait;
-use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\Customer as BaseCustomer;
-
-class Customer extends BaseCustomer implements CustomerInterface
-{
-    use AgreementsRequiredTrait;
-}
-```
-
-##### Customer interface
-```php
-<?php
-
-namespace App\Entity\Customer;
-
-use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface as BaseCustomerInterface;
-
-interface CustomerInterface extends BaseCustomerInterface
-{
-}
+use AgreementsRequiredTrait;
 ```
 
 3.In the admin panel, create a new agreement and select context to it according to the configuration in the config.yaml file.
@@ -147,7 +150,6 @@ interface CustomerInterface extends BaseCustomerInterface
     {{ form_row(agreement.approved) }}
 {% endfor %}
 ````
-##### For example registration form use: templates/bundles/SyliusShopBundle/Register/_form.html.twig
 Examples are in the package you have downloaded under the path [tests/Application/templates/bundles/*](/tests/Application/templates/bundles/)
 
 ## Testing
