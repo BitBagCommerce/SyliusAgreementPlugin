@@ -1,12 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+
 <constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
-        https://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+    http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
     <class name="BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement">
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+            <option name="fields">code</option>
+            <option name="message">bitbag_sylius_agreement_plugin.agreement.code.unique</option>
+            <option name="groups">sylius</option>
+        </constraint>
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+            <option name="fields">parent</option>
+            <option name="message">bitbag_sylius_agreement_plugin.agreement.parent.unique</option>
+            <option name="groups">sylius</option>
+        </constraint>
+        <property name="code">
+            <constraint name="NotBlank">
+                <option name="message">bitbag_sylius_agreement_plugin.agreement.code.not_blank</option>
+                <option name="groups">sylius</option>
+            </constraint>
+            <constraint name="Length">
+                <option name="max">255</option>
+                <option name="maxMessage">bitbag_sylius_agreement_plugin.agreement.code.max_length</option>
+                <option name="groups">sylius</option>
+            </constraint>
+        </property>
+        <property name="mode">
+            <constraint name="NotBlank">
+                <option name="message">bitbag_sylius_agreement_plugin.agreement.mode.not_blank</option>
+                <option name="groups">sylius</option>
+            </constraint>
+        </property>
+        <property name="contexts">
+            <constraint name="NotBlank">
+                <option name="message">bitbag_sylius_agreement_plugin.agreement.contexts.not_blank</option>
+                <option name="groups">sylius</option>
+            </constraint>
+        </property>
         <property name="parent">
-            <constraint name="BitBag\SyliusAgreementPlugin\Validator\HasCorrectParent"/>
+            <constraint name="BitBag\SyliusAgreementPlugin\Validator\HasCorrectParent">
+            <option name="groups">sylius</option>
+            </constraint>
+        </property>
+        <property name="translations">
+            <constraint name="Valid" />
         </property>
     </class>
 </constraint-mapping>

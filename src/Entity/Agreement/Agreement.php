@@ -23,7 +23,8 @@ class Agreement implements AgreementInterface
     use ToggleableTrait;
     use TimestampableTrait;
     use TranslatableTrait {
-        TranslatableTrait::__construct as protected initializeTranslationsCollection;
+        __construct as private initializeTranslationsCollection;
+        getTranslation as private doGetTranslation;
     }
 
     protected ?int $id = null;
@@ -166,6 +167,14 @@ class Agreement implements AgreementInterface
     public function isReadOnly(): bool
     {
         return AgreementInterface::MODE_ONLY_SHOW === $this->mode;
+    }
+
+    public function getTranslation(?string $locale = null): TranslationInterface
+    {
+        /** @var AgreementTranslationInterface $translation */
+        $translation = $this->doGetTranslation($locale);
+
+        return $translation;
     }
 
     /** @return AgreementTranslation */
