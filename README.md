@@ -51,129 +51,23 @@ All main functionalities of the plugin are described [here.](https://github.com/
 
 ## Installation
 
-***
+---
+### Requirements
 
-1. Add the plugin to your project using:
+We work on stable, supported and up-to-date versions of packages. We recommend you to do the same.
 
-```bash
-$ composer require bitbag/agreement-plugin --no-scripts
-```
+| Package       | Version         |
+|---------------|-----------------|
+| PHP           | \>= 8.1         |
+| sylius/sylius | 1.12.x - 1.13.x |
+| MySQL         | \>= 5.7         |
+| NodeJS        | \>= 14.x        |
 
-2. Add plugin dependencies to your config/bundles.php file:
+----
 
-```php
-return [
-    ...
+### Full installation guide
+- [See the full installation guide](doc/installation.md)
 
-    BitBag\SyliusAgreementPlugin\BitBagSyliusAgreementPlugin::class => ['all' => true],
-];
-```
-
-3. Import routing in your `config/routes.yaml` file:
-```yaml
-
-# config/routes.yaml
-...
-
-bitbag_sylius_agreement_plugin:
-  resource: "@BitBagSyliusAgreementPlugin/Resources/config/routing.yml"
-```
-
-4. Import required config in your `config/packages/_sylius.yaml` file:
-```yaml
-# config/packages/_sylius.yaml
-
-imports:
-    ...
-    
-    - { resource: "@BitBagSyliusAgreementPlugin/Resources/config/config.yaml" }
-```
-
-5. Extend Customer entity:
-```php
-<?php
-
-declare(strict_types=1);
-
-namespace App\Entity\Customer;
-
-use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementsRequiredTrait;
-use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\Customer as BaseCustomer;
-
-class Customer extends BaseCustomer implements CustomerInterface
-{
-    use AgreementsRequiredTrait;
-}
-```
-
-```php
-<?php
-
-namespace App\Entity\Customer;
-
-use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface as BaseCustomerInterface;
-
-interface CustomerInterface extends BaseCustomerInterface
-{
-}
-```
-
-6. Update database schema:
-##### Check for queries to execute
-```
-bin/console doctrine:schema:update --dump-sql
-```
-##### Execute database update
-```
-bin/console doctrine:schema:update --force
-```
-
-## Usage
-
-***
-
-1.Find a form/forms where you want to add agreements and set it in your config.yaml file, for example:
-```yaml
-bit_bag_sylius_agreement:
-    contexts:
-        registration_form:
-            - Sylius\Bundle\CoreBundle\Form\Type\Customer\CustomerRegistrationType
-        checkout_form:
-            - Sylius\Bundle\CoreBundle\Form\Type\Checkout\AddressType
-```
-
-2.Find an entity which is used in your form and add trait to that class:
-```php
-use AgreementsRequiredTrait;
-```
-
-3.In the admin panel, create a new agreement and select context to it according to the configuration in the config.yaml file.
-
-4.[Overwrite](https://symfony.com/doc/3.4/templating/overriding.html) templates used by yours extended form by adding:
-
-````twig
-{% for agreement in form.agreements %}
-    {{ form_row(agreement.approved) }}
-{% endfor %}
-````
-Examples are in the package you have downloaded under the path [tests/Application/templates/bundles/*](/tests/Application/templates/bundles/)
-
-## Testing
-
-***
-
-```bash
-$ composer install
-$ cd tests/Application
-$ yarn install
-$ yarn build
-$ bin/console doctrine:database:create --env=test 
-$ bin/console doctrine:schema:create --env=test
-$ bin/console sylius:fixtures:load --env=test
-$ APP_ENV=test symfony server:start --dir=public/
-$ cd ../..
-$ vendor/bin/behat
-```
 
 # About us
 
