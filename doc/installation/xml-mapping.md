@@ -12,8 +12,8 @@ doctrine:
                 ...
                 mappings:
                     App:
-                type: xml
-                dir: '%kernel.project_dir%/src/Resources/config/doctrine'
+                        type: xml
+                        dir: '%kernel.project_dir%/src/Resources/config/doctrine'
 ```
 
 - `Customer` entity:
