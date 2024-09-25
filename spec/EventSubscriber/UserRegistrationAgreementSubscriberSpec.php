@@ -67,6 +67,7 @@ final class UserRegistrationAgreementSubscriberSpec extends ObjectBehavior
         $resourceControllerEvent->getSubject()->willReturn($customer);
         $customer->getUser()->willReturn($shopUser);
         $customer->getAgreements()->willReturn($userAgreements);
+        $userAgreements->isEmpty()->willReturn(false);
         $userAgreements->first()->willReturn($agreement);
         $agreement->getContexts()->willReturn(['registration_form']);
 
