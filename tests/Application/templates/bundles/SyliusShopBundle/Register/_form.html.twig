@@ -10,7 +10,7 @@
 {{ form_row(form.user.plainPassword.first, sylius_test_form_attribute('password-first')) }}
 {{ form_row(form.user.plainPassword.second, sylius_test_form_attribute('password-second')) }}
 
-{% if form.agreements is defined %}
+{% if form.agreements is defined and form.agreements is not empty %}
     <h4 class="ui dividing header">{{ 'bitbag_sylius_agreement_plugin.ui.agreements'|trans }}</h4>
 
     {% for agreement in form.agreements %}

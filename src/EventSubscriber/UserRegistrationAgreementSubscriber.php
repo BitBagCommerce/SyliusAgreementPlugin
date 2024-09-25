@@ -49,6 +49,9 @@ class UserRegistrationAgreementSubscriber implements EventSubscriberInterface
 
         /** @var Collection $userAgreements */
         $userAgreements = $customer->getAgreements();
+        if ($userAgreements->isEmpty()) {
+            return;
+        }
 
         $context = $userAgreements->first()->getContexts()[0];
 
