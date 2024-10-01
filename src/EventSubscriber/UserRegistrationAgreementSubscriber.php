@@ -11,12 +11,13 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\EventSubscriber;
 
+use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementsRequiredInterface;
 use BitBag\SyliusAgreementPlugin\Handler\AgreementHandler;
 use Doctrine\Common\Collections\Collection;
 use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 use Webmozart\Assert\Assert;
 
 class UserRegistrationAgreementSubscriber implements EventSubscriberInterface
@@ -42,6 +43,7 @@ class UserRegistrationAgreementSubscriber implements EventSubscriberInterface
         /** @var ?CustomerInterface $customer */
         $customer = $resourceControllerEvent->getSubject();
         Assert::isInstanceOf($customer, CustomerInterface::class);
+        Assert::isInstanceOf($customer, AgreementsRequiredInterface::class);
 
         /** @var ?ShopUserInterface $shopUser */
         $shopUser = $customer->getUser();
