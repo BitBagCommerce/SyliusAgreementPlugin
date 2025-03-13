@@ -15,7 +15,7 @@ use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementTranslationInterface;
 use BitBag\SyliusAgreementPlugin\Repository\AgreementRepositoryInterface;
 use Faker\Provider\Lorem;
-use Sylius\Component\Resource\Factory\FactoryInterface;
+use Sylius\Resource\Factory\FactoryInterface;
 
 final class AgreementContext implements Context
 {

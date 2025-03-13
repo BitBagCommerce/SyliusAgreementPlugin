@@ -13,7 +13,7 @@ namespace BitBag\SyliusAgreementPlugin\Entity\Agreement;
 
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
-use Sylius\Component\Resource\Model\ResourceInterface;
+use Sylius\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\TimestampableInterface;
 
 interface AgreementHistoryInterface extends TimestampableInterface, ResourceInterface

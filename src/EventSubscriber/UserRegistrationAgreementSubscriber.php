@@ -14,7 +14,7 @@ namespace BitBag\SyliusAgreementPlugin\EventSubscriber;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementsRequiredInterface;
 use BitBag\SyliusAgreementPlugin\Handler\AgreementHandler;
 use Doctrine\Common\Collections\Collection;
-use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
+use Sylius\Resource\Symfony\EventDispatcher\GenericEvent;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -38,10 +38,10 @@ class UserRegistrationAgreementSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function processAgreementsFromUserRegister(ResourceControllerEvent $resourceControllerEvent): void
+    public function processAgreementsFromUserRegister(GenericEvent $genericEvent): void
     {
         /** @var ?CustomerInterface $customer */
-        $customer = $resourceControllerEvent->getSubject();
+        $customer = $genericEvent->getSubject();
         Assert::isInstanceOf($customer, CustomerInterface::class);
         Assert::isInstanceOf($customer, AgreementsRequiredInterface::class);
 

@@ -13,7 +13,7 @@ namespace BitBag\SyliusAgreementPlugin\Repository;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface;
 use Doctrine\ORM\QueryBuilder;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 
 interface AgreementRepositoryInterface extends RepositoryInterface
 {
