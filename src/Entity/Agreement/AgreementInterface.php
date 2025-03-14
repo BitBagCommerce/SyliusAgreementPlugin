@@ -11,11 +11,11 @@ declare(strict_types=1);
 
 namespace BitBag\SyliusAgreementPlugin\Entity\Agreement;
 
-use Sylius\Resource\Model\ResourceInterface;
 use Sylius\Component\Resource\Model\TimestampableInterface;
 use Sylius\Component\Resource\Model\ToggleableInterface;
 use Sylius\Component\Resource\Model\TranslatableInterface;
 use Sylius\Component\Resource\Model\TranslationInterface;
+use Sylius\Resource\Model\ResourceInterface;
 
 interface AgreementInterface extends ResourceInterface, TranslatableInterface, ToggleableInterface, TimestampableInterface
 {

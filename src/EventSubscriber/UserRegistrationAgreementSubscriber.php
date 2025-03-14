@@ -14,9 +14,9 @@ namespace BitBag\SyliusAgreementPlugin\EventSubscriber;
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementsRequiredInterface;
 use BitBag\SyliusAgreementPlugin\Handler\AgreementHandler;
 use Doctrine\Common\Collections\Collection;
-use Sylius\Resource\Symfony\EventDispatcher\GenericEvent;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
+use Sylius\Resource\Symfony\EventDispatcher\GenericEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Webmozart\Assert\Assert;
 

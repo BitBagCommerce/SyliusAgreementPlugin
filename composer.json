@@ -18,7 +18,7 @@
     "symfony/webpack-encore-bundle": "^1.17"
   },
   "require-dev": {
-    "bitbag/coding-standard": "v3.0.0",
+    "bitbag/coding-standard": "^3.0",
     "behat/behat": "^3.7",
     "behat/mink-selenium2-driver": "~1.6.0",
     "dmore/behat-chrome-extension": "^1.3",
