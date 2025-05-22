@@ -17,7 +17,7 @@ use BitBag\SyliusAgreementPlugin\Repository\AgreementHistoryRepositoryInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Sylius\Component\Order\Context\CartContextInterface;
-use Sylius\Component\Resource\Factory\FactoryInterface;
+use Sylius\Resource\Factory\FactoryInterface;
 use Symfony\Component\Security\Core\Security;
 
 final class CompositeAgreementHistoryResolver implements AgreementHistoryResolverInterface

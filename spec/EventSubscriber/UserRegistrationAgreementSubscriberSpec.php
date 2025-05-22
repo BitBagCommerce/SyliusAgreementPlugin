@@ -17,7 +17,7 @@ use BitBag\SyliusAgreementPlugin\Handler\AgreementHandler;
 use Doctrine\Common\Collections\Collection;
 use InvalidArgumentException;
 use PhpSpec\ObjectBehavior;
-use Sylius\Bundle\ResourceBundle\Event\ResourceControllerEvent;
+use Sylius\Resource\Symfony\EventDispatcher\GenericEvent;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 
@@ -37,34 +37,34 @@ final class UserRegistrationAgreementSubscriberSpec extends ObjectBehavior
     }
 
     function it_throws_exception_when_customer_is_not_instance_of_interface(
-        ResourceControllerEvent $resourceControllerEvent,
+        GenericEvent $genericEvent,
     ): void {
-        $resourceControllerEvent->getSubject()->willReturn(null);
+        $genericEvent->getSubject()->willReturn(null);
 
         $this->shouldThrow(InvalidArgumentException::class)
-            ->during('processAgreementsFromUserRegister', [$resourceControllerEvent]);
+            ->during('processAgreementsFromUserRegister', [$genericEvent]);
     }
 
     function it_throws_exception_when_shopuser_is_not_instance_of_interface(
-        ResourceControllerEvent $resourceControllerEvent,
+        GenericEvent $genericEvent,
         CustomerInterface $customer,
     ): void {
-        $resourceControllerEvent->getSubject()->willReturn($customer);
+        $genericEvent->getSubject()->willReturn($customer);
         $customer->getUser()->willReturn(null);
 
         $this->shouldThrow(InvalidArgumentException::class)
-            ->during('processAgreementsFromUserRegister', [$resourceControllerEvent]);
+            ->during('processAgreementsFromUserRegister', [$genericEvent]);
     }
 
     function it_process_successfully(
-        ResourceControllerEvent $resourceControllerEvent,
+        GenericEvent $genericEvent,
         CustomerInterface $customer,
         ShopUserInterface $shopUser,
         Collection $userAgreements,
         AgreementInterface $agreement,
         AgreementHandler $agreementHandler,
     ): void {
-        $resourceControllerEvent->getSubject()->willReturn($customer);
+        $genericEvent->getSubject()->willReturn($customer);
         $customer->getUser()->willReturn($shopUser);
         $customer->getAgreements()->willReturn($userAgreements);
         $userAgreements->isEmpty()->willReturn(false);
@@ -79,6 +79,6 @@ final class UserRegistrationAgreementSubscriberSpec extends ObjectBehavior
         )
         ->shouldBeCalled();
 
-        $this->processAgreementsFromUserRegister($resourceControllerEvent);
+        $this->processAgreementsFromUserRegister($genericEvent);
     }
 }
