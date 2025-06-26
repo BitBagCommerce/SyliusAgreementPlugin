@@ -38,8 +38,8 @@ class AgreementCheckedEvent extends Event
         return $this->formEvent;
     }
 
-    public function getEventDataUserId(): ?string
+    public function getEventDataUserId(): ?int
     {
-        return $this->formEvent->getData()->getUser()->getId();
+        return $this->formEvent->getData()?->getUser()?->getId();
     }
 }
