@@ -54,13 +54,13 @@ final class AgreementSubscriberSpec extends ObjectBehavior
         AgreementHandler $agreementHandler,
     ): void {
         $agreementCheckedEvent->getEvent()->willReturn($formEvent);
-        $agreementCheckedEvent->getEventDataUserId()->willReturn('1');
+        $agreementCheckedEvent->getEventDataUserId()->willReturn(1);
         $formEvent->getData()->willReturn($order);
         $order->getUser()->willReturn($shopUser);
-        $shopUser->getId()->willReturn('1');
+        $shopUser->getId()->willReturn(1);
         $order->getAgreements()->willReturn($userAgreements);
         $agreementCheckedEvent->getContext()->willReturn('checkout_form');
-        $order->getId()->willReturn('1');
+        $order->getId()->willReturn(1);
 
         $agreementHandler->handleAgreements(
             $userAgreements,
@@ -82,10 +82,10 @@ final class AgreementSubscriberSpec extends ObjectBehavior
         AgreementHandler $agreementHandler,
     ): void {
         $agreementCheckedEvent->getEvent()->willReturn($formEvent);
-        $agreementCheckedEvent->getEventDataUserId()->willReturn('1');
+        $agreementCheckedEvent->getEventDataUserId()->willReturn(1);
         $formEvent->getData()->willReturn($order);
         $order->getUser()->willReturn($shopUser);
-        $shopUser->getId()->willReturn('1');
+        $shopUser->getId()->willReturn(1);
         $order->getAgreements()->willReturn($userAgreements);
         $agreementCheckedEvent->getContext()->willReturn('checkout_form');
         $order->getId()->willReturn(null);
@@ -112,10 +112,10 @@ final class AgreementSubscriberSpec extends ObjectBehavior
         CustomerInterface $customer,
     ): void {
         $agreementCheckedEvent->getEvent()->willReturn($formEvent);
-        $agreementCheckedEvent->getEventDataUserId()->willReturn('1');
+        $agreementCheckedEvent->getEventDataUserId()->willReturn(1);
         $formEvent->getData()->willReturn($customer);
         $customer->getUser()->willReturn($shopUser);
-        $shopUser->getId()->willReturn('1');
+        $shopUser->getId()->willReturn(1);
         $customer->getAgreements()->willReturn($userAgreements);
         $agreementCheckedEvent->getContext()->willReturn('checkout_form');
         $customer->getId()->willReturn(null);
