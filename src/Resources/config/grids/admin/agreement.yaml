@@ -4,7 +4,7 @@ sylius_grid:
             driver:
                 name: doctrine/orm
                 options:
-                    class: BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement
+                    class: "%bitbag_sylius_agreement_plugin.model.agreement.class%"
                     repository:
                         method: createListQueryBuilder
             sorting:
