@@ -19,7 +19,7 @@
             <gedmo:timestampable on="create"/>
         </field>
         <many-to-one field="agreement"
-                     target-entity="BitBag\SyliusAgreementPlugin\Entity\Agreement\Agreement">
+                     target-entity="BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface">
             <join-column name="agreement" referenced-column-name="id" />
         </many-to-one>
         <many-to-one field="shopUser" target-entity="Sylius\Component\Core\Model\ShopUserInterface">

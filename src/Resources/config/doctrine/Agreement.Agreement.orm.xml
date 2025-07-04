@@ -33,7 +33,7 @@
             <gedmo:timestampable on="update"/>
         </field>
 
-        <one-to-one field="parent" target-entity="Agreement">
+        <one-to-one field="parent" target-entity="BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementInterface">
             <join-column name="parent_id" referenced-column-name="id"/>
         </one-to-one>
 
