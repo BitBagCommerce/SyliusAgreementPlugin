@@ -19,7 +19,7 @@ use InvalidArgumentException;
 use PhpSpec\ObjectBehavior;
 use Sylius\Resource\Symfony\EventDispatcher\GenericEvent;
 use Sylius\Component\Core\Model\ShopUserInterface;
-use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
+use BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 
 final class UserRegistrationAgreementSubscriberSpec extends ObjectBehavior
 {

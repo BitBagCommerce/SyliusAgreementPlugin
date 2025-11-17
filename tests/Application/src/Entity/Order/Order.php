@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Tests\BitBag\SyliusAgreementPlugin\Entity\Order;
 
 use BitBag\SyliusAgreementPlugin\Entity\Agreement\AgreementsRequiredTrait;
+use BitBag\SyliusAgreementPlugin\Entity\Order\OrderInterface;
 use Sylius\Component\Core\Model\Order as BaseOrder;
 
 class Order extends BaseOrder implements OrderInterface
