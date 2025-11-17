@@ -18,8 +18,8 @@ use Doctrine\Common\Collections\Collection;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\Form\FormEvent;
-use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
-use Tests\BitBag\SyliusAgreementPlugin\Entity\Order\OrderInterface;
+use BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
+use BitBag\SyliusAgreementPlugin\Entity\Order\OrderInterface;
 
 final class AgreementSubscriberSpec extends ObjectBehavior
 {

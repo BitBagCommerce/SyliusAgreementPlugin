@@ -16,7 +16,7 @@ use Sylius\Component\Resource\Model\TimestampableTrait;
 use Sylius\Component\Resource\Model\ToggleableTrait;
 use Sylius\Component\Resource\Model\TranslatableTrait;
 use Sylius\Component\Resource\Model\TranslationInterface;
-use Tests\BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
+use BitBag\SyliusAgreementPlugin\Entity\Customer\CustomerInterface;
 
 class Agreement implements AgreementInterface
 {
